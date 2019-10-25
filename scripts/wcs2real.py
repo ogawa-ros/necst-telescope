@@ -5,7 +5,9 @@ name = "wcs2real"
 import time
 import rospy
 import treading
-from std_msgs.msg
+from std_msgs.msg import Float64
+from std_msgs.msg import Float64MultiArray
+
 
 from astropy.coordinates import FK5
 import astropy.units as u
@@ -39,7 +41,7 @@ class wcs2real(object):
         rospy.Subscriber('/necst-telescope/weather/temperature',Float64,self.recieve_temprature)
         rospy.Subscriber('/necst-telescope/weather/humidity',Float64,self.recieve_humidity)
 
-        self.pub_real_azel = rospy.Publisher('/necst-telescope/coordinate/real_azel_cmd', Float64MultiArray, queue_size=1)
+        self.pub_real_azel = rospy.Publisher('/necst-telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
 
     def recieve_wcs(self,q):
         self.wcs = q.data
