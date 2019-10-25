@@ -51,10 +51,10 @@ class refracted2apparent(object):
                 sin_el = math.sin(el)
                 pi = math.pi
 
-                d_az =  self.a1*sin_el + self.a2 + self.a3*cos_el + self.b1*sin_az*sin_el - self.b2*cos_az*sin_el
-                d_el =  self.b1*cos_az + self.b2*sin_az + self.b3 + self.g1*el*180./pi
+                d_az = self.a1*sin_el + self.a2 + self.a3*cos_el + self.b1*sin_az*sin_el - self.b2*cos_az*sin_el
+                d_el = self.b1*cos_az + self.b2*sin_az + self.b3 + self.g1*el*180./pi
                 ### convert to encoder offset on the horizon ###
-                d_az =  d_az / cos_el
+                d_az = d_az / cos_el
 
                 ### apply the correction values ->  radians  ###
                 az2 = az +(d_az /60.0)*pi / 180.
