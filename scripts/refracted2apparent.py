@@ -5,6 +5,7 @@ kisa_path = "/home/exito/ros/src/necst-telescope/scripts/kisa.dat"
 
 import math
 import rospy
+import threading
 from std_msgs.msg import Float64
 from std_msgs.msg import Float64MultiArray
 
@@ -21,9 +22,9 @@ class refracted2apparent(object):
 
     def __init__(self):
         self.read_kisa()
-        pub_az = rospy.Publisher("/necst-telescope/coordinate/apparent_az_cmd",Foat64, queue_size=1)
-        pub_el = rospy.Publisher("/necst-telescope/coordinate/apparent_el_cmd", Float64, queue_size=1)
-        rospy.Subscriber('/necst-telescope/coordinate/refracted_azel_cmd', Float64MultiArray, self.recieve_azel)
+        pub_az = rospy.Publisher("/necst_telescope/coordinate/apparent_az_cmd",Float64, queue_size=1)
+        pub_el = rospy.Publisher("/necst_telescope/coordinate/apparent_el_cmd", Float64, queue_size=1)
+        rospy.Subscriber('/necst_telescope/coordinate/refracted_azel_cmd', Float64MultiArray, self.recieve_azel)
 
     def recieve_azel(self, array):
         self.azel = array.data
