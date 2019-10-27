@@ -4,7 +4,7 @@ name = "wcs2real"
 
 import time
 import rospy
-import treading
+import threading
 from std_msgs.msg import Float64
 from std_msgs.msg import Float64MultiArray
 
@@ -27,7 +27,7 @@ class wcs2real(object):
     longitude = 138.472153
     height = 1386
     frame = 'fk5'
-    nobeyama = EarthLocation(lat = self.latitude*u.deg, lon = self.longitude*u.deg, height = self.height*u.m)
+    nobeyama = EarthLocation(lat = latitude*u.deg, lon = longitude*u.deg, height = height*u.m)
     wcs =''
 
     press =  1000
@@ -36,12 +36,12 @@ class wcs2real(object):
     obswl = 230 #GHz
 
     def __init__(self):
-        rospy.Subscriber('/necst-telescope/coordinate/wcs_cmd',Float64MultiArray,self.recieve_wcs)
-        rospy.Subscriber('/necst-telescope/weather/pressure',Float64,self.recieve_pressure)
-        rospy.Subscriber('/necst-telescope/weather/temperature',Float64,self.recieve_temprature)
-        rospy.Subscriber('/necst-telescope/weather/humidity',Float64,self.recieve_humidity)
+        rospy.Subscriber('/necst_telescope/coordinate/wcs_cmd',Float64MultiArray,self.recieve_wcs)
+        rospy.Subscriber('/necst_telescope/weather/pressure',Float64,self.recieve_pressure)
+        rospy.Subscriber('/necst_telescope/weather/temperature',Float64,self.recieve_temprature)
+        rospy.Subscriber('/necst_telescope/weather/humidity',Float64,self.recieve_humidity)
 
-        self.pub_real_azel = rospy.Publisher('/necst-telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
+        self.pub_real_azel = rospy.Publisher('/necst_telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
 
     def recieve_wcs(self,q):
         self.wcs = q.data
