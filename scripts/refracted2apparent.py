@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 name = "refracted2apparent"
-kisa_path = "./kisa.data"
+kisa_path = "../scripts/kisa.data"
 
 import math
 import rospy
