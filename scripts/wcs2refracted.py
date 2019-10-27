@@ -8,7 +8,7 @@ import threading
 from std_msgs.msg import Float64
 from std_msgs.msg import Float64MultiArray
 
-
+from astropy.time import Time
 from astropy.coordinates import FK5
 import astropy.units as u
 from astropy.coordinates import EarthLocation
@@ -62,14 +62,14 @@ class wcs2real(object):
         on_coord.pressure = self.press*u.hPa
         on_coord.temperature = self.temp*u.deg_C
         on_coord.relative_humidity = self.humid
-        on_corrd.obswl = (astropy.constants.c/(self.obswl*u.GHz)).to('micron')
+        on_coord.obswl = (astropy.constants.c/(self.obswl*u.GHz)).to('micron')
         altaz_list = on_coord.transform_to(AltAz(obstime=Time.now()))
         return altaz_list
 
     def publish_azel(self):
         while not rospy.is_shutdown():
             if self.wcs != '':
-                altaz = convert_azel()
+                altaz = self.convert_azel()
                 obstime = altaz.obstime
                 alt = altaz.alt.deg
                 az = altaz.az.deg
@@ -89,7 +89,7 @@ if __name__ == "__main__":
     rospy.init_node(name)
     azel = wcs2real()
     azel.start_thread()
-
+    rospy.spin()
 
 
 
