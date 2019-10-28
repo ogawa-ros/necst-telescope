@@ -32,13 +32,13 @@ class refracted2apparent(object):
     def read_kisa(self):
         fkisa = open(kisa_path,"r")
         kisa = fkisa.readlines()
-        self.a1 = kisa[0]
-        self.a2 = kisa[1]
-        self.a3 = kisa[2]
-        self.b1 = kisa[3]
-        self.b2 = kisa[4]
-        self.b3 = kisa[5]
-        self.g1 = kisa[6]
+        self.a1 = float(kisa[0])
+        self.a2 = float(kisa[1])
+        self.a3 = float(kisa[2])
+        self.b1 = float(kisa[3])
+        self.b2 = float(kisa[4])
+        self.b3 = float(kisa[5])
+        self.g1 = float(kisa[6])
 
     def calculate_offset(self):
         while not rospy.is_shutdown():
