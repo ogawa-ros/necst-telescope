@@ -43,8 +43,10 @@ class refracted2apparent(object):
     def calculate_offset(self):
         while not rospy.is_shutdown():
             if self.azel != '':
-                az = math.radians(self.azel[1])
-                el = math.radians(self.azel[2])
+                #az = math.radians(self.azel[1])
+                #el = math.radians(self.azel[2])
+                az = math.radians(self.azel[0])
+                el = math.radians(self.azel[1])
 
                 cos_az = math.cos(az)
                 sin_az = math.sin(az)
