@@ -60,8 +60,10 @@ class refracted2apparent(object):
                 d_az = d_az / cos_el
 
                 ### apply the correction values ->  radians  ###
-                az2 = az +(d_az /60.0)*pi / 180.
-                el2 = el +(d_el /60.0)*pi / 180.
+                #az2 = az +(d_az /60.0)*pi / 180.
+                #el2 = el +(d_el /60.0)*pi / 180.
+                az2 = self.azel[0] + d_az
+                el2 = self.azel[1] + d_el
 
                 self.pub_az.publish(az2)
                 self.pub_el.publish(el2)
