@@ -64,7 +64,7 @@ class refracted2apparent(object):
                 el2 = el +(d_el /60.0)*pi / 180.
 
                 self.pub_az.publish(az2)
-                self.pud_el.publish(el2)
+                self.pub_el.publish(el2)
             else:
                 pass
             continue
