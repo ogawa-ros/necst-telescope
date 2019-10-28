@@ -70,11 +70,12 @@ class wcs2real(object):
         while not rospy.is_shutdown():
             if self.wcs != '':
                 altaz = self.convert_azel()
-                obstime = altaz.obstime
+                #obstime = altaz.obstime
                 alt = altaz.alt.deg
                 az = altaz.az.deg
                 array = Float64MultiArray()
-                array.data = [obstime, az, alt]
+                #array.data = [obstime, az, alt]
+                array.data = [az, alt]
                 self.pub_real_azel.publish(array)
             else:
                 pass
