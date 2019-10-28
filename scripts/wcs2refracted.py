@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-name = "wcs2real"
+name = "wcs2refracted"
 
 import time
 import rospy
@@ -21,7 +21,7 @@ longitude = 138.472153
 height = 1386
 frame = 'fk5'
 
-class wcs2real(object):
+class wcs2refracted(object):
 
     latitude = 35.940874
     longitude = 138.472153
@@ -70,11 +70,12 @@ class wcs2real(object):
         while not rospy.is_shutdown():
             if self.wcs != '':
                 altaz = self.convert_azel()
-                obstime = altaz.obstime
+                #obstime = altaz.obstime
                 alt = altaz.alt.deg
                 az = altaz.az.deg
                 array = Float64MultiArray()
-                array.data = [obstime, az, alt]
+                #array.data = [obstime, az, alt]
+                array.data = [az, alt]
                 self.pub_real_azel.publish(array)
             else:
                 pass
@@ -87,6 +88,6 @@ class wcs2real(object):
 
 if __name__ == "__main__":
     rospy.init_node(name)
-    azel = wcs2real()
+    azel = wcs2refracted()
     azel.start_thread()
     rospy.spin()
