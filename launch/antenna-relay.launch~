@@ -12,7 +12,6 @@
         pkg = "necst-telescope">
     <param name = "config_file"
            value = "$(find necst-telescope)/relay_conf/antenna_az_cmd_writer.conf" />
-	<remap from = '/dev/cpz7415v/rsw/axis_x' to = '/dev/cpz7415v/rsw0/axis_x'/> 
   </node>
   
   <node name = "az_reader"
@@ -20,7 +19,6 @@
         pkg = "necst-telescope">
     <param name = "config_file"
            value = "$(find necst-telescope)/relay_conf/encoder_az_reader.conf" />
-	<remap from = '/dev/ND287/__port__/az' to = '/dev/ND287/ttyUSB0/az'/> 
   </node>
 
   <node name = "el_soft_limit"
@@ -35,7 +33,6 @@
         pkg = "necst-telescope">
     <param name = "config_file"
            value = "$(find necst-telescope)/relay_conf/antenna_el_cmd_writer.conf" />
-	<remap from = '/dev/cpz7415v/rsw/axis_y' to = '/dev/cpz7415v/rsw0/axis_y'/>  
   </node>
 
   <node name = "el_reader"
@@ -43,7 +40,6 @@
         pkg = "necst-telescope">
     <param name = "config_file"
            value = "$(find necst-telescope)/relay_conf/encoder_el_reader.conf" />
-        <remap from = '/dev/ND287/__port__/el' to = '/dev/ND287/ttyUSB1/el'/>
   </node>
 
 </launch>

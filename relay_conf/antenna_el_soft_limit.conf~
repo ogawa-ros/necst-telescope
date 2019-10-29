@@ -3,7 +3,7 @@
 [Publishers]
 flag:
   {
-    'name': '/1p85m2019/az_soft_limit',
+    'name': '/el_soft_limit',
     'data_class': std_msgs.msg.Bool,
     'latch': True,
     'queue_size': 1,
@@ -11,14 +11,14 @@ flag:
 
 cmd2:
   {
-    'name': '/1p85m2019/az_cmd2',
+    'name': '/el_cmd2',
     'data_class': std_msgs.msg.Float64,
     'queue_size': 1,
   }
 
 speed:
   {
-    'name': '/1p85m2019/az_speed',
+    'name': '/el_speed',
     'data_class': std_msgs.msg.Float64,
     'latch': True,
     'queue_size': 1,
@@ -27,12 +27,12 @@ speed:
 [Subscribers]
 cmd:
   {
-    'name': '/1p85m2019/az_cmd',
+    'name': '/el_cmd',
     'data_class': std_msgs.msg.Float64,
     'queue_size': 1,
   }
 
 [Logic]
 code:
-    if -240 < cmd < 240: cmd2.publish(cmd); flag.publish(False)
+    if 0 < cmd < 89: cmd2.publish(cmd); flag.publish(False)
     else: flag.publish(True); speed.publish(0.0)

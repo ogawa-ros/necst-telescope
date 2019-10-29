@@ -3,7 +3,7 @@
 [Publishers]
 mot:
   {
-    'name': '/dev/cpz7415v/rsw/axis_x',
+    'name': '/cpz7415v_rsw0/x_speed_cmd',
     'data_class': std_msgs.msg.Int64,
     'latch': True,
     'queue_size': 1,
@@ -12,7 +12,7 @@ mot:
 [Subscribers]
 speed:
   {
-    'name': '/1p85m2019/az_speed',
+    'name': '/az_speed',
     'data_class': std_msgs.msg.Float64,
     'queue_size': 1,
   }

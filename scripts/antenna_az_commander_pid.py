@@ -27,20 +27,20 @@ class antenna_az_feedback(object):
     
     def __init__(self):
         self.topic_to = rospy.Publisher(
-                name = "/az_speed",
+                name = "/1p85m2019/az_speed",
                 data_class = std_msgs.msg.Float64,
                 queue_size = 1,
             )
 
         topic_from1 = rospy.Subscriber(
-                name = "/az_cmd2",
+                name = "/1p85m2019/az_cmd2",
                 data_class = std_msgs.msg.Float64,
                 callback = self.antenna_az_feedback,
                 queue_size = 1,
             )
 
         topic_from2 = rospy.Subscriber(
-                name = "/az",
+                name = "/1p85m2019/az",
                 data_class = std_msgs.msg.Float64,
                 callback = self.antenna_az_encoder,
                 queue_size = 1,
