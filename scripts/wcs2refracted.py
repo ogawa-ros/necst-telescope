@@ -16,10 +16,6 @@ from astropy.coordinates import SkyCoord
 from astropy.coordinates import AltAz
 import astropy.constants
 
-latitude = 35.940874
-longitude = 138.472153
-height = 1386
-frame = 'fk5'
 
 class wcs2refracted(object):
 
