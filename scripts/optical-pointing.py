@@ -158,6 +158,7 @@ class optical_pointing(object):
         f.close()
         print('offset data file is created: %s'%(filepath))
         self.ctrl.finalize()
-        """
+
 
         return filepath
+        """
