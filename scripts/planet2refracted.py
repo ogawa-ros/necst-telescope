@@ -55,7 +55,6 @@ class planet2refracted(object):
     def recieve_humidity(self,q):
         self.humid = q.data
 
-
     def convert_azel(self):
         on_coord = astropy.coordinates.get_body(location=self.nobeyama,time=Time.now(),body=self.planet)
         on_coord.location = self.nobeyama
