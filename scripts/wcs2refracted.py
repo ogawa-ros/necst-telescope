@@ -33,7 +33,7 @@ class wcs2refracted(object):
     obswl = 230 #GHz
 
     def __init__(self):
-        conf.auto_max_age = Non
+        conf.auto_max_age = None
         rospy.Subscriber('/necst_telescope/coordinate/wcs_cmd',Float64MultiArray,self.recieve_wcs)
         rospy.Subscriber('/necst_telescope/weather/pressure',Float64,self.recieve_pressure)
         rospy.Subscriber('/necst_telescope/weather/temperature',Float64,self.recieve_temprature)
