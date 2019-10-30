@@ -55,7 +55,7 @@ class wcs2refracted(object):
 
 
     def convert_azel(self):
-        on_coord = SkyCoord(self.wcs[0], self.wcs[1],frame=frame, unit=(u.deg, u.deg))
+        on_coord = SkyCoord(self.wcs[0], self.wcs[1],frame=self.frame, unit=(u.deg, u.deg))
         on_coord.location = self.nobeyama
         on_coord.pressure = self.press*u.hPa
         on_coord.temperature = self.temp*u.deg_C
