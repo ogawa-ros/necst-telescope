@@ -1,7 +1,7 @@
 <launch>
 
-    <include file="$(find necst_telescope)/launch/planet2refracted.launch" />
-    <include file="$(find necst_telescope)/launch/refracted2apparent.launch" />
-    <include file="$(find necst_telescope)/launch/wcs2refracted.launch" />
+    <include file="$(find necst-telescope)/launch/planet2refracted.launch" />
+    <include file="$(find necst-telescope)/launch/refracted2apparent.launch" />
+    <include file="$(find necst-telescope)/launch/wcs2refracted.launch" />
 
 </launch>
