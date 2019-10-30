@@ -16,7 +16,6 @@ from astropy.coordinates import SkyCoord
 from astropy.coordinates import AltAz
 import astropy.constants
 from astropy.utils.iers import conf
-e
 
 
 class wcs2refracted(object):
