@@ -57,7 +57,7 @@ class planet2refracted(object):
 
 
     def convert_azel(self):
-        on_coord = astropy.coordinates.get_body(location=nobeyama,time=Time.now(),body=self.planet)
+        on_coord = astropy.coordinates.get_body(location=self.nobeyama,time=Time.now(),body=self.planet)
         on_coord.location = self.nobeyama
         on_coord.pressure = self.press*u.hPa
         on_coord.temperature = self.temp*u.deg_C
