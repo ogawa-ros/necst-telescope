@@ -40,7 +40,8 @@ class antenna(object):
         """
         topic_name = '/necst_telescope/coordinate/refracted_azel_cmd'
         data_class = std_msgs.msg.Float64MultiArray
-        cmd = [az,el]
+        cmd = std_msgs.msg.Float64MultiArray()
+        cmd.data = [az,el]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
@@ -66,6 +67,7 @@ class antenna(object):
         """
         topic_name = '/necst_telescope/coordinate/wcs_cmd'
         data_class = std_msgs.msg.Float64MultiArray
-        cmd = [ra,dec]
+        cmd = std_msgs.msg.Float64MultiArray()
+        cmd.data = [ra,dec]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
