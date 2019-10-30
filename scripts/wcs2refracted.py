@@ -61,7 +61,7 @@ class wcs2refracted(object):
         on_coord.temperature = self.temp*u.deg_C
         on_coord.relative_humidity = self.humid
         on_coord.obswl = (astropy.constants.c/(self.obswl*u.GHz)).to('micron')
-        altaz_list = on_coord.transform_to(AltAz(obstime=Time.now(format='datetime', location=self.nobeyama)))
+        altaz_list = on_coord.transform_to(AltAz(obstime=Time.now(location=self.nobeyama)))
         return altaz_list
 
     def publish_azel(self):
