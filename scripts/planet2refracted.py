@@ -7,6 +7,8 @@ import rospy
 import threading
 from std_msgs.msg import Float64
 from std_msgs.msg import Float64MultiArray
+from std_msgs.msg import String
+
 
 from astropy.time import Time
 from astropy.coordinates import FK5
