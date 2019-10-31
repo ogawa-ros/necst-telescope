@@ -125,10 +125,10 @@ class optical_pointing(object):
                 print(float(data[i,1]), data[i,2], data[i,3], data[i,4], data[i,5], data[i,6])
                 print(data[i,0])
                 #self.ctrl.move_antenna_opt(px=data[i,3]/3600.*0, py=data[i,4]/3600*0, acc=3, x=data[i,1]*15., y=data[i,2], coord="J2000")
-                self.antenna.move_wcs()
-                
+                self.antenna.move_wcs(data[i,5],data[i,6])
+
                 timestr = time.strftime('%Y%m%d_%H.%M.%S', time.strptime(time.ctime()))
-                savename = timestr + ".JPG"
+                savename = timestr +  "_az_" + str(data[i,5]) + "_el_" + str(data[i,6])+".JPG"
                 savepath = self.data_path + savename
                 self.camera.capture(savepath)
 

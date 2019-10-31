@@ -8,6 +8,7 @@ import std_msgs.msg
 class controller(object):
     def __init__(self):
         self.antenna = antenna()
+        self.camera()
 
 class make_pub(object):
     def __init__(self):

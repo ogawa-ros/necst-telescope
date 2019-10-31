@@ -55,10 +55,10 @@ class tracking_check(object):
             enc_az = self.az
             enc_el = self.el
 
-            d_az = abs(command_az - enc_az)　#単位は？？　
-            d_el = abs(command_el - enc_el)　#単位は？？
+            d_az = abs(command_az - enc_az)　#deg
+            d_el = abs(command_el - enc_el)　#deg
 
-            if d_az <= 3 and d_el <=3:　#単位は？？
+            if d_az <= 3 and d_el <=3:　#arc sec
                 track_count += 1
             else:
                 track_count = 0
