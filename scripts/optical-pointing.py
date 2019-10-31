@@ -16,7 +16,7 @@ import controller
 class optical_pointing(object):
 
     def __init__(self):
-        self.catalog_path = "/home/exito/ros/src/necst_telescope/scripts/"
+        self.catalog_path = "/home/exito/ros/src/necst-telescope/scripts/"
         self.data_path = "/home/m100raspi/data/optical-pointing/"
         self.camera = controller.camera()
         self.antenna = controller.antenna()
