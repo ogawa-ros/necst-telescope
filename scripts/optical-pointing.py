@@ -44,6 +44,7 @@ class optical_pointing(object):
         nro.date=ephem.now()+obstimedelay
 
         data = []
+        file = open(CATALOG_PATH,"r")
         for line in file.readlines():
             try:
                 ra2000 = float(line[75:77]) + float(line[77:79]) / 60. + float(line[79:83])/3600.
