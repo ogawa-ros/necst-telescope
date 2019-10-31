@@ -26,27 +26,14 @@ class make_pub(object):
         time.sleep(0.1)
         return
 
-class make_sub(object):
-    def __init__(self):
-        self.sub = {}
-        pass
-
-    def subs(self, topic_name, data_class, msg):
-        if topic_name not in self.pub:
-            self.set_publisher(topic_name = topic_name, data_class = data_class)
-            pass
-        self.pub[topic_name].publish(msg)
-        return
-
-    def set_publisher(self, topic_name, data_class):
-        self.pub[topic_name] = rospy.Publisher(name = topic_name, data_class = data_class, queue_size = 1, latch = False)
-        time.sleep(0.1)
-        return
-
 
 class antenna(object):
     def __init__(self):
         self.make_pub = make_pub()
+        rospy.Subscriber('/necst_telescope/tracking_check', std_msgs.msg.Bool, self.recieve_track)
+
+    def recieve_track(self,q):
+        self.tracking_flag = q.data
 
     def move_azel(self,az,el):
         """
@@ -89,10 +76,10 @@ class antenna(object):
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
-    def antenna_tracking_check(self):
+    def tracking_check(self):
         print(" Moving now....")
         time.sleep(2.)
-        while not self.antenna_tracking_flag:# or (int(self.command_time) != self.antenna_tracking_time):
+        while not self.tracking_flag:
             time.sleep(0.01)
             pass
         return
