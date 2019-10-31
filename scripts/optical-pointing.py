@@ -9,7 +9,7 @@ import os
 import pylab
 import datetime
 import matplotlib.pyplot as plt
-sys.path.append("/home/exito/necst_telescope/scripts")
+sys.path.append("/home/exito/necst-telescope/scripts")
 import controller
 
 
