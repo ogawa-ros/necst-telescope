@@ -1,17 +1,17 @@
 <launch>
 
-  <node name = "az_necst-1p85"
+  <node name = "az_necst_1p85"
         type = "relay.py"
         pkg = "necst-telescope">
     <param name = "config_file"
-           value = "$(find necst-telescope)/relay_conf/az_necst-1p85.conf" />
+           value = "$(find necst-telescope)/relay_conf/az_necst_1p85.conf" />
   </node>
 
-  <node name = "el_necst-1p85"
+  <node name = "el_necst_1p85"
         type = "relay.py"
         pkg = "necst-telescope">
     <param name = "config_file"
-           value = "$(find necst-telescope)/relay_conf/el_necst-1p85.conf" />
+           value = "$(find necst-telescope)/relay_conf/el_necst_1p85.conf" />
   </node>
 
 </launch>
