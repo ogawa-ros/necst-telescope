@@ -44,27 +44,29 @@ class optical_pointing(object):
         nro.date=ephem.now()+obstimedelay
 
         data = []
-        file = open(catalog_file,'r')
         for line in file.readlines():
-            ra2000 = float(line[75:77]) + float(line[77:79]) / 60. + float(line[79:83])/3600.
-            dec2000 = float(line[84:86]) + float(line[86:88]) / 60. + float(line[88:90]) / 3600.
-            if line[83:84] == '-': dec2000 = -dec2000
-            multiple = line[43:44]
-            vmag = float(line[103:107])
-            #print 'vmag', vmag
-            pmra = float(line[149:154])
-            pmdec = float(line[154:160])
-            eline="te|te|te,f|D|G3,%d:%d:%.1f|%.2f,%s%d:%d:%d|%.1f,%f.2,2000" % (float(line[75:77]),float(line[77:79]),float(line[79:83]),pmra*1000.,line[83:84],float(line[84:86]),float(line[86:88]),float(line[88:90]),pmdec*1000.,vmag)
-            yh = ephem.readdb(eline)
-            yh.compute(nro)
-            if multiple == ' ' and math.degrees(yh.alt) >= elmin and math.degrees(yh.alt) <= elmax and vmag >= vmagmin and vmag <= vmagmax:
-                if math.degrees(yh.az) < min(azmin,azmax):
-                    az = math.degrees(yh.az) + 360.
-                elif math.degrees(yh.az) > max(azmin,azmax):
-                    az = math.degrees(yh.az) - 360.
-                else:
-                    az = math.degrees(yh.az)
-                data.append([line[7:14],ra2000,dec2000,pmra,pmdec,az,math.degrees(yh.alt)])
+            try:
+                ra2000 = float(line[75:77]) + float(line[77:79]) / 60. + float(line[79:83])/3600.
+                dec2000 = float(line[84:86]) + float(line[86:88]) / 60. + float(line[88:90]) / 3600.
+                if line[83:84] == '-': dec2000 = -dec2000
+                multiple = line[43:44]
+                vmag = float(line[103:107])
+                #print 'vmag', vmag
+                pmra = float(line[149:154])
+                pmdec =float( line[154:160])
+                #print(a, ra2000,dec2000,pmra,pmdec)
+                eline="te|te|te,f|D|G3,%d:%d:%.1f|%.2f,%s%d:%d:%d|%.1f,%f.2,2000" % (float(line[75:77]),float(line[77:79]),float(line[79:83]),pmra*1000.,line[83:84],float(line[84:86]),float(line[86:88]),float(line[88:90]),pmdec*1000.,vmag)
+                yh = ephem.readdb(eline)
+                yh.compute(nro)
+                if multiple == ' ' and math.degrees(yh.alt) >= elmin and math.degrees(yh.alt) <= elmax and vmag >= vmagmin and vmag <= vmagmax:
+                    if math.degrees(yh.az) < min(azmin,azmax):
+                        az = math.degrees(yh.az) + 360.
+                    elif math.degrees(yh.az) > max(azmin,azmax):
+                        az = math.degrees(yh.az) - 360.
+                    else:
+                        az = math.degrees(yh.az)
+                    data.append([line[7:14],ra2000,dec2000,pmra,pmdec,az,math.degrees(yh.alt)])
+            except:pass
             continue
         file.close()
         print(data[0])
