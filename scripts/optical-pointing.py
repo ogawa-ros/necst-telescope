@@ -67,7 +67,7 @@ class optical_pointing(object):
                 data.append([line[7:14],ra2000,dec2000,pmra,pmdec,az,math.degrees(yh.alt)])
             continue
         file.close()
-        print data[0]
+        print(data[0])
 
 
         sdata = numpy.array(sorted(data,key=itemgetter(5))) #sort by az
