@@ -78,6 +78,7 @@ class planet2refracted(object):
                 self.pub_real_azel.publish(array)
                 time.sleep(0.1)
             else:
+                time.sleep(1)
                 pass
             continue
 
