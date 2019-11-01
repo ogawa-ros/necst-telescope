@@ -78,7 +78,6 @@ class wcs2refracted(object):
                 time.sleep(0.1)
             else:
                 time.sleep(1)
-                pass
             continue
 
     def start_thread(self):
