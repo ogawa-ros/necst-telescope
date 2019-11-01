@@ -76,6 +76,7 @@ class planet2refracted(object):
                 #array.data = [obstime, az, alt]
                 array.data = [az, alt]
                 self.pub_real_azel.publish(array)
+                time.sleep(0.1)
             else:
                 pass
             continue
