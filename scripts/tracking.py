@@ -19,7 +19,6 @@ class tracking_check(object):
         rospy.Subscriber("/1p85m2019/el"',Float64, self.recieve_el)
         rospy.Subscriber("/necst_telescope/coordinate/planet_cmd", Float64, self.recieve_coord_cmd)
         rospy.Subscriber("/necst_telescope/coordinate/wcs_cmd", Float64, self.recieve_coord_cmd)
-        rospy.Subscriber("/necst_telescope/coordinate/refracted_azel_cmd", Float64, self.recieve_coord_cmd)
         pass
 
     def recieve_az_cmd(self, q):
@@ -57,6 +56,8 @@ class tracking_check(object):
 
             d_az = abs(command_az - enc_az)　#deg
             d_el = abs(command_el - enc_el)　#deg
+
+
 
             if d_az <= 3 and d_el <=3:　#arc sec
                 track_count += 1
