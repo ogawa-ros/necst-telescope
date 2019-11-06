@@ -44,7 +44,7 @@ class encoder_el_sim(object):
 
                 enc_el_last = self.enc_el
 
-            time.sleep(0.1)
+            time.sleep(0.05)
             continue
 
     def start_thread(self):
