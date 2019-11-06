@@ -82,6 +82,7 @@ class antenna(object):
         pass
 
     def tracking_check(self):
+        tracking_flag = False
         print(" Moving now....")
         time.sleep(2.)
         while not tracking_flag:
