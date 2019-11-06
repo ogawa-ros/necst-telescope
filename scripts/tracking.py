@@ -18,7 +18,7 @@ class tracking_check(object):
         rospy.Subscriber("/necst_telescope/coordinate/apparent_el_cmd", Float64, self.recieve_el_cmd)
         rospy.Subscriber("/1p85m2019/az", Float64, self.recieve_az)
         rospy.Subscriber("/1p85m2019/el", Float64, self.recieve_el)
-        rospy.Subscriber("/necst_telescope/coordinate/planet_cmd", Float64, self.recieve_coord_cmd)
+        rospy.Subscriber("/necst_telescope/coordinate/planet_cmd", String, self.recieve_coord_cmd)
         rospy.Subscriber("/necst_telescope/coordinate/wcs_cmd"   , Float64, self.recieve_coord_cmd)
 
 
