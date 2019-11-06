@@ -4,7 +4,7 @@ import sys
 import time
 import rospy
 import std_msgs.msg
-sys.path.append(../../necst-core/scripts)
+sys.path.append("../../necst-core/scripts")
 import topic_utils
 
 class controller(object):
