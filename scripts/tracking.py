@@ -58,7 +58,7 @@ class tracking_check(object):
             d_az = abs(command_az - enc_az) #deg
             d_el = abs(command_el - enc_el) #deg
 
-            threshold = self.trac_threshold/3600　#arcsec->deg
+            threshold = self.trac_threshold/3600 #arcsec->deg
             if d_az <= threshold and d_el <=threshold:　#deg
                 track_count += 1
             else:
