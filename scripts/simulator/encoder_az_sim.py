@@ -16,14 +16,14 @@ class encoder_az_sim(object):
     def __init__(self):
 
         self.topic_to = rospy.Publisher(
-                name = "/encorder_az",
+                name = "/1p85m2019/az",
                 data_class = std_msgs.msg.Float64,
                 latch = True,
                 queue_size = 1,
             )
 
         self.topic_from = rospy.Subscriber(
-                name = "/az_speed",
+                name = "/1p85m2019/az_speed",
                 data_class = std_msgs.msg.Float64,
                 callback = self.encoder_az_sim,
                 queue_size = 1,
@@ -46,7 +46,7 @@ class encoder_az_sim(object):
 
             time.sleep(0.01)
             continue
-              
+
     def start_thread(self):
         th = threading.Thread(target=self.publish_status)
         th.setDaemon(True)

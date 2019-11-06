@@ -9,21 +9,21 @@ import std_msgs.msg
 
 
 class encoder_el_sim(object):
-    
+
     command_speed = 0.0
     enc_el = 0.0
 
     def __init__(self):
 
         self.topic_to = rospy.Publisher(
-                name = "/encorder_el",
+                name = "/1p85m2019/el",
                 data_class = std_msgs.msg.Float64,
                 latch = True,
                 queue_size = 1,
             )
 
         self.topic_from = rospy.Subscriber(
-                name = "/el_speed",
+                name = "/1p85m2019/el_speed",
                 data_class = std_msgs.msg.Float64,
                 callback = self.encoder_el_sim,
                 queue_size = 1,
