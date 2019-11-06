@@ -43,6 +43,7 @@ class tracking_check(object):
 
     def check_track(self):
         track_count = 0
+        time.sleep(1)
         while not rospy.is_shutdown():
             if self.track_falseflag:
                 self.tracking = False
