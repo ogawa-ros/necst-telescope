@@ -122,32 +122,30 @@ class optical_pointing(object):
         os.mkdir(data_dir)
         print('create data directory: %s'%(data_dir))
         print('-- start pointing --')
-        az, el, d_az, d_el = [], [], [], []
+        az, el = [], []
         try:
             for i in range(0, len(data)):
                 print(float(data[i,1]), data[i,2], data[i,3], data[i,4], data[i,5], data[i,6])
                 print(data[i,0])
                 #self.ctrl.move_antenna_opt(px=data[i,3]/3600.*0, py=data[i,4]/3600*0, acc=3, x=data[i,1]*15., y=data[i,2], coord="J2000")
                 self.antenna.move_wcs(data[i,5],data[i,6])
+                self.antenna.tracking_check()
 
                 timestr = time.strftime('%Y%m%d_%H.%M.%S', time.strptime(time.ctime()))
-                savename = timestr +  "_az_" + str(data[i,5]) + "_el_" + str(data[i,6])+".JPG"
+                savename = timestr +  "_ra_" + str(data[i,5]) + "_dec_" + str(data[i,6])+".JPG"
                 savepath = self.data_path + savename
+                pre_az = self.antenna.get_az()
+                pre_el = self.antenna.get_el()
                 self.camera.capture(savepath)
+                late_az = self.antenna.get_az()
+                late_el = self.antenna.get_el()
 
-                #pre_az = self.ctrl.get_condition()["az"]
-                #pre_el = self.ctrl.get_condition()["el"]
-                #pre_azel = [pre_az, pre_el]
-                #offset = self.ctrl.ccd_oneshot()
-                #late_az = (self.ctrl.get_condition()["az"])
-                #late_el = (self.ctrl.get_condition()["el"])
-                #late_azel = [late_az, late_el]
-                #angle = [(pre_azel[0]+late_azel[0])/2, (pre_azel[1]+late_azel[1])/2]
+                angle = [(pre_az+late_az)/2, (pre_el+late_el)/2]
                 #print('No.%d (%d)' % (i+1, star_num))
                 #print angle
                 #print offset
-                #az.append(angle[0])
-                #el.append(angle[1])
+                az.append(angle[0])
+                el.append(angle[1])
                 #d_az.append(offset[0])
                 #d_el.append(offset[1])
                 #time.sleep(0.1)
@@ -155,26 +153,26 @@ class optical_pointing(object):
                 continue
         except KeyboardInterrupt:
             self.print('operation INTERRUPTED!')
-        """
+
         filename = start_timestamp.strftime('%Y%m%d_%H.%M.%S.txt')
         filepath = data_dir + filename
         f = open(filepath, "w")
         try:
             for i in range(0, len(data)):
                 f.write(str(az[i])+" ")
-                f.write(str(el[i])+" ")
-                f.write(str(d_az[i])+" ")
-                f.write(str(d_el[i])+"\n")
+                f.write(str(el[i])+"\n")
+                #f.write(str(d_az[i])+" ")
+                #f.write(str(d_el[i])+"\n")
                 continue
         except IndexError:
             pass
         f.close()
         print('offset data file is created: %s'%(filepath))
-        self.ctrl.finalize()
+        #self.ctrl.finalize()
 
 
         return filepath
-        """
+
 
 if __name__ == "__main__":
     opt = optical_pointing()

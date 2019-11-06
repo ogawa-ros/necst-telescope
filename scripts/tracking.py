@@ -18,8 +18,8 @@ class tracking_check(object):
         rospy.Subscriber("/1p85m2019/az", Float64, self.recieve_az)
         rospy.Subscriber("/1p85m2019/el"',Float64, self.recieve_el)
         rospy.Subscriber("/necst_telescope/coordinate/planet_cmd", Float64, self.recieve_coord_cmd)
-        rospy.Subscriber("/necst_telescope/coordinate/wcs_cmd", Float64, self.recieve_coord_cmd)
-        pass
+        rospy.Subscriber("/necst_telescope/coordinate/wcs_cmd"   , Float64, self.recieve_coord_cmd)
+        
 
     def recieve_az_cmd(self, q):
         self.az_cmd = q.data
@@ -40,7 +40,7 @@ class tracking_check(object):
     def recieve_coord_cmd(self, q):
         self.track_falseflag = True
 
-    def check_track(self):
+    def check_track(self,trac_threshold=10):
         track_count = 0
         while not rospy.is_shutdown():
             if self.track_falseflag:
@@ -57,9 +57,8 @@ class tracking_check(object):
             d_az = abs(command_az - enc_az)　#deg
             d_el = abs(command_el - enc_el)　#deg
 
-
-
-            if d_az <= 3 and d_el <=3:　#arc sec
+            threshold = trac_threshold/3600　#arcsec->deg
+            if d_az <= threshold and d_el <=threshold:　#deg
                 track_count += 1
             else:
                 track_count = 0
