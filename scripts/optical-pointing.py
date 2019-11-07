@@ -17,7 +17,8 @@ class optical_pointing(object):
 
     def __init__(self):
         self.catalog_path = "/home/exito/ros/src/necst-telescope/lib/bsc5.dat"
-        self.data_path = "/home/m100raspi/data/optical-pointing/"
+        #self.data_path = "/home/m100raspi/data/optical-pointing/"
+        self.data_path = "/home/exito/test/data/optical-pointing/"
         self.camera = controller.camera()
         self.antenna = controller.antenna()
         pass
@@ -132,11 +133,14 @@ class optical_pointing(object):
                 self.antenna.tracking_check()
 
                 timestr = time.strftime('%Y%m%d_%H.%M.%S', time.strptime(time.ctime()))
-                savename = timestr +  "_ra_" + str(data[i,5]) + "_dec_" + str(data[i,6])+".JPG"
+                #savename = timestr +  "_ra_" + str(data[i,5]) + "_dec_" + str(data[i,6])+".JPG"
+                savename = timestr +".JPG"
+
                 savepath = self.data_path + savename
                 pre_az = self.antenna.get_az()
                 pre_el = self.antenna.get_el()
                 self.camera.capture(savepath)
+                time.sleep(1)
                 late_az = self.antenna.get_az()
                 late_el = self.antenna.get_el()
 
