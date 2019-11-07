@@ -134,9 +134,11 @@ class optical_pointing(object):
                 self.antenna.move_wcs(float(data[i,5])*15 ,float(data[i,6]))
                 self.antenna.tracking_check()
 
-                timestr = time.strftime('%Y%m%d_%H.%M.%S', time.strptime(time.ctime()))
+                nowtimestamp = datetime.datetime.today()
+                timestr = nowtimestamp.strftime('%Y%m%d_%H.%M.%S')
                 #savename = timestr +  "_ra_" + str(data[i,5]) + "_dec_" + str(data[i,6])+".JPG"
                 savename = timestr +".JPG"
+
 
                 savepath = self.data_path + savename
                 pre_az = self.antenna.get_az()
