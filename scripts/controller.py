@@ -33,7 +33,7 @@ class make_pub(object):
 class antenna(object):
     def __init__(self):
         self.make_pub = make_pub()
-        rospy.init_node("anntena_controller")
+        #rospy.init_node("anntena_controller")
         self.track  = topic_utils.receiver('/necst_telescope/tracking_check',std_msgs.msg.Bool)
         self.az     = topic_utils.receiver('/1p85m2019/az'                  ,std_msgs.msg.Float64)
         self.az_cmd = topic_utils.receiver('/1p85m2019/az_cmd2'             ,std_msgs.msg.Float64)

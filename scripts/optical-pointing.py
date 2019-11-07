@@ -11,11 +11,13 @@ import datetime
 import matplotlib.pyplot as plt
 sys.path.append("/home/exito/necst-telescope/scripts")
 import controller
+import rospy
 
 
 class optical_pointing(object):
 
     def __init__(self):
+        rospy.init_node("optical_pointing")
         self.catalog_path = "/home/exito/ros/src/necst-telescope/lib/bsc5.dat"
         #self.data_path = "/home/m100raspi/data/optical-pointing/"
         self.data_path = "/home/exito/test/data/optical-pointing/"
