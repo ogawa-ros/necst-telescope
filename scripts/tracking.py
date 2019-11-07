@@ -6,6 +6,7 @@ import rospy
 from std_msgs.msg import Bool
 from std_msgs.msg import Float64
 from std_msgs.msg import String
+from std_msgs.msg import Float64MultiArray
 
 node_name = 'tracking'
 
