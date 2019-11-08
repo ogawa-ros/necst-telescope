@@ -39,7 +39,7 @@ class wcs2refracted(object):
         rospy.Subscriber('/necst_telescope/weather/pressure',Float64,self.recieve_pressure)
         rospy.Subscriber('/necst_telescope/weather/temperature',Float64,self.recieve_temprature)
         rospy.Subscriber('/necst_telescope/weather/humidity',Float64,self.recieve_humidity)
-        rospy.Subscriber('/necst_telescope/coordinate/stop_refracted_cmd' Bool, self.recieve_stop_cmd)
+        rospy.Subscriber('/necst_telescope/coordinate/stop_refracted_cmd' ,Bool, self.recieve_stop_cmd)
 
         self.pub_real_azel = rospy.Publisher('/necst_telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
 
