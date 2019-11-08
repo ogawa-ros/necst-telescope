@@ -25,7 +25,7 @@ class optical_pointing(object):
         self.antenna = controller.antenna()
         pass
 
-    def select_opt_targets(self,reverse=False, obstimedelay=0.0, elmin=20., elmax=90., vmagmin=4, vmagmax=4.5, azmin=0.,azmax=360., azint=30., show_graph=False):
+    def select_opt_targets(self,reverse=False, obstimedelay=0.0, elmin=20., elmax=90., vmagmin=4, vmagmax=4.5, azmin=0.,azmax=360., pmramax=1, pmdecmax=1,azint=30., show_graph=False):
         #from operator import itemgetter
         def itemgetter(item):
             return lambda x: x[item]
@@ -62,7 +62,7 @@ class optical_pointing(object):
                 eline="te|te|te,f|D|G3,%d:%d:%.1f|%.2f,%s%d:%d:%d|%.1f,%f.2,2000" % (float(line[75:77]),float(line[77:79]),float(line[79:83]),pmra*1000.,line[83:84],float(line[84:86]),float(line[86:88]),float(line[88:90]),pmdec*1000.,vmag)
                 yh = ephem.readdb(eline)
                 yh.compute(nro)
-                if multiple == ' ' and math.degrees(yh.alt) >= elmin and math.degrees(yh.alt) <= elmax and vmag >= vmagmin and vmag <= vmagmax:
+                if multiple == ' ' and math.degrees(yh.alt) >= elmin and math.degrees(yh.alt) <= elmax and vmag >= vmagmin and vmag <= vmagmax and pmra<=pmramax and pmdec<=pmdecmax:
                     if math.degrees(yh.az) < min(azmin,azmax):
                         az = math.degrees(yh.az) + 360.
                     elif math.degrees(yh.az) > max(azmin,azmax):
@@ -73,7 +73,7 @@ class optical_pointing(object):
             except:pass
             continue
         file.close()
-        print(data[0])
+        #print(data[0])
 
 
         sdata = numpy.array(sorted(data,key=itemgetter(5))) #sort by az
@@ -84,8 +84,6 @@ class optical_pointing(object):
         elflag=0
         for azaz in numpy.arange(azmin, azmax,azint):
             print('azmin', azmin, azmax, azint)
-            #sdata[:,5]
-            #max(azaz,azaz+azint)
             ind = numpy.where((tmp >min(azaz,azaz+azint)) & (tmp< max(azaz,azaz+azint)))
             print('ind', ind)
             print('len ind' ,len(ind))
@@ -124,11 +122,12 @@ class optical_pointing(object):
         data_dir = DATA_PATH + start_timestamp.strftime('%Y%m%d_%H.%M.%S') + '/'
         os.mkdir(data_dir)
         print('create data directory: %s'%(data_dir))
-        print('-- start pointing --')
+        print('=================== start pointing ======================')
         az, el = [], []
         try:
             for i in range(0, len(data)):
-                print(float(data[i,1]), data[i,2], data[i,3], data[i,4], data[i,5], data[i,6])
+                #print(float(data[i,1]), float(data[i,2]), data[i,3], data[i,4], data[i,5], data[i,6])
+                print("RA" + float(data[i,1]), "DEC" + float(data[i,2]))
                 print(data[i,0])
                 #self.ctrl.move_antenna_opt(px=data[i,3]/3600.*0, py=data[i,4]/3600*0, acc=3, x=data[i,1]*15., y=data[i,2], coord="J2000")
                 self.antenna.move_wcs(float(data[i,1])*15 ,float(data[i,2]))
@@ -139,7 +138,6 @@ class optical_pointing(object):
                 #savename = timestr +  "_ra_" + str(data[i,5]) + "_dec_" + str(data[i,6])+".JPG"
                 savename = timestr +".JPG"
 
-
                 savepath = self.data_path + savename
                 pre_az = self.antenna.get_az()
                 pre_el = self.antenna.get_el()
@@ -149,14 +147,15 @@ class optical_pointing(object):
                 late_el = self.antenna.get_el()
 
                 angle = [(pre_az+late_az)/2, (pre_el+late_el)/2]
-                #print('No.%d (%d)' % (i+1, star_num))
-                #print angle
+                print('No.%d (%d)' % (i+1, star_num))
+                print("angle " + angle)
+                print("captured image")
                 #print offset
                 az.append(angle[0])
                 el.append(angle[1])
                 #d_az.append(offset[0])
                 #d_el.append(offset[1])
-                #time.sleep(0.1)
+                time.sleep(0.1)
 
                 continue
         except KeyboardInterrupt:
