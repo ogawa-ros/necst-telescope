@@ -8,7 +8,7 @@ import threading
 from std_msgs.msg import Float64
 from std_msgs.msg import Float64MultiArray
 from std_msgs.msg import String
-
+from std_msgs.msg import Bool
 
 from astropy.time import Time
 from astropy.coordinates import FK5
@@ -40,6 +40,7 @@ class planet2refracted(object):
         rospy.Subscriber('/necst_telescope/weather/pressure',Float64,self.recieve_pressure)
         rospy.Subscriber('/necst_telescope/weather/temperature',Float64,self.recieve_temprature)
         rospy.Subscriber('/necst_telescope/weather/humidity',Float64,self.recieve_humidity)
+        rospy.Subscriber('/necst_telescope/coordinate/stop_refracted_cmd' Bool, self.recieve_stop_cmd)
 
         self.pub_real_azel = rospy.Publisher('/necst_telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
 
@@ -54,6 +55,12 @@ class planet2refracted(object):
 
     def recieve_humidity(self,q):
         self.humid = q.data
+
+    def recieve_stop_cmd(self,q):
+        if q.data = True:
+            self.planet = ''
+        else:
+            pass
 
     def convert_azel(self):
         on_coord = astropy.coordinates.get_body(location=self.nobeyama,time=Time.now(),body=self.planet)

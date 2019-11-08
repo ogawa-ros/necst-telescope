@@ -47,6 +47,11 @@ class antenna(object):
         - unit : az [deg]
                : el [deg]
         """
+        topic_name = '/necst_telescope/coordinate/stop_refracted_cmd'
+        data_class = std_msgs.msg.Bool
+        cmd = True
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+        time.sleep(0.1)
         topic_name = '/necst_telescope/coordinate/refracted_azel_cmd'
         data_class = std_msgs.msg.Float64MultiArray
         cmd = std_msgs.msg.Float64MultiArray()
@@ -60,6 +65,11 @@ class antenna(object):
         - type : String
         - cmd : 'earth','sun','moon','mercury','venus','earth-moon-barycenter','mars','jupiter','saturn','uranus','neptune'
         """
+        topic_name = '/necst_telescope/coordinate/stop_refracted_cmd'
+        data_class = std_msgs.msg.Bool
+        cmd = True
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+        time.sleep(0.1)
         topic_name = '/necst_telescope/coordinate/planet_cmd'
         data_class = std_msgs.msg.String
         cmd = planet
@@ -74,6 +84,11 @@ class antenna(object):
                : dec [deg]
         - frame : fk5
         """
+        topic_name = '/necst_telescope/coordinate/stop_refracted_cmd'
+        data_class = std_msgs.msg.Bool
+        cmd = True
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+        time.sleep(0.1)
         topic_name = '/necst_telescope/coordinate/wcs_cmd'
         data_class = std_msgs.msg.Float64MultiArray
         cmd = std_msgs.msg.Float64MultiArray()

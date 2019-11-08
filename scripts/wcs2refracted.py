@@ -7,6 +7,7 @@ import rospy
 import threading
 from std_msgs.msg import Float64
 from std_msgs.msg import Float64MultiArray
+from std_msgs.msg import Bool
 
 from astropy.time import Time
 from astropy.coordinates import FK5
@@ -38,6 +39,7 @@ class wcs2refracted(object):
         rospy.Subscriber('/necst_telescope/weather/pressure',Float64,self.recieve_pressure)
         rospy.Subscriber('/necst_telescope/weather/temperature',Float64,self.recieve_temprature)
         rospy.Subscriber('/necst_telescope/weather/humidity',Float64,self.recieve_humidity)
+        rospy.Subscriber('/necst_telescope/coordinate/stop_refracted_cmd' Bool, self.recieve_stop_cmd)
 
         self.pub_real_azel = rospy.Publisher('/necst_telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
 
@@ -53,6 +55,11 @@ class wcs2refracted(object):
     def recieve_humidity(self,q):
         self.humid = q.data
 
+    def recieve_stop_cmd(self,q):
+        if q.data = True:
+            self.wcs = ''
+        else:
+            pass
 
     def convert_azel(self):
         on_coord = SkyCoord(self.wcs[0], self.wcs[1],frame=self.frame, unit=(u.deg, u.deg))
