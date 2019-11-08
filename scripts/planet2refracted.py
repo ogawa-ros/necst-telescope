@@ -57,7 +57,7 @@ class planet2refracted(object):
         self.humid = q.data
 
     def recieve_stop_cmd(self,q):
-        if q.data = True:
+        if q.data == True:
             self.planet = ''
         else:
             pass
