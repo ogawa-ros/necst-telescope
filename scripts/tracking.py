@@ -13,6 +13,10 @@ node_name = 'tracking'
 class tracking_check(object):
     tracking = False
     track_falseflag = False
+    az = 0
+    el = 0
+    az_cmd = 0
+    el_cmd = 0
 
     def __init__(self):
         self.trac_threshold = rospy.get_param("~trac_threshold")
