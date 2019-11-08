@@ -127,7 +127,7 @@ class optical_pointing(object):
         try:
             for i in range(0, len(data)):
                 #print(float(data[i,1]), float(data[i,2]), data[i,3], data[i,4], data[i,5], data[i,6])
-                print("RA" + float(data[i,1]), "DEC" + float(data[i,2]))
+                print("RA" + str(data[i,1]), "DEC" + str(data[i,2]))
                 print(data[i,0])
                 #self.ctrl.move_antenna_opt(px=data[i,3]/3600.*0, py=data[i,4]/3600*0, acc=3, x=data[i,1]*15., y=data[i,2], coord="J2000")
                 self.antenna.move_wcs(float(data[i,1])*15 ,float(data[i,2]))
