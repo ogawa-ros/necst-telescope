@@ -29,9 +29,10 @@ class wcs2refracted(object):
     wcs =''
 
     press =  1000
-    temp = 15
-    humid = 0.2
-    obswl = 230 #GHz
+    temp = -2
+    humid = 0.8
+    #obswl = 230 #GHz
+    obswl = 600000 #GHz
 
     def __init__(self):
         conf.auto_max_age = None
