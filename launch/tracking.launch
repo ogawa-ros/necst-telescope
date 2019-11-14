@@ -1,5 +1,5 @@
 <launch>
   <node pkg="necst-telescope" name="tracking" type="tracking.py" required="true" output="screen">
-      <param name="~trac_threshold" value="20" />
+      <param name="~trac_threshold" value="25" />
   </node>
 </launch>
