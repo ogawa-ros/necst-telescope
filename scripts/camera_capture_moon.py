@@ -16,8 +16,8 @@ savepath = "/home/m100raspi/data/moon/"
 rospy.init_node("name")
 
 logger = core_controller.logger()
-camera = controller.camera()
-antenna = controller.antenna()
+camera = telescope_controller.camera()
+antenna = telescope_controller.antenna()
 
 ###logger#
 date = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
