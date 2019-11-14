@@ -21,8 +21,8 @@ class optical_pointing(object):
         self.catalog_path = "/home/exito/ros/src/necst-telescope/lib/bsc5.dat"
         #self.data_path = "/home/m100raspi/data/optical-pointing/"
         self.data_path = "/home/exito/test/data/optical-pointing/"
-        self.camera = controller.camera()
-        self.antenna = controller.antenna()
+        self.camera = telescope_controller.camera()
+        self.antenna = telescope_controller.antenna()
         pass
 
     def select_opt_targets(self,reverse=False, obstimedelay=0.0, elmin=20., elmax=90., vmagmin=4, vmagmax=4.5, azmin=0.,azmax=360., pmramax=1, pmdecmax=1,azint=30., show_graph=False):
