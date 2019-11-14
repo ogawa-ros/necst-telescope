@@ -11,8 +11,11 @@ import datetime
 import matplotlib.pyplot as plt
 sys.path.append("/home/exito/necst-telescope/scripts")
 import telescope_controller
+sys.path.append("/home/exito/necst-core/scripts")
+import core_controller
 import rospy
 
+name = "optical_pointing"
 
 class optical_pointing(object):
 
@@ -23,6 +26,7 @@ class optical_pointing(object):
         self.data_path = "/home/exito/test/data/optical-pointing/"
         self.camera = telescope_controller.camera()
         self.antenna = telescope_controller.antenna()
+        self.logger = core_controller.logger()
         pass
 
     def select_opt_targets(self,reverse=False, obstimedelay=0.0, elmin=20., elmax=90., vmagmin=4, vmagmax=4.5, azmin=0.,azmax=360., pmramax=1, pmdecmax=1,azint=30., show_graph=False):
@@ -128,6 +132,12 @@ class optical_pointing(object):
         print('create data directory: %s'%(data_dir))
         print('=================== start pointing ======================')
         az, el = [], []
+
+        date = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
+        file_name = name + '/' + date + '.necstdb'
+        print(file_name)
+        self.logger.start(file_name)
+
         try:
             for i in range(0, len(data)):
                 #print(float(data[i,1]), float(data[i,2]), data[i,3], data[i,4], data[i,5], data[i,6])
@@ -162,6 +172,8 @@ class optical_pointing(object):
                 continue
         except KeyboardInterrupt:
             self.print('operation INTERRUPTED!')
+
+        self.logger.stop()
 
         filename = start_timestamp.strftime('%Y%m%d_%H.%M.%S.txt')
         filepath = data_dir + filename
