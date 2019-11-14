@@ -35,5 +35,6 @@ savep = savepath + savename
 logger.start(file_name)
 antenna.move_planet("moon")
 antenna.tracking_check()
+time.sleep(1)
 camera.capture(savep)
 logger.stop()
