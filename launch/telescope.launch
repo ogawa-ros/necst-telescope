@@ -1,0 +1,10 @@
+<launch>
+
+    <include file="$(find necst-telescope)/launch/antenna-pid.launch" />
+    <include file="$(find necst-telescope)/launch/antenna-relay.launch" />
+    <include file="$(find necst-telescope)/launch/azel-relay.launch" />
+    <include file="$(find necst-telescope)/launch/coordinate.launch" />
+    <include file="$(find necst-telescope)/launch/tracking.launch" />
+
+
+</launch>
