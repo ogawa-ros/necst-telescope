@@ -10,7 +10,7 @@ import pylab
 import datetime
 import matplotlib.pyplot as plt
 sys.path.append("/home/exito/necst-telescope/scripts")
-import controller
+import telescope_controller
 import rospy
 
 
