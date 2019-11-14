@@ -29,7 +29,7 @@ date = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
 file_name = name + '/' + date + '.necstdb'
 print(file_name)
 
-az = anntena.get_el()
+az = anntena.get_az()
 el = anntena.get_el()
 print("current position : az="+str(az)+" el="+str(el))
 az_cmd = input("az = ")
