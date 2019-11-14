@@ -31,7 +31,7 @@ print(file_name)
 
 az = anntena.get_el()
 el = anntena.get_el()
-print("current position az="+str(az)+" el="+str(el))
+print("current position : az="+str(az)+" el="+str(el))
 az_cmd = input("az = ")
 el_cmd = input("el = ")
 
