@@ -19,8 +19,8 @@ class optical_pointing(object):
     def __init__(self):
         rospy.init_node("optical_pointing")
         self.catalog_path = "/home/exito/ros/src/necst-telescope/lib/bsc5.dat"
-        self.data_path = "/home/m100raspi/data/optical-pointing/"
-        #self.data_path = "/home/exito/test/data/optical-pointing/"
+        self.save_path = "/home/m100raspi/data/optical-pointing/"
+        self.data_path = "/home/exito/test/data/optical-pointing/"
         self.camera = telescope_controller.camera()
         self.antenna = telescope_controller.antenna()
         pass
@@ -143,7 +143,7 @@ class optical_pointing(object):
                 timestr = nowtimestamp.strftime('%Y%m%d_%H.%M.%S')
                 savename = timestr +".JPG"
 
-                savepath = self.data_path + savename
+                savepath = self.save_path + savename
                 pre_az = self.antenna.get_az()
                 pre_el = self.antenna.get_el()
                 self.camera.capture(savepath)
