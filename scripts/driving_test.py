@@ -38,7 +38,7 @@ el_cmd = input("el = ")
 logger.start(file_name)
 
 time.sleep(3)
-print("Moving az: "+str(az_cmd)+ ", el: "+str(az_cmd))
+print("Moving az: "+str(az_cmd)+ ", el: "+str(el_cmd))
 antenna.move_azel(float(az_cmd),float(el_cmd))
 antenna.tracking_check()
 time.sleep(3)
