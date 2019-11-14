@@ -114,7 +114,7 @@ class optical_pointing(object):
         CATALOG_PATH = self.catalog_path
         DATA_PATH = self.data_path
         print('initializing...')
-        data = self.select_opt_targets(show_graph=True, azint =60)
+        data = self.select_opt_targets(elmin=20., elmax=90., vmagmin=4, vmagmax=4.5, azmin=0.,azmax=360., pmramax=1, pmdecmax=1,azint=40., show_graph=True)
         star_num = len(data)
         print('generate target star list: %d stars'%(star_num))
         ans = input("1: START optical pointing \n2: Reselect target star")
