@@ -25,9 +25,11 @@ file_name = name + '/' + date + '.necstdb'
 print(file_name)
 
 ###picture savename###
+az = antenna.get_az()
+el = antenna.get_el()
 nowtimestamp = datetime.datetime.today()
 timestr = nowtimestamp.strftime('%Y%m%d_%H.%M.%S')
-savename = timestr +".JPG"
+savename = timestr +"_az_"+str(az) +"_el_"+str(el)+".JPG"
 savep = savepath + savename
 
 logger.start(file_name)
