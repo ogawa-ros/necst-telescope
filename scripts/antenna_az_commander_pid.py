@@ -19,12 +19,12 @@ class antenna_az_feedback(object):
 
     arcsec_enc = 0.0
 
-    p_coeff = 2.0
+    p_coeff = 2.2
     i_coeff = 0.0
     d_coeff = 0.0
 
     lock = False
-    
+
     def __init__(self):
         self.topic_to = rospy.Publisher(
                 name = "/1p85m2019/az_speed",
@@ -52,21 +52,21 @@ class antenna_az_feedback(object):
         MOTOR_MAXSTEP = 6553.5
         MOTOR_AZ_MAXSPEED = 65535
         # arcsec/sec
-        
+
         arcsec_cmd = command.data * 3600.
-        
+
         #for az >= 180*3600 and az <= -180*3600
         if self.arcsec_enc > 40*3600 and arcsec_cmd+360*3600 < 220*3600:
             arcsec_cmd += 360*3600
         elif self.arcsec_enc < -40*3600 and arcsec_cmd-360*3600 > -220*3600:
             arcsec_cmd -= 360*3600
-            
+
         if self.t_past == 0.0:
             self.t_past = time.time()
         else:
             pass
         self.t_now = time.time()
-        
+
         ret = calc_pid(arcsec_cmd, self.arcsec_enc,
                 self.pre_arcsec, self.pre_hensa, self.ihensa, self.enc_before,
                 self.t_now, self.t_past,
@@ -95,7 +95,7 @@ class antenna_az_feedback(object):
             self.speed_d = MOTOR_AZ_MAXSPEED
         if self.speed_d < -MOTOR_AZ_MAXSPEED:
             self.speed_d = -MOTOR_AZ_MAXSPEED
-        
+
         command_speed = self.speed_d
         if self.lock == True:
             self.speed_d = 0.0
@@ -116,10 +116,10 @@ class antenna_az_feedback(object):
         return
 
 def calc_pid(target_arcsec, encoder_arcsec, pre_arcsec, pre_hensa, ihensa, enc_before, t_now, t_past, p_coeff, i_coeff, d_coeff):
-    """                                                                         
-    DESCRIPTION                                                                 
-    ===========                                                                 
-    This function determine az&el speed for antenna                             
+    """
+    DESCRIPTION
+    ===========
+    This function determine az&el speed for antenna
     """
 
     #calculate ichi_hensa
@@ -150,4 +150,3 @@ if __name__ == "__main__":
     rospy.init_node(name)
     feedback = antenna_az_feedback()
     rospy.spin()
-

@@ -19,12 +19,12 @@ class antenna_el_feedback(object):
 
     arcsec_enc = 0.0
 
-    p_coeff = 1.6
+    p_coeff = 1.8
     i_coeff = 0.0
     d_coeff = 0.0
 
     lock = False
-    
+
     def __init__(self):
         self.topic_to = rospy.Publisher(
                 name = "/1p85m2019/el_speed",
@@ -52,9 +52,9 @@ class antenna_el_feedback(object):
         MOTOR_MAXSTEP = 6553.5
         MOTOR_EL_MAXSPEED = 65535
         # arcsec/sec
-        
+
         arcsec_cmd = command.data * 3600.
-        
+
         if self.t_past == 0.0:
             self.t_past = time.time()
         else:
@@ -65,7 +65,7 @@ class antenna_el_feedback(object):
                 self.pre_arcsec, self.pre_hensa, self.ihensa, self.enc_before,
                 self.t_now, self.t_past,
                 self.p_coeff, self.i_coeff, self.d_coeff)
-        
+
         speed = ret[0]
 
         #update
@@ -90,9 +90,9 @@ class antenna_el_feedback(object):
             self.speed_d = MOTOR_EL_MAXSPEED
         if self.speed_d < -MOTOR_EL_MAXSPEED:
             self.speed_d = -MOTOR_EL_MAXSPEED
-        
+
         command_speed = self.speed_d
-        
+
         if self.lock == True:
             self.speed_d = 0.0
             self.topic_to.publish(0.0)
@@ -112,10 +112,10 @@ class antenna_el_feedback(object):
         return
 
 def calc_pid(target_arcsec, encoder_arcsec, pre_arcsec, pre_hensa, ihensa, enc_before, t_now, t_past, p_coeff, i_coeff, d_coeff):
-    """                                                                         
-    DESCRIPTION                                                                 
-    ===========                                                                 
-    This function determine el&el speed for antenna                             
+    """
+    DESCRIPTION
+    ===========
+    This function determine el&el speed for antenna
     """
 
     #calculate ichi_hensa
@@ -146,5 +146,3 @@ if __name__ == "__main__":
     rospy.init_node(name)
     feedback = antenna_el_feedback()
     rospy.spin()
-
-
