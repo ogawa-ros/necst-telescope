@@ -114,7 +114,7 @@ class optical_pointing(object):
         CATALOG_PATH = self.catalog_path
         DATA_PATH = self.data_path
         print('initializing...')
-        data = self.select_opt_targets(elmin=20., elmax=90., vmagmin=1, vmagmax=2, azmin=0.,azmax=360., pmramax=1, pmdecmax=1,azint=40., show_graph=True)
+        data = self.select_opt_targets(elmin=20., elmax=90., vmagmin=2, vmagmax=3, azmin=0.,azmax=360., pmramax=1, pmdecmax=1,azint=40., show_graph=True)
         star_num = len(data)
         print('generate target star list: %d stars'%(star_num))
         ans = input("1: START optical pointing \n2: Reselect target star")
@@ -147,7 +147,6 @@ class optical_pointing(object):
                 pre_az = self.antenna.get_az()
                 pre_el = self.antenna.get_el()
                 self.camera.capture(savepath)
-                time.sleep(1)
                 late_az = self.antenna.get_az()
                 late_el = self.antenna.get_el()
 
@@ -158,7 +157,7 @@ class optical_pointing(object):
                 print("=========================================")
                 az.append(angle[0])
                 el.append(angle[1])
-                time.sleep(0.1)
+                time.sleep(3)
 
                 continue
         except KeyboardInterrupt:
