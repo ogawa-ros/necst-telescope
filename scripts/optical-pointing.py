@@ -146,7 +146,7 @@ class optical_pointing(object):
                 savepath = self.data_path + savename
                 pre_az = self.antenna.get_az()
                 pre_el = self.antenna.get_el()
-                #self.camera.capture(savepath)
+                self.camera.capture(savepath)
                 time.sleep(1)
                 late_az = self.antenna.get_az()
                 late_el = self.antenna.get_el()
