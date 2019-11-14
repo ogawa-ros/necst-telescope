@@ -25,7 +25,6 @@ logger = core_controller.logger()
 antenna = telescope_controller.antenna()
 
 date = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-
 file_name = name + '/' + date + '.necstdb'
 print(file_name)
 

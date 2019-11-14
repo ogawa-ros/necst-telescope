@@ -105,7 +105,7 @@ class optical_pointing(object):
             pylab.grid()
             pylab.xlabel('Az')
             pylab.ylabel('El')
-            pylab.title('Optical Pointing Target')
+            pylab.title('Optical Pointing Target\nstar num ='+str(len(ddata)))
             pylab.show()
 
         return ddata
@@ -117,7 +117,11 @@ class optical_pointing(object):
         data = self.select_opt_targets(show_graph=True, azint =60)
         star_num = len(data)
         print('generate target star list: %d stars'%(star_num))
-
+        ans = input("1: START optical pointing \n2: Reselect target star")
+        if ans == 2:
+            sys.exit()
+        else:
+            pass
         start_timestamp = datetime.datetime.today()
         data_dir = DATA_PATH + start_timestamp.strftime('%Y%m%d_%H.%M.%S') + '/'
         os.mkdir(data_dir)
@@ -137,7 +141,6 @@ class optical_pointing(object):
 
                 nowtimestamp = datetime.datetime.today()
                 timestr = nowtimestamp.strftime('%Y%m%d_%H.%M.%S')
-                #savename = timestr +  "_ra_" + str(data[i,5]) + "_dec_" + str(data[i,6])+".JPG"
                 savename = timestr +".JPG"
 
                 savepath = self.data_path + savename
@@ -153,11 +156,8 @@ class optical_pointing(object):
                 print("angle " + str(angle))
                 print("captured image")
                 print("=========================================")
-                #print offset
                 az.append(angle[0])
                 el.append(angle[1])
-                #d_az.append(offset[0])
-                #d_el.append(offset[1])
                 time.sleep(0.1)
 
                 continue
