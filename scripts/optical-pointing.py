@@ -19,8 +19,8 @@ class optical_pointing(object):
     def __init__(self):
         rospy.init_node("optical_pointing")
         self.catalog_path = "/home/exito/ros/src/necst-telescope/lib/bsc5.dat"
-        #self.data_path = "/home/m100raspi/data/optical-pointing/"
-        self.data_path = "/home/exito/test/data/optical-pointing/"
+        self.data_path = "/home/m100raspi/data/optical-pointing/"
+        #self.data_path = "/home/exito/test/data/optical-pointing/"
         self.camera = telescope_controller.camera()
         self.antenna = telescope_controller.antenna()
         pass
