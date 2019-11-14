@@ -147,7 +147,6 @@ class optical_pointing(object):
                 pre_az = self.antenna.get_az()
                 pre_el = self.antenna.get_el()
                 self.camera.capture(savepath)
-                time.sleep(1)
                 late_az = self.antenna.get_az()
                 late_el = self.antenna.get_el()
 
@@ -158,7 +157,7 @@ class optical_pointing(object):
                 print("=========================================")
                 az.append(angle[0])
                 el.append(angle[1])
-                time.sleep(0.1)
+                time.sleep(3)
 
                 continue
         except KeyboardInterrupt:
