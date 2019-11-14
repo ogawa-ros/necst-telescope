@@ -138,6 +138,6 @@ class camera(object):
         """
         topic_name = '/dev/m100/capture/savepath'
         data_class = std_msgs.msg.String
-        cmd.data = savepath
+        cmd = savepath
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass

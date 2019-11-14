@@ -3,14 +3,7 @@
 For test of telescope driving
 """
 import sys
-import ephem
 import time
-import numpy
-import math
-import os
-import pylab
-import datetime
-import matplotlib.pyplot as plt
 sys.path.append("/home/exito/necst-telescope/scripts")
 import telescope_controller
 sys.path.append("/home/exito/necst-core/scripts")
