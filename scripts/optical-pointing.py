@@ -288,10 +288,9 @@ class optical_pointing(object):
 
     def scatter_plot(self,x, y, xlabel, ylabel):
         plt.figure()
-
         plt.scatter(x, y, s=5)
         if xlabel[0] == 'dAz' and ylabel[0] == 'dEl':
-            plt.title('%s_vs_%s\nrms = %0.2f[arcsec]'%(xlabel[0], ylabel[0], d_rms))
+            plt.title('%s_vs_%s\nrms = %0.2f[arcsec]'%(xlabel[0], ylabel[0]))
             plt.axes().set_aspect('equal', 'datalim')
             X, Y = [], []
             for num in np.linspace(-180,180,360):
