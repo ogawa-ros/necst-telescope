@@ -318,9 +318,9 @@ class optical_pointing(object):
         Az, El = X
         return (b1 * np.cos(Az*(np.pi/180.))) + (b2 * np.sin(Az*(np.pi/180.))) + b3 + (g1 * El)
 
-    def f_el(self, X, a1, A2, a3):
+    def f_el(self, X, a1, a2, a3):
         Az, El = X
-        return (a1 * np.tan(El*(np.pi/180.))) + (A2 / np.cos(El*(np.pi/180.))) + a3 + ((b1 * np.sin(Az*(np.pi/180.)) * np.sin(El*(np.pi/180.)) - b2 * np.cos(Az*(np.pi/180.)) * np.sin(El*(np.pi/180.))) / np.cos(El*(np.pi/180.)))
+        return (a1 * np.tan(El*(np.pi/180.))) + (A2 / np.cos(El*(np.pi/180.))) + a3 + ((self.b1 * np.sin(Az*(np.pi/180.)) * np.sin(El*(np.pi/180.)) - b2 * np.cos(Az*(np.pi/180.)) * np.sin(El*(np.pi/180.))) / np.cos(El*(np.pi/180.)))
 
 
     def fitting(self):
@@ -331,7 +331,7 @@ class optical_pointing(object):
         dEl = txt[3]
 
         fit_dEl = curve_fit(self.f_az, (Az, El), dEl)
-        b1 = fit_dEl[0][0]
+        self.b1 = fit_dEl[0][0]
         b2 = fit_dEl[0][1]
         b3 = fit_dEl[0][2]
         g1 = fit_dEl[0][3]
@@ -340,6 +340,7 @@ class optical_pointing(object):
         a1 = fit_dAz[0][0]
         a2 = fit_dAz[0][1]
         a3 = fit_dAz[0][2]
+        b1 = self.b1
 
         a1_deg = ' a1 = ' + str(a1/3600.) + ' [degree]'
         a2_deg = ' a2 = ' + str(a2/3600.) + ' [degree]'
@@ -367,7 +368,7 @@ class optical_pointing(object):
         dkisa_list.append(a3)
         dkisa_list.append(g1)
 
-        dkisa_array = np.array([a1_sec, a2_sec, a3_sec, b1_sec, b2_sec, b3_sec, g1_sec, ' ', a1_min, a2_min, a3_min, b1_min, b2_min, b3_min, g1_min, ' ', a1_deg, A2_deg, a3_deg, B1_deg, B2_deg, B3_deg, G1_deg]).T
+        dkisa_array = np.array([a1_sec, a2_sec, a3_sec, b1_sec, b2_sec, b3_sec, g1_sec, ' ', a1_min, a2_min, a3_min, b1_min, b2_min, b3_min, g1_min, ' ', a1_deg, a2_deg, a3_deg, b1_deg, b2_deg, b3_deg, g1_deg]).T
         np.savetxt(self.data_dir +'dkisa.dat', dkisa_array, fmt='%s')
         return dkisa_list
 
