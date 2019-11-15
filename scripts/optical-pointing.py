@@ -224,7 +224,6 @@ class optical_pointing(object):
 
         print(fl)
         for fl1 in fl:
-            fl1_fname = os.path.basename(fl1)
             print("copy...")
             #time.sleep(30)
             img = cv2.imread(self.pic_dir+fl1, cv2.IMREAD_GRAYSCALE)
@@ -245,11 +244,11 @@ class optical_pointing(object):
                 areas.append(cv2.contourArea(cnt))
             areasarr = np.array(areas)
             idx = areasarr.argmax()
-            plt.imshow(np.flipud(cv2.imread(fl1)), vmin=0, vmax=256)
+            plt.imshow(np.flipud(cv2.imread(self.pic_dir+fl1)), vmin=0, vmax=256)
             plt.xlim(0, npix_x)
             plt.ylim(0, npix_y)
             plt.plot(stars[idx][0][0], stars[idx][0][1], marker='+')
-            plt.savefig(self.data_dir+os.path.splitext(os.path.basename(fl1))[0]+'.mark.png')
+            plt.savefig(self.data_dir+os.path.splitext(os.path.basename(self.pic_dir+fl1))[0]+'.mark.png')
             plt.close()
             pix_x.append(stars[idx][0][0])
             pix_y.append(stars[idx][0][1])
