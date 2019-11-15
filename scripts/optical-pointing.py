@@ -158,10 +158,10 @@ class optical_pointing(object):
                 timestr = nowtimestamp.strftime('%Y%m%d_%H.%M.%S')
                 savename = timestr +".JPG"
 
-                savepath = self.m100_path + "/" + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + "/" +savename
+                savefile = self.m100_path + "/" + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + "/" +savename
                 pre_az = self.antenna.get_az()
                 pre_el = self.antenna.get_el()
-                self.camera.capture(savepath)
+                self.camera.capture(savefile)
                 late_az = self.antenna.get_az()
                 late_el = self.antenna.get_el()
 
@@ -173,7 +173,7 @@ class optical_pointing(object):
                 az.append(angle[0])
                 el.append(angle[1])
                 pic.append(savename)
-                time.sleep(3)
+                time.sleep(4)
 
                 continue
         except KeyboardInterrupt:
