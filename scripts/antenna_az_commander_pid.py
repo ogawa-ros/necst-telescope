@@ -19,7 +19,7 @@ class antenna_az_feedback(object):
 
     arcsec_enc = 0.0
 
-    p_coeff = 80.0
+    p_coeff = 75.0
     i_coeff = 0.0
     d_coeff = 0.0
 
