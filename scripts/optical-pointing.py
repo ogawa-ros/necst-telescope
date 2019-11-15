@@ -220,7 +220,7 @@ class optical_pointing(object):
             fl1_fname = os.path.basename(fl1)
 
             img = cv2.imread(self.data_dir+fl1, cv2.IMREAD_GRAYSCALE)
-            print(self.data_dir+fl1)
+            print(self.data_dir+"picture/"+fl1)
             print(img)
             img = np.flipud(img)
             ret, nimg = cv2.threshold(img, 50, 255, cv2.THRESH_BINARY)
