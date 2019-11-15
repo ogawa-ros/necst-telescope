@@ -62,7 +62,7 @@ class constant_speed_azel_test(object):
             if self.az_cmd >= end_az:
                 break
             else:
-                self.az_cmd = start_az + speed_az*dt
+                self.az_cmd += speed_az*dt
                 time.sleep(dt)
                 print("az = " + str(self.az_cmd))
             continue
@@ -78,7 +78,7 @@ class constant_speed_azel_test(object):
             if self.el_cmd >= end_el:
                 break
             else:
-                self.el_cmd = start_el + speed_el*dt
+                self.el_cmd += speed_el*dt
                 time.sleep(dt)
             continue
         print("Finish to send EL")
