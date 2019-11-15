@@ -25,6 +25,7 @@ class constant_speed_azel_test(object):
     frame = 'fk5'
     nobeyama = EarthLocation(lat = latitude*u.deg, lon = longitude*u.deg, height = height*u.m)
     el_cmd =''
+    az_cmd =''
 
     press =  1000
     temp = -2
@@ -48,8 +49,7 @@ class constant_speed_azel_test(object):
         return altaz
 
     def create_az(self,start_az,end_az):
-        start_az = 45
-        end_az = 80
+        self.az_cmd = start_az
         speed_az = 360/(24*3600) #deg/s
         dt  = 0.01
         while True:
@@ -61,6 +61,7 @@ class constant_speed_azel_test(object):
             continue
 
     def create_el(self,start_el,end_el):
+        self.el_cmd = start_el
         speed_el = 360/(24*3600) #deg/s
         dt  = 0.01
         while True:
