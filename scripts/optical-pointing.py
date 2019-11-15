@@ -219,7 +219,7 @@ class optical_pointing(object):
         for fl1 in fl:
             fl1_fname = os.path.basename(fl1)
 
-            img = cv2.imread(self.data_dir+fl1, cv2.IMREAD_GRAYSCALE)
+            img = cv2.imread(self.pic_dir+fl1, cv2.IMREAD_GRAYSCALE)
             print(self.pic_dir+fl1)
             print(img)
             time.sleep(60)
