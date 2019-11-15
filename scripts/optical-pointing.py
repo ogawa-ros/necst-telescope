@@ -29,7 +29,7 @@ class optical_pointing(object):
 
         self.m100_path = "/home/m100raspi/data/optical-pointing/"
         self.data_path = "/home/exito/test/data/optical-pointing/"
-        self.pic_path  = "/home/exito/test/data/optical-pointing/picture"
+        self.pic_path  = "/home/exito/test/data/optical-pointing/picture/"
 
 
         self.camera = telescope_controller.camera()
@@ -120,7 +120,9 @@ class optical_pointing(object):
 
     def move_target(self):
         print('initializing...')
-        data = self.select_opt_targets(elmin=20., elmax=90., vmagmin=0, vmagmax=1, azmin=0.,azmax=360., pmramax=1, pmdecmax=1,azint=40., show_graph=True)
+        vmagmin = input("vmagmin = " )
+        vmagmax = input("vmagmax = " )
+        data = self.select_opt_targets(elmin=20., elmax=90., vmagmin=vmagmin, vmagmax=vmagmax, azmin=0.,azmax=360., pmramax=1, pmdecmax=1,azint=40., show_graph=True)
         star_num = len(data)
         print('generate target star list: %d stars'%(star_num))
         ans = input("1: START optical pointing \n2: Reselect target star\n Select number = ")
@@ -158,7 +160,7 @@ class optical_pointing(object):
                 timestr = nowtimestamp.strftime('%Y%m%d_%H.%M.%S')
                 savename = timestr +".JPG"
 
-                savefile = self.m100_path + "/" + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + "/" +savename
+                savefile = self.m100_path + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + "/" +savename
                 pre_az = self.antenna.get_az()
                 pre_el = self.antenna.get_el()
                 self.camera.capture(savefile)
@@ -173,7 +175,7 @@ class optical_pointing(object):
                 az.append(angle[0])
                 el.append(angle[1])
                 pic.append(savename)
-                time.sleep(4)
+                time.sleep(5)
 
                 continue
         except KeyboardInterrupt:
@@ -204,7 +206,7 @@ class optical_pointing(object):
         sensor_x = 22.3   #sensor size[mm]
         f = 500.   #shoten kyori[mm]
         #fl = sorted(glob.glob(self.pic_dir+'*.JPG'))
-        fl = np.loadtxt(filepath).T[2].tolist()
+        fl = np.loadtxt(filepath,dtype="unicode").T[2].tolist()
         Az = np.loadtxt(filepath).T[0].tolist()
         El = np.loadtxt(filepath).T[1].tolist()
         pix_x = []
