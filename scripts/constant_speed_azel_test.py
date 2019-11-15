@@ -42,11 +42,11 @@ class constant_speed_azel_test(object):
 
 
     def convert_refracted_azel(self):
-        altaz = AltAz(location=nobeyama,
-                      pressure=press*u.hPa,
-                      temperature=temp*u.deg_C,
-                      relative_humidity=humid,
-                      obswl=(astropy.constants.c/(obswl*u.GHz)).to('micron')
+        altaz = AltAz(location=self.nobeyama,
+                      pressure=self.press*u.hPa,
+                      temperature=self.temp*u.deg_C,
+                      relative_humidity=self.humid,
+                      obswl=(astropy.constants.c/(self.obswl*u.GHz)).to('micron')
                       )
         on_coord = SkyCoord(self.az_cmd, self.el_cmd,frame=altaz, unit=(u.deg, u.deg))
         altaz = on_coord.altaz
