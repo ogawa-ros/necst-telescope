@@ -369,7 +369,7 @@ class optical_pointing(object):
         dkisa_list.append(a3)
         dkisa_list.append(g1)
 
-        dkisa_array = np.array([a1_sec, a2_sec, a3_sec, b1_sec, b2_sec, b3_sec, g1_sec, ' ', a1_min, a2_min, a3_min, b1_min, b2_min, b3_min, g1_min, ' ', a1_deg, a2_deg, a3_deg, b1_deg, b2_deg, b3_deg, g1_deg]).T
+        dkisa_array = np.array([a1_deg, a2_deg, a3_deg, b1_deg, b2_deg, b3_deg, g1_deg]).T
         np.savetxt(self.data_dir +'dkisa.dat', dkisa_array, fmt='%s')
         return dkisa_list
 
