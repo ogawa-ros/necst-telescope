@@ -124,7 +124,7 @@ class optical_pointing(object):
         print('initializing...')
         vmagmin = float(input("vmagmin = " ))
         vmagmax = float(input("vmagmax = " ))
-        data = self.select_opt_targets(elmin=20., elmax=90., vmagmin=vmagmin, vmagmax=vmagmax, azmin=0.,azmax=360., pmramax=1, pmdecmax=1,azint=40., show_graph=True)
+        data = self.select_opt_targets(elmin=20., elmax=90., vmagmin=vmagmin, vmagmax=vmagmax, azmin=0.,azmax=180., pmramax=1, pmdecmax=1,azint=40., show_graph=True)
         star_num = len(data)
         print('generate target star list: %d stars'%(star_num))
         ans = input("1: START optical pointing \n2: Reselect target star\n Select number = ")
@@ -220,6 +220,8 @@ class optical_pointing(object):
             fl1_fname = os.path.basename(fl1)
 
             img = cv2.imread(self.data_dir+fl1, cv2.IMREAD_GRAYSCALE)
+            print(self.data_dir+fl1)
+            print(img)
             img = np.flipud(img)
             ret, nimg = cv2.threshold(img, 50, 255, cv2.THRESH_BINARY)
             det_img, contours, hierarchy = cv2.findContours(nimg, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
