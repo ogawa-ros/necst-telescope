@@ -207,8 +207,10 @@ class optical_pointing(object):
         f = 500.   #shoten kyori[mm]
         #fl = sorted(glob.glob(self.pic_dir+'*.JPG'))
         fl = np.loadtxt(filepath,dtype="unicode").T[2].tolist()
-        Az = np.loadtxt(filepath).T[0].tolist()
-        El = np.loadtxt(filepath).T[1].tolist()
+        _Az = np.loadtxt(filepath,dtype="unicode").T[0].tolist()
+        Az = [float(i) for i in _Az]
+        _El = np.loadtxt(filepath,dtype="unicode").T[1].tolist()
+        El = [float(i) for i in _El]
         pix_x = []
         pix_y = []
 
