@@ -320,7 +320,7 @@ class optical_pointing(object):
 
     def f_el(self, X, a1, a2, a3):
         Az, El = X
-        return (a1 * np.tan(El*(np.pi/180.))) + (a2 / np.cos(El*(np.pi/180.))) + a3 + ((self.b1 * np.sin(Az*(np.pi/180.)) * np.sin(El*(np.pi/180.)) - b2 * np.cos(Az*(np.pi/180.)) * np.sin(El*(np.pi/180.))) / np.cos(El*(np.pi/180.)))
+        return (a1 * np.tan(El*(np.pi/180.))) + (a2 / np.cos(El*(np.pi/180.))) + a3 + ((self.b1 * np.sin(Az*(np.pi/180.)) * np.sin(El*(np.pi/180.)) - self.b2 * np.cos(Az*(np.pi/180.)) * np.sin(El*(np.pi/180.))) / np.cos(El*(np.pi/180.)))
 
 
     def fitting(self):
@@ -332,7 +332,7 @@ class optical_pointing(object):
 
         fit_dEl = curve_fit(self.f_az, (Az, El), dEl)
         self.b1 = fit_dEl[0][0]
-        b2 = fit_dEl[0][1]
+        self.b2 = fit_dEl[0][1]
         b3 = fit_dEl[0][2]
         g1 = fit_dEl[0][3]
 
@@ -341,6 +341,7 @@ class optical_pointing(object):
         a2 = fit_dAz[0][1]
         a3 = fit_dAz[0][2]
         b1 = self.b1
+        b2 = self.b2
 
         a1_deg = ' a1 = ' + str(a1/3600.) + ' [degree]'
         a2_deg = ' a2 = ' + str(a2/3600.) + ' [degree]'
