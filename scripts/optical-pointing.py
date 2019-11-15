@@ -279,18 +279,18 @@ class optical_pointing(object):
 
         p_array = np.array([Az, El, d_x, d_y]).T
         np.savetxt(self.data_dir + 'Az_El_dAz_dEl.dat', p_array, fmt='%i', delimiter=', ')
-        self.scatter_plot(Az, El, ('Az', 'degree'), ('El', 'degree'))
-        self.scatter_plot(Az, d_x, ('Az', 'degree'), ('dAz', 'arcsec'))
-        self.scatter_plot(Az, d_y, ('Az', 'degree'), ('dEl', 'arcsec'))
-        self.scatter_plot(El, d_x, ('El', 'degree'), ('dAz', 'arcsec'))
-        self.scatter_plot(El, d_y, ('El', 'degree'), ('dEl', 'arcsec'))
-        self.scatter_plot(d_x, d_y, ('dAz', 'arcsec'), ('dEl', 'arcsec'))
+        self.scatter_plot(Az, El, ('Az', 'degree'), ('El', 'degree'), d_rms)
+        self.scatter_plot(Az, d_x, ('Az', 'degree'), ('dAz', 'arcsec'), d_rms)
+        self.scatter_plot(Az, d_y, ('Az', 'degree'), ('dEl', 'arcsec'), d_rms)
+        self.scatter_plot(El, d_x, ('El', 'degree'), ('dAz', 'arcsec'), d_rms)
+        self.scatter_plot(El, d_y, ('El', 'degree'), ('dEl', 'arcsec'), d_rms)
+        self.scatter_plot(d_x, d_y, ('dAz', 'arcsec'), ('dEl', 'arcsec'), d_rms)
 
-    def scatter_plot(self,x, y, xlabel, ylabel):
+    def scatter_plot(self,x, y, xlabel, ylabel,d_rms):
         plt.figure()
         plt.scatter(x, y, s=5)
         if xlabel[0] == 'dAz' and ylabel[0] == 'dEl':
-            plt.title('%s_vs_%s\nrms = %0.2f[arcsec]'%(xlabel[0], ylabel[0]))
+            plt.title('%s_vs_%s\nrms = %0.2f[arcsec]'%(xlabel[0], ylabel[0], d_rms))
             plt.axes().set_aspect('equal', 'datalim')
             X, Y = [], []
             for num in np.linspace(-180,180,360):
