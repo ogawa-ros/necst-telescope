@@ -65,6 +65,7 @@ class constant_speed_azel_test(object):
                 self.az_cmd = start_az + speed_az*dt
                 time.sleep(dt)
             continue
+        print("Finish to send AZ")
 
     def create_el(self):
         start_el = self.start_el
@@ -79,6 +80,7 @@ class constant_speed_azel_test(object):
                 self.el_cmd = start_el + speed_el*dt
                 time.sleep(dt)
             continue
+        print("Finish to send EL")
 
     def publish_azel(self):
         while not rospy.is_shutdown():
