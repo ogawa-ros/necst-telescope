@@ -391,13 +391,13 @@ class optical_pointing(object):
         shutil.copy(self.kisa_file,old_kisa_file)
 
         nkisa = open(self.kisa_file,"w")
-        fkisa.write(str(a1)+"\n")
-        fkisa.write(str(a2)+"\n")
-        fkisa.write(str(a3)+"\n")
-        fkisa.write(str(b1)+"\n")
-        fkisa.write(str(b2)+"\n")
-        fkisa.write(str(b3)+"\n")
-        fkisa.write(str(g1)+"\n")
+        nkisa.write(str(a1)+"\n")
+        nkisa.write(str(a2)+"\n")
+        nkisa.write(str(a3)+"\n")
+        nkisa.write(str(b1)+"\n")
+        nkisa.write(str(b2)+"\n")
+        nkisa.write(str(b3)+"\n")
+        nkisa.write(str(g1)+"\n")
         nkisa.close()
 
         new_kisa_file = self.data_dir + "new_kisa.dat"
