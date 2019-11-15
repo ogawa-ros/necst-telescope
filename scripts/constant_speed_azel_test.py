@@ -34,6 +34,10 @@ class constant_speed_azel_test(object):
     obswl = 600000 #GHz
 
     def __init__(self):
+        self.start_az = float(input("Start az = "))
+        self.end_az = float(input("End az = "))
+        self.start_el = float(input("Start el = "))
+        self.end_el = float(input("End el = "))
         self.pub_real_azel = rospy.Publisher('/necst_telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
 
 
@@ -48,11 +52,13 @@ class constant_speed_azel_test(object):
         altaz = on_coord.altaz
         return altaz
 
-    def create_az(self,start_az,end_az):
+    def create_az(self):
+        start_az = self.start_az
+        end_az = self.end_az
         self.az_cmd = start_az
         speed_az = 360/(24*3600) #deg/s
         dt  = 0.01
-        while True:
+        while not rospy.is_shutdown():
             if self.az_cmd >= end_az:
                 break
             else:
@@ -60,11 +66,13 @@ class constant_speed_azel_test(object):
                 time.sleep(dt)
             continue
 
-    def create_el(self,start_el,end_el):
+    def create_el(self):
+        start_el = self.start_el
+        end_el = self.end_el
         self.el_cmd = start_el
         speed_el = 360/(24*3600) #deg/s
         dt  = 0.01
-        while True:
+        while not rospy.is_shutdown():
             if self.el_cmd >= end_el:
                 break
             else:
@@ -89,14 +97,18 @@ class constant_speed_azel_test(object):
             continue
 
     def start_thread(self):
-        th = threading.Thread(target=self.publish_azel)
-        th.setDaemon(True)
-        th.start()
+        th1 = threading.Thread(target=self.publish_azel)
+        th1.setDaemon(True)
+        th1.start()
+        th2 = threading.Thread(target=self.create_el)
+        th2.setDaemon(True)
+        th2.start()
+        th3 = threading.Thread(target=self.create_az)
+        th3.setDaemon(True)
+        th3.start()
 
 if __name__ == "__main__":
     rospy.init_node(name)
     azel = constant_speed_azel_test()
     azel.start_thread()
-    azel.create_az(start_az = 150,end_az = 210)
-    azel.create_el(start_el = 25,end_el = 80)
     rospy.spin()
