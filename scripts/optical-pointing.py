@@ -374,6 +374,8 @@ class optical_pointing(object):
     def apply_kisa(self,dkisa):
         fkisa = open(self.kisa_file,"r")
         kisa = fkisa.readlines()
+        print(kisa)
+        print(dkisa)
         a1 = float(kisa[0])+dkisa[0]
         a2 = float(kisa[1])+dkisa[1]
         a3 = float(kisa[2])+dkisa[2]
