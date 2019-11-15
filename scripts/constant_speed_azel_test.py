@@ -5,10 +5,10 @@ name = "constant_speed_azel_test"
 import time
 import rospy
 import threading
+import sys
 from std_msgs.msg import Float64
 from std_msgs.msg import Float64MultiArray
 from std_msgs.msg import Bool
-
 from astropy.time import Time
 from astropy.coordinates import FK5
 import astropy.units as u
@@ -16,6 +16,8 @@ from astropy.coordinates import EarthLocation
 from astropy.coordinates import SkyCoord
 from astropy.coordinates import AltAz
 import astropy.constants
+sys.path.append("/home/exito/necst-core/scripts")
+import core_controller
 
 class constant_speed_azel_test(object):
 
@@ -38,6 +40,7 @@ class constant_speed_azel_test(object):
         self.end_az = float(input("End az = "))
         self.start_el = float(input("Start el = "))
         self.end_el = float(input("End el = "))
+        self.logger = core_controller.logger()
         self.pub_real_azel = rospy.Publisher('/necst_telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
 
 
@@ -112,6 +115,14 @@ class constant_speed_azel_test(object):
 
 if __name__ == "__main__":
     rospy.init_node(name)
+
+    date = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
+    file_name = name + '/' + date + '.necstdb'
+    print(file_name)
+    logger = core_controller.logger()
+    logger.start(file_name)
     azel = constant_speed_azel_test()
     azel.start_thread()
     rospy.spin()
+    logger.stop()
+    print("Finish!!")
