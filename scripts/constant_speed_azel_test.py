@@ -107,20 +107,27 @@ class constant_speed_azel_test(object):
         file_name = name + '/' + date + '.necstdb'
         print(file_name)
         logger = core_controller.logger()
+        self.start_thread_az()
+        self.start_thread_el()
+        input("Enter to star measurement !!!")
         logger.start(file_name)
-        input("Enter to finish measurement")
+        time.sleep(20)
         logger.stop()
 
     def start_thread(self):
-        th1 = threading.Thread(target=self.publish_azel)
-        th1.setDaemon(True)
-        th1.start()
-        th2 = threading.Thread(target=self.create_el)
-        th2.setDaemon(True)
-        th2.start()
-        th3 = threading.Thread(target=self.create_az)
-        th3.setDaemon(True)
-        th3.start()
+        th = threading.Thread(target=self.publish_azel)
+        th.setDaemon(True)
+        th.start()
+
+    def start_thread_el(self):
+        th = threading.Thread(target=self.create_el)
+        th.setDaemon(True)
+        th.start()
+
+    def start_thread_az(self):
+        th = threading.Thread(target=self.create_az)
+        th.setDaemon(True)
+        th.start()
 
 if __name__ == "__main__":
     rospy.init_node(name)
