@@ -136,7 +136,7 @@ class optical_pointing(object):
         #self.data_dir = self.data_path + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + '/'
         self.data_dir = self.data_path + "20191115_20:05:54" + '/'
 
-        os.mkdir(self.data_dir)
+        #os.mkdir(self.data_dir)
         print('create data directory: %s'%(self.data_dir))
         #self.pic_dir = self.pic_path + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + '/'
         self.pic_dir = self.pic_path + "20191115_20:05:54" + '/'
