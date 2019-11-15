@@ -29,7 +29,7 @@ class optical_pointing(object):
 
         self.m100_path = "/home/m100raspi/data/optical-pointing/"
         self.data_path = "/home/exito/test/data/optical-pointing/"
-        self.pic_path  = "/home/exito/test/data/optical-pointing/picture"
+        self.pic_path  = "/home/exito/test/data/optical-pointing/picture/"
 
 
         self.camera = telescope_controller.camera()
@@ -160,7 +160,7 @@ class optical_pointing(object):
                 timestr = nowtimestamp.strftime('%Y%m%d_%H.%M.%S')
                 savename = timestr +".JPG"
 
-                savefile = self.m100_path + "/" + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + "/" +savename
+                savefile = self.m100_path + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + "/" +savename
                 pre_az = self.antenna.get_az()
                 pre_el = self.antenna.get_el()
                 self.camera.capture(savefile)
