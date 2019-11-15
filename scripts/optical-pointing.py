@@ -120,8 +120,8 @@ class optical_pointing(object):
 
     def move_target(self):
         print('initializing...')
-        vmagmin = input("vmagmin = " )
-        vmagmax = input("vmagmax = " )
+        vmagmin = float(input("vmagmin = " ))
+        vmagmax = float(input("vmagmax = " ))
         data = self.select_opt_targets(elmin=20., elmax=90., vmagmin=vmagmin, vmagmax=vmagmax, azmin=0.,azmax=360., pmramax=1, pmdecmax=1,azint=40., show_graph=True)
         star_num = len(data)
         print('generate target star list: %d stars'%(star_num))
