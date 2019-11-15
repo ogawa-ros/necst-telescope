@@ -226,7 +226,7 @@ class optical_pointing(object):
         for fl1 in fl:
             fl1_fname = os.path.basename(fl1)
             print("copy...")
-            time.sleep(30)
+            #time.sleep(30)
             img = cv2.imread(self.pic_dir+fl1, cv2.IMREAD_GRAYSCALE)
             print(self.pic_dir+fl1)
             img = np.flipud(img)
