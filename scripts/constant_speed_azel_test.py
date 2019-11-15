@@ -47,7 +47,7 @@ class constant_speed_azel_test(object):
         altaz = on_coord.altaz
         return altaz
 
-    def create_az(self):
+    def create_az(self,start_az,end_az):
         start_az = 45
         end_az = 80
         speed_az = 360/(24*3600) #deg/s
