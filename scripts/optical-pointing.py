@@ -17,6 +17,8 @@ import core_controller
 import rospy
 from scipy.optimize import curve_fit
 import numpy as np
+import cv2
+import glob
 
 name = "optical_pointing"
 
