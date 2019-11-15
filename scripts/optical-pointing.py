@@ -202,7 +202,7 @@ class optical_pointing(object):
         f.close()
         print('offset data file is created: %s'%(filepath))
 
-        filename = "20191115_20:05:54"
+        filename = "20191115_20:05:54.dat"
         filepath = self.data_dir + filename
 
         return filepath
@@ -277,7 +277,7 @@ class optical_pointing(object):
         print('d_sigma = %0.2f [arcsec]'%d_sigma)
 
         p_array = np.array([Az, El, d_x, d_y]).T
-        np.savetxt(self.data_dir + 'Az_El_dAz_dEl.txt', p_array, fmt='%i', delimiter=', ')
+        np.savetxt(self.data_dir + 'Az_El_dAz_dEl.dat', p_array, fmt='%i', delimiter=', ')
         self.scatter_plot(Az, El, ('Az', 'degree'), ('El', 'degree'))
         self.scatter_plot(Az, d_x, ('Az', 'degree'), ('dAz', 'arcsec'))
         self.scatter_plot(Az, d_y, ('Az', 'degree'), ('dEl', 'arcsec'))
@@ -324,7 +324,7 @@ class optical_pointing(object):
 
 
     def fitting(self):
-        txt = np.loadtxt(fname=self.data_dir+'Az_El_dAz_dEl.txt', dtype='int', delimiter=',').T
+        txt = np.loadtxt(fname=self.data_dir+'Az_El_dAz_dEl.dat', dtype='int', delimiter=',').T
         Az = txt[0]
         El = txt[1]
         dAz = txt[2]
@@ -368,7 +368,7 @@ class optical_pointing(object):
         dkisa_list.append(g1)
 
         dkisa_array = np.array([a1_sec, a2_sec, a3_sec, b1_sec, b2_sec, b3_sec, g1_sec, ' ', a1_min, a2_min, a3_min, b1_min, b2_min, b3_min, g1_min, ' ', a1_deg, A2_deg, a3_deg, B1_deg, B2_deg, B3_deg, G1_deg]).T
-        np.savetxt(self.data_dir +'dkisa.txt', dkisa_array, fmt='%s')
+        np.savetxt(self.data_dir +'dkisa.dat', dkisa_array, fmt='%s')
         return dkisa_list
 
     def apply_kisa(self,dkisa):
