@@ -175,7 +175,7 @@ class optical_pointing(object):
                 az.append(angle[0])
                 el.append(angle[1])
                 pic.append(savename)
-                time.sleep(4)
+                time.sleep(5)
 
                 continue
         except KeyboardInterrupt:
