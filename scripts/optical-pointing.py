@@ -206,7 +206,7 @@ class optical_pointing(object):
         sensor_x = 22.3   #sensor size[mm]
         f = 500.   #shoten kyori[mm]
         #fl = sorted(glob.glob(self.pic_dir+'*.JPG'))
-        fl = np.loadtxt(filepath).T[2].tolist()
+        fl = np.loadtxt(filepath,dtype="unicode").T[2].tolist()
         Az = np.loadtxt(filepath).T[0].tolist()
         El = np.loadtxt(filepath).T[1].tolist()
         pix_x = []
