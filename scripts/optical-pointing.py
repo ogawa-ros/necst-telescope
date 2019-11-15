@@ -222,11 +222,13 @@ class optical_pointing(object):
         pix_x = []
         pix_y = []
 
+        print(fl)
         for fl1 in fl:
             fl1_fname = os.path.basename(fl1)
             print("copy...")
-            time.sleep(30)
+            #time.sleep(30)
             img = cv2.imread(self.pic_dir+fl1, cv2.IMREAD_GRAYSCALE)
+            print(self.pic_dir+fl1)
             img = np.flipud(img)
             ret, nimg = cv2.threshold(img, 50, 255, cv2.THRESH_BINARY)
             det_img, contours, hierarchy = cv2.findContours(nimg, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
