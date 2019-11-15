@@ -16,7 +16,7 @@ from astropy.coordinates import EarthLocation
 from astropy.coordinates import SkyCoord
 from astropy.coordinates import AltAz
 import astropy.constants
-sys.path.append("/home/exito/necst-core/scripts")
+sys.path.append("/home/exito/ros/src/necst-core/scripts")
 import core_controller
 
 class constant_speed_azel_test(object):
