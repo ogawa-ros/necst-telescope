@@ -68,7 +68,6 @@ class constant_speed_azel_test(object):
             else:
                 self.az_cmd += speed_az*dt
                 time.sleep(dt)
-                print("az = " + str(self.az_cmd))
             continue
         print("Finish to send AZ")
 
