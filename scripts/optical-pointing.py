@@ -405,4 +405,4 @@ if __name__ == "__main__":
     opt = optical_pointing()
     filep = opt.move_target()
     dkisa = opt.calc_daz_del(filep)
-    apply_kisa(dkisa)
+    opt.apply_kisa(dkisa)
