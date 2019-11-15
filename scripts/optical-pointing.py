@@ -202,6 +202,9 @@ class optical_pointing(object):
         f.close()
         print('offset data file is created: %s'%(filepath))
 
+        filename = "20191115_20:05:54"
+        filepath = self.data_dir + filename
+
         return filepath
 
 
