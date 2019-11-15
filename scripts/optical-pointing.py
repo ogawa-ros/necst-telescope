@@ -133,10 +133,14 @@ class optical_pointing(object):
         else:
             pass
         start_timestamp = datetime.datetime.today()
-        self.data_dir = self.data_path + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + '/'
+        #self.data_dir = self.data_path + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + '/'
+        self.data_dir = self.data_path + "20191115_20:05:54" + '/'
+
         os.mkdir(self.data_dir)
         print('create data directory: %s'%(self.data_dir))
-        self.pic_dir = self.pic_path + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + '/'
+        #self.pic_dir = self.pic_path + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + '/'
+        self.pic_dir = self.pic_path + "20191115_20:05:54" + '/'
+
         print('=================== start pointing ======================')
         az = []
         el = []
@@ -154,7 +158,6 @@ class optical_pointing(object):
                 print('No.%d (%d)' % (i+1, star_num))
                 print("RA : " + str(data[i,1]), "DEC : " + str(data[i,2]))
 
-                #self.ctrl.move_antenna_opt(px=data[i,3]/3600.*0, py=data[i,4]/3600*0, acc=3, x=data[i,1]*15., y=data[i,2], coord="J2000")
                 self.antenna.move_wcs(float(data[i,1])*15 ,float(data[i,2]))
                 self.antenna.tracking_check()
 
@@ -218,12 +221,9 @@ class optical_pointing(object):
 
         for fl1 in fl:
             fl1_fname = os.path.basename(fl1)
-
-            img = cv2.imread(self.pic_dir+fl1, cv2.IMREAD_GRAYSCALE)
-            print(self.pic_dir+fl1)
-            print(img)
-            time.sleep(60)
             print("copy...")
+            time.sleep(30)
+            img = cv2.imread(self.pic_dir+fl1, cv2.IMREAD_GRAYSCALE)
             img = np.flipud(img)
             ret, nimg = cv2.threshold(img, 50, 255, cv2.THRESH_BINARY)
             det_img, contours, hierarchy = cv2.findContours(nimg, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
