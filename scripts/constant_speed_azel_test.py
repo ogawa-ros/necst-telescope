@@ -103,6 +103,15 @@ class constant_speed_azel_test(object):
                 time.sleep(1)
             continue
 
+    def measurement(self):
+        date = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
+        file_name = name + '/' + date + '.necstdb'
+        print(file_name)
+        logger = core_controller.logger()
+        logger.start(file_name)
+        input("Enter to finish measurement")
+        logger.stop()
+
     def start_thread(self):
         th1 = threading.Thread(target=self.publish_azel)
         th1.setDaemon(True)
@@ -117,13 +126,7 @@ class constant_speed_azel_test(object):
 if __name__ == "__main__":
     rospy.init_node(name)
 
-    date = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    file_name = name + '/' + date + '.necstdb'
-    print(file_name)
-    logger = core_controller.logger()
-    logger.start(file_name)
     azel = constant_speed_azel_test()
     azel.start_thread()
-    rospy.spin()
-    logger.stop()
+    azel.measurement()
     print("Finish!!")
