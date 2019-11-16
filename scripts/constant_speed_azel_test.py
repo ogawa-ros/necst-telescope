@@ -111,7 +111,7 @@ class constant_speed_azel_test(object):
         self.start_thread_el()
         input("Enter to star measurement !!!")
         logger.start(file_name)
-        time.sleep(20)
+        time.sleep(60)
         logger.stop()
 
     def start_thread(self):
