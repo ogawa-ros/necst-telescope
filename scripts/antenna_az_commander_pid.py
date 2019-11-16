@@ -52,8 +52,8 @@ class antenna_az_feedback(object):
         pass
 
     def antenna_az_feedback(self, command):
-        MOTOR_MAXSTEP = self.MOTOR_MAXSTEP #6553.5
-        MOTOR_AZ_MAXSPEED = self.MOTOR_AZ_MAXSPEED #65535
+        MOTOR_MAXSTEP = self.MOTOR_MAXSTEP 
+        MOTOR_AZ_MAXSPEED = self.MOTOR_AZ_MAXSPEED
         # deg/sec
 
         deg_cmd = command.data

@@ -3,7 +3,7 @@
   <node name = "az_commander_pid"
         type = "antenna_az_commander_pid.py"
         pkg = "necst-telescope">
-        <param name="~p_coeff" value="1500" />
+        <param name="~p_coeff" value="5000" />
         <param name="~i_coeff" value="0" />
         <param name="~d_coeff" value="0" />
         <param name="~MOTOR_MAXSTEP" value="32767.5" />
@@ -13,7 +13,7 @@
   <node name = "el_commander_pid"
         type = "antenna_el_commander_pid.py"
         pkg = "necst-telescope">
-        <param name="~p_coeff" value="1500" />
+        <param name="~p_coeff" value="5000" />
         <param name="~i_coeff" value="0" />
         <param name="~d_coeff" value="0" />
         <param name="~MOTOR_MAXSTEP" value="32767.5" />
