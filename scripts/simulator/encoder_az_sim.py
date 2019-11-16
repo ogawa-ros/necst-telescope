@@ -44,7 +44,7 @@ class encoder_az_sim(object):
 
                 enc_az_last = self.enc_az
 
-            time.sleep(0.0)
+            time.sleep(0.05)
             continue
 
     def start_thread(self):

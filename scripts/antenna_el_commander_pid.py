@@ -27,6 +27,10 @@ class antenna_el_feedback(object):
         self.p_coeff = rospy.get_param("~p_coeff")
         self.i_coeff = rospy.get_param("~i_coeff")
         self.d_coeff = rospy.get_param("~d_coeff")
+
+        self.gear_ratio = rospy.get_param("~gear_ratio")
+        self.palthper360deg = rospy.get_param("~palthper360deg")
+
         self.MOTOR_MAXSTEP = rospy.get_param("~MOTOR_MAXSTEP")
         self.MOTOR_EL_MAXSPEED = rospy.get_param("~MOTOR_EL_MAXSPEED")
 
@@ -54,7 +58,7 @@ class antenna_el_feedback(object):
 
     def antenna_el_feedback(self, command):
         MOTOR_MAXSTEP = self.MOTOR_MAXSTEP
-        MOTOR_EL_MAXSPEED = self.MOTOR_EL_MAXSPEED 
+        MOTOR_EL_MAXSPEED = self.MOTOR_EL_MAXSPEED
         # deg/sec
 
         deg_cmd = command.data
@@ -88,6 +92,10 @@ class antenna_el_feedback(object):
             else:
                 a = 1
             self.speed_d += a*MOTOR_MAXSTEP
+
+        #deg->palth
+        deg2palth = 360/self.palthper360deg #[deg/palth]
+        speed = speed*self.gear_ratio/deg2palth
 
         #limit of max speed
         if self.speed_d > MOTOR_EL_MAXSPEED:
