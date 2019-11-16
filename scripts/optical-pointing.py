@@ -133,13 +133,11 @@ class optical_pointing(object):
         else:
             pass
         start_timestamp = datetime.datetime.today()
-        #self.data_dir = self.data_path + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + '/'
-        self.data_dir = self.data_path + "20191115_20:05:54" + '/'
+        self.data_dir = self.data_path + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + '/'
 
-        #os.mkdir(self.data_dir)
+        os.mkdir(self.data_dir)
         print('create data directory: %s'%(self.data_dir))
-        #self.pic_dir = self.pic_path + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + '/'
-        self.pic_dir = self.pic_path + "20191115_20:05:54" + '/'
+        self.pic_dir = self.pic_path + start_timestamp.strftime('%Y%m%d_%H:%M:%S') + '/'
 
         print('=================== start pointing ======================')
         az = []
@@ -202,9 +200,6 @@ class optical_pointing(object):
         f.close()
         print('offset data file is created: %s'%(filepath))
 
-        filename = "20191115_20.05.54.dat"
-        filepath = self.data_dir + filename
-
         return filepath
 
 
@@ -213,7 +208,6 @@ class optical_pointing(object):
         npix_y = 4000
         sensor_x = 22.3   #sensor size[mm]
         f = 500.   #shoten kyori[mm]
-        #fl = sorted(glob.glob(self.pic_dir+'*.JPG'))
         fl = np.loadtxt(filepath,dtype="unicode").T[2].tolist()
         _Az = np.loadtxt(filepath,dtype="unicode").T[0].tolist()
         Az = [float(i) for i in _Az]
@@ -223,10 +217,16 @@ class optical_pointing(object):
         pix_y = []
 
         print(fl)
+        print("copying picture from raspi ...")
+        while not os.path.exists(self.pic_dir):
+            time.sleep(1)
+            continue
         for fl1 in fl:
-            print("copy...")
-            #time.sleep(30)
             img = cv2.imread(self.pic_dir+fl1, cv2.IMREAD_GRAYSCALE)
+            #if img.max()-img.min() < 50:
+                #pix_x.apeend()
+                #pix_y.append()
+                #continue
             print(self.pic_dir+fl1)
             img = np.flipud(img)
             ret, nimg = cv2.threshold(img, 50, 255, cv2.THRESH_BINARY)

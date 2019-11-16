@@ -11,21 +11,25 @@ import std_msgs.msg
 class antenna_el_feedback(object):
 
     speed_d = 0.0
-    pre_arcsec = 0.0
+    pre_deg = 0.0
     pre_hensa = 0.0
     enc_before = 0.0
     ihensa = 0.0
     t_now = t_past = 0.0
 
-    arcsec_enc = 0.0
+    deg_enc = 0.0
 
-    p_coeff = 20.0
-    i_coeff = 0.0
-    d_coeff = 0.0
 
     lock = False
 
     def __init__(self):
+
+        self.p_coeff = rospy.get_param("~p_coeff")
+        self.i_coeff = rospy.get_param("~i_coeff")
+        self.d_coeff = rospy.get_param("~d_coeff")
+        self.MOTOR_MAXSTEP = rospy.get_param("~MOTOR_MAXSTEP")
+        self.MOTOR_EL_MAXSPEED = rospy.get_param("~MOTOR_EL_MAXSPEED")
+
         self.topic_to = rospy.Publisher(
                 name = "/1p85m2019/el_speed",
                 data_class = std_msgs.msg.Float64,
@@ -49,11 +53,11 @@ class antenna_el_feedback(object):
         pass
 
     def antenna_el_feedback(self, command):
-        MOTOR_MAXSTEP = 6553.5
-        MOTOR_EL_MAXSPEED = 65535
-        # arcsec/sec
+        MOTOR_MAXSTEP = self.MOTOR_MAXSTEP
+        MOTOR_EL_MAXSPEED = self.MOTOR_EL_MAXSPEED 
+        # deg/sec
 
-        arcsec_cmd = command.data * 3600.
+        deg_cmd = command.data
 
         if self.t_past == 0.0:
             self.t_past = time.time()
@@ -61,17 +65,17 @@ class antenna_el_feedback(object):
             pass
         self.t_now = time.time()
 
-        ret = calc_pid(arcsec_cmd, self.arcsec_enc,
-                self.pre_arcsec, self.pre_hensa, self.ihensa, self.enc_before,
+        ret = calc_pid(deg_cmd, self.deg_enc,
+                self.pre_deg, self.pre_hensa, self.ihensa, self.enc_before,
                 self.t_now, self.t_past,
                 self.p_coeff, self.i_coeff, self.d_coeff)
 
         speed = ret[0]
 
         #update
-        self.pre_hensa = arcsec_cmd - self.arcsec_enc
-        self.pre_arcsec = arcsec_cmd
-        self.enc_before = self.arcsec_enc
+        self.pre_hensa = deg_cmd - self.deg_enc
+        self.pre_deg = deg_cmd
+        self.enc_before = self.deg_enc
         self.ihensa = ret[1]
         self.t_past = self.t_now
 
@@ -102,7 +106,7 @@ class antenna_el_feedback(object):
         return
 
     def antenna_el_encoder(self, status):
-        self.arcsec_enc = status.data * 3600.
+        self.deg_enc = status.data
         return
 
     def antenna_el_pid(self, status):
@@ -111,7 +115,7 @@ class antenna_el_feedback(object):
         self.d_coeff = status.data[2]
         return
 
-def calc_pid(target_arcsec, encoder_arcsec, pre_arcsec, pre_hensa, ihensa, enc_before, t_now, t_past, p_coeff, i_coeff, d_coeff):
+def calc_pid(target_deg, encoder_deg, pre_deg, pre_hensa, ihensa, enc_before, t_now, t_past, p_coeff, i_coeff, d_coeff):
     """
     DESCRIPTION
     ===========
@@ -119,25 +123,25 @@ def calc_pid(target_arcsec, encoder_arcsec, pre_arcsec, pre_hensa, ihensa, enc_b
     """
 
     #calculate ichi_hensa
-    hensa = target_arcsec - encoder_arcsec
+    hensa = target_deg - encoder_deg
 
     dhensa = hensa - pre_hensa
     if math.fabs(dhensa) > 1:
         dhensa = 0
 
-    if (encoder_arcsec - enc_before) != 0.0:
-        current_speed = (encoder_arcsec - enc_before) / (t_now-t_past)
+    if (encoder_deg - enc_before) != 0.0:
+        current_speed = (encoder_deg - enc_before) / (t_now-t_past)
 
-    if pre_arcsec == 0: # for first move
+    if pre_deg == 0: # for first move
         target_speed = 0
     else:
-        target_speed = (target_arcsec - pre_arcsec)/(t_now - t_past)
+        target_speed = (target_deg - pre_deg)/(t_now - t_past)
 
     ihensa += (hensa + pre_hensa)/2
-    if math.fabs(hensa) > 50:
+    if math.fabs(hensa) > 50: #50??
         ihensa = 0.0
 
-        #PID
+    #PID
     rate = target_speed + p_coeff*hensa + i_coeff*ihensa*(t_now-t_past) + d_coeff*dhensa/(t_now-t_past)
 
     return [rate, ihensa]
