@@ -216,7 +216,6 @@ class optical_pointing(object):
         pix_x = []
         pix_y = []
 
-        print(fl)
         print("copying picture from raspi ...")
         while not os.path.exists(self.pic_dir):
             time.sleep(1)
@@ -274,8 +273,8 @@ class optical_pointing(object):
         d_rms = np.sqrt(d_x_rms**2 + d_y_rms**2)
         d_sigma = np.sqrt(d_x_sigma**2 + d_y_sigma**2)
 
-        print('d_rms = %0.2f [arcsec]'%d_rms)
-        print('d_sigma = %0.2f [arcsec]'%d_sigma)
+        print('rms = %0.2f [arcsec]'%d_rms)
+        print('sigma = %0.2f [arcsec]'%d_sigma)
 
         p_array = np.array([Az, El, d_x, d_y]).T
         np.savetxt(self.data_dir + 'Az_El_dAz_dEl.dat', p_array, fmt='%i', delimiter=', ')
@@ -389,6 +388,8 @@ class optical_pointing(object):
 
         old_kisa_file = self.data_dir + "old_kisa.dat"
         shutil.copy(self.kisa_file,old_kisa_file)
+        print('old kisa file is created: %s'%(filepath))
+
 
         nkisa = open(self.kisa_file,"w")
         nkisa.write(str(a1)+"\n")
@@ -402,7 +403,9 @@ class optical_pointing(object):
 
         new_kisa_file = self.data_dir + "new_kisa.dat"
         shutil.copy(self.kisa_file,new_kisa_file)
+        print('new kisa file is created: %s'%(new_kisa_file))
         print("create new kisa.dat")
+        print("Data location : " + self.data_dir)
 
 
 if __name__ == "__main__":
