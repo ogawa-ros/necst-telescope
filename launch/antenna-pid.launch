@@ -9,7 +9,7 @@
         <param name="~gear_ratio" value="7200" />
         <param name="~palthper360deg" value="8192" />
         <param name="~MOTOR_MAXSTEP" value="32767.5" />
-        <param name="~MOTOR_AZ_MAXSPEED" value="327675" />
+        <param name="~MOTOR_AZ_MAXSPEED" value="320000" />
   </node>
 
   <node name = "el_commander_pid"
@@ -21,7 +21,7 @@
         <param name="~gear_ratio" value="7200" />
         <param name="~palthper360deg" value="8192" />
         <param name="~MOTOR_MAXSTEP" value="32767.5" />
-        <param name="~MOTOR_EL_MAXSPEED" value="327675" />
+        <param name="~MOTOR_EL_MAXSPEED" value="320000" />
   </node>
 
 </launch>
