@@ -16,7 +16,7 @@
         type = "antenna_el_commander_pid.py"
         pkg = "necst-telescope">
         <param name="~p_coeff" value="10" />
-        <param name="~i_coeff" value="0" />
+        <param name="~i_coeff" value="10" />
         <param name="~d_coeff" value="0" />
         <param name="~gear_ratio" value="7200" />
         <param name="~palthper360deg" value="8192" />

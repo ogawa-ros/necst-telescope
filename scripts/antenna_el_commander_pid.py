@@ -154,7 +154,10 @@ class antenna_el_feedback(object):
         #if math.fabs(hensa) > 50: #50??
         #    ihensa = 0.0
 
-        ihensa = sum(self.hensa_stock)/len(self.hensa_stock)
+        try:
+            ihensa = sum(self.hen  sa_stock)/len(self.hensa_stock)
+        except:
+            ihensa = 0
 
         #PID
         rate = target_speed + p_coeff*hensa + i_coeff*ihensa*(t_now-t_past) + d_coeff*dhensa/(t_now-t_past)
