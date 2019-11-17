@@ -9,6 +9,7 @@ import telescope_controller
 sys.path.append("/home/exito/necst-core/scripts")
 import core_controller
 import rospy
+import datetime
 
 name = "move_azel"
 
