@@ -3,7 +3,7 @@
   <node name = "az_commander_pid"
         type = "antenna_az_commander_pid.py"
         pkg = "necst-telescope">
-        <param name="~p_coeff" value="20" />
+        <param name="~p_coeff" value="10" />
         <param name="~i_coeff" value="0" />
         <param name="~d_coeff" value="0" />
         <param name="~gear_ratio" value="7200" />
@@ -15,7 +15,7 @@
   <node name = "el_commander_pid"
         type = "antenna_el_commander_pid.py"
         pkg = "necst-telescope">
-        <param name="~p_coeff" value="20" />
+        <param name="~p_coeff" value="10" />
         <param name="~i_coeff" value="0" />
         <param name="~d_coeff" value="0" />
         <param name="~gear_ratio" value="7200" />
