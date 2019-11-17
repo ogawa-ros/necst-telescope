@@ -27,6 +27,8 @@ class antenna_az_feedback(object):
         self.i_coeff = rospy.get_param("~i_coeff")
         self.d_coeff = rospy.get_param("~d_coeff")
 
+        self.hensa_stock = [0]*self.i_coeff
+
         self.gear_ratio = rospy.get_param("~gear_ratio")
         self.palthper360deg = rospy.get_param("~palthper360deg")
 
@@ -68,7 +70,7 @@ class antenna_az_feedback(object):
             pass
         self.t_now = time.time()
 
-        ret = calc_pid(deg_cmd, self.deg_enc,
+        ret = self.calc_pid(deg_cmd, self.deg_enc,
                 self.pre_deg, self.pre_hensa, self.ihensa, self.enc_before,
                 self.t_now, self.t_past,
                 self.p_coeff, self.i_coeff, self.d_coeff)
@@ -121,36 +123,40 @@ class antenna_az_feedback(object):
         self.d_coeff = status.data[2]
         return
 
-def calc_pid(target_deg, encoder_deg, pre_deg, pre_hensa, ihensa, enc_before, t_now, t_past, p_coeff, i_coeff, d_coeff):
-    """
-    DESCRIPTION
-    ===========
-    This function determine az&el speed for antenna
-    """
+    def calc_pid(self,target_deg, encoder_deg, pre_deg, pre_hensa, ihensa, enc_before, t_now, t_past, p_coeff, i_coeff, d_coeff):
+        """
+        DESCRIPTION
+        ===========
+        This function determine az&el speed for antenna
+        """
 
-    #calculate ichi_hensa
-    hensa = target_deg - encoder_deg
+        #calculate ichi_hensa
+        hensa = target_deg - encoder_deg
 
-    dhensa = hensa - pre_hensa
-    if math.fabs(dhensa) > 1:
-        dhensa = 0
+        self.hensa_stock.append(hensa)
+        self.hensa_stock = self.hensa_stock[1:]
 
-    if (encoder_deg - enc_before) != 0.0:
-        current_speed = (encoder_deg - enc_before) / (t_now-t_past)
+        dhensa = hensa - pre_hensa
+        if math.fabs(dhensa) > 1:
+            dhensa = 0
 
-    if pre_deg == 0: # for first move
-        target_speed = 0
-    else:
-        target_speed = (target_deg - pre_deg)/(t_now - t_past)
+        if (encoder_deg - enc_before) != 0.0:
+            current_speed = (encoder_deg - enc_before) / (t_now-t_past)
 
-    ihensa += (hensa + pre_hensa)/2
-    if math.fabs(hensa) > 50: #50??
-        ihensa = 0.0
+        if pre_deg == 0: # for first move
+            target_speed = 0
+        else:
+            target_speed = (target_deg - pre_deg)/(t_now - t_past)
 
-        #PID
-    rate = target_speed + p_coeff*hensa + i_coeff*ihensa*(t_now-t_past) + d_coeff*dhensa/(t_now-t_past)
+        #ihensa += (hensa + pre_hensa)/2
+        #if math.fabs(hensa) > 50: #50??
+        #    ihensa = 0.0
+        ihensa = sum(self.hensa_stock)/len(self.hensa_stock)
 
-    return [rate, ihensa]
+            #PID
+        rate = target_speed + p_coeff*hensa + i_coeff*ihensa*(t_now-t_past) + d_coeff*dhensa/(t_now-t_past)
+
+        return [rate, ihensa]
 
 if __name__ == "__main__":
     rospy.init_node(name)
