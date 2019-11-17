@@ -13,13 +13,13 @@
     <param name = "config_file"
            value = "$(find necst-telescope)/relay_conf/antenna_az_cmd_writer.conf" />
   </node>
-  
+
   <node name = "az_reader"
         type = "relay.py"
         pkg = "necst-telescope">
     <param name = "config_file"
            value = "$(find necst-telescope)/relay_conf/encoder_az_reader.conf" />
-	<remap from = '/dev/ND287/__port__/az' to = '/dev/ND287/ttyUSB1/az'/> 
+	<remap from = '/dev/ND287/__port__/az' to = '/dev/ND287/ttyUSB0/az'/>
   </node>
 
   <node name = "el_soft_limit"
@@ -41,7 +41,7 @@
         pkg = "necst-telescope">
     <param name = "config_file"
            value = "$(find necst-telescope)/relay_conf/encoder_el_reader.conf" />
-        <remap from = '/dev/ND287/__port__/el' to = '/dev/ND287/ttyUSB0/el'/>
+        <remap from = '/dev/ND287/__port__/el' to = '/dev/ND287/ttyUSB1/el'/>
   </node>
 
 </launch>
