@@ -27,7 +27,7 @@ class antenna_az_feedback(object):
         self.i_coeff = rospy.get_param("~i_coeff")
         self.d_coeff = rospy.get_param("~d_coeff")
 
-        self.hensa_stock = [0]*self.i_coeff
+        self.hensa_stock = [1]*self.i_coeff
 
         self.gear_ratio = rospy.get_param("~gear_ratio")
         self.palthper360deg = rospy.get_param("~palthper360deg")
