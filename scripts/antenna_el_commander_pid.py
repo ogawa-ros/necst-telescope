@@ -125,7 +125,7 @@ class antenna_el_feedback(object):
         self.d_coeff = status.data[2]
         return
 
-    def calc_pid(self.target_deg, encoder_deg, pre_deg, pre_hensa, ihensa, enc_before, t_now, t_past, p_coeff, i_coeff, d_coeff):
+    def calc_pid(self,target_deg, encoder_deg, pre_deg, pre_hensa, ihensa, enc_before, t_now, t_past, p_coeff, i_coeff, d_coeff):
         """
         DESCRIPTION
         ===========
