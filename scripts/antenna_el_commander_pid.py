@@ -85,6 +85,10 @@ class antenna_el_feedback(object):
         self.ihensa = ret[1]
         self.t_past = self.t_now
 
+        #deg->palth
+        deg2palth = 360/self.palthper360deg #[deg/palth]
+        speed = speed*self.gear_ratio/deg2palth
+
         #limit of acceleraion
         if abs(speed - self.speed_d) < MOTOR_MAXSTEP:
             self.speed_d = speed
@@ -95,9 +99,6 @@ class antenna_el_feedback(object):
                 a = 1
             self.speed_d += a*MOTOR_MAXSTEP
 
-        #deg->palth
-        deg2palth = 360/self.palthper360deg #[deg/palth]
-        speed = speed*self.gear_ratio/deg2palth
 
         #limit of max speed
         if self.speed_d > MOTOR_EL_MAXSPEED:
