@@ -155,7 +155,7 @@ class antenna_el_feedback(object):
         #    ihensa = 0.0
 
         try:
-            ihensa = sum(self.hen  sa_stock)/len(self.hensa_stock)
+            ihensa = sum(self.hensa_stock)/len(self.hensa_stock)
         except:
             ihensa = 0
 
