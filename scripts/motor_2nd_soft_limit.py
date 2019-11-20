@@ -21,15 +21,13 @@ class motor_locker(object):
         rospy.Subscriber("/1p85m2019/az", Float64, self.recieve_az)
         rospy.Subscriber("/1p85m2019/el", Float64, self.recieve_el)
 
-        pub_az_lock = rospy.Publisher("/pyinterface/pci7415/rsw0/x/output_do")
-        pub_el_lock = rospy.Publisher("/pyinterface/pci7415/rsw0/y/output_do",std_msgs.msg.Int64MultiArray, queue_size=1)
+        pub_az_lock = rospy.Publisher("/1p85m2019/az_lock_cmd",Bool, queue_size=1)
+        pub_el_lock = rospy.Publisher("/1p85m2019/el_lock_cmd",Bool, queue_size=1)
 
     def recieve_az(self, q):
         az = q.data
         if az > self.az_upper_limit or az < self.az_lower_limit:
-            array = Int64MultiArray()
-            array.data = [0,0,0,0]
-            pub_az_lock.publish(array)
+            pub_az_lock.publish(True)
         else:
             pass
         return
@@ -37,9 +35,7 @@ class motor_locker(object):
     def recieve_el(self, q):
         el = q.data
         if el > self.el_upper_limit or el < self.el_lower_limit:
-            array = Int64MultiArray()
-            array.data = [0,0,0,0]
-            pub_el_lock.publish(array)
+            pub_el_lock.publish(True)
         else:
             pass
         return
