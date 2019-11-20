@@ -121,6 +121,28 @@ class antenna(object):
     def get_el(self):
         el = self.el.recv()
         return el
+    """
+    def initilize(self):
+        data_class = std_msgs.msg.Bool
+        data = True
+        topic_name = '/1p85m2019/el_lock_cmd'
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+        topic_name = '/1p85m2019/az_lock_cmd'
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+
+    def finalize(self):
+        data_class = std_msgs.msg.Bool
+        data = False
+        topic_name = '/1p85m2019/el_lock_cmd'
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+
+        data_class = std_msgs.msg.Bool
+        data = False
+        topic_name = '/1p85m2019/el_lock_cmd'
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+        topic_name = '/1p85m2019/az_lock_cmd'
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+    """
 
     def get_condition(self):
         pass
