@@ -1,0 +1,17 @@
+<launch>
+
+  <node name = "az_motor_1st_soft_limit"
+        type = "relay.py"
+        pkg = "necst-telescope">
+    <param name = "config_file"
+           value = "$(find necst-telescope)/relay_conf/az_motor_1st_soft_limit.conf" />
+  </node>
+
+  <node name = "el_motor_1st_soft_limit"
+        type = "relay.py"
+        pkg = "necst-telescope">
+    <param name = "config_file"
+           value = "$(find necst-telescope)/relay_conf/el_motor_1st_soft_limit.conf" />
+  </node>
+
+</launch>
