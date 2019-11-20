@@ -18,11 +18,13 @@ class motor_locker(object):
         self.el_upper_limit = rospy.get_param("~el_upper_limit")
         self.el_lower_limit = rospy.get_param("~el_lower_limit")
 
+        self.pub_az_lock = rospy.Publisher("/1p85m2019/az_lock_cmd",Bool, queue_size=1)
+        self.pub_el_lock = rospy.Publisher("/1p85m2019/el_lock_cmd",Bool, queue_size=1)
+
         rospy.Subscriber("/1p85m2019/az", Float64, self.recieve_az)
         rospy.Subscriber("/1p85m2019/el", Float64, self.recieve_el)
 
-        self.pub_az_lock = rospy.Publisher("/1p85m2019/az_lock_cmd",Bool, queue_size=1)
-        self.pub_el_lock = rospy.Publisher("/1p85m2019/el_lock_cmd",Bool, queue_size=1)
+
 
     def recieve_az(self, q):
         az = q.data
