@@ -15,6 +15,7 @@ class antenna_el_feedback(object):
     pre_hensa = 0.0
     enc_before = 0.0
     ihensa = 0.0
+    i_ave_num = 10
     t_now = t_past = 0.0
 
     deg_enc = 0.0
@@ -28,7 +29,7 @@ class antenna_el_feedback(object):
         self.i_coeff = rospy.get_param("~i_coeff")
         self.d_coeff = rospy.get_param("~d_coeff")
 
-        self.hensa_stock = [1]*self.i_coeff
+        self.hensa_stock = [0]*self.i_ave_num
 
         self.gear_ratio = rospy.get_param("~gear_ratio")
         self.palthper360deg = rospy.get_param("~palthper360deg")
