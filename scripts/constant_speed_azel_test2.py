@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-name = "constant_speed_azel_test"
+name = "constant_speed_azel_test2"
 
 import time
 import rospy
