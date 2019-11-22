@@ -1,5 +1,5 @@
 <launch>
-  <node pkg="necst-telescope" name="antenna_2nd_soft_limit" type="antenna_az_soft_limit.py" required="true" output="screen">
+  <node pkg="necst-telescope" name="antenna_2nd_soft_limit" type="antenna_2nd_soft_limit.py" required="true" output="screen">
       <param name="~az_upper_limit" value="355" />
       <param name="~az_lower_limit" value="5" />
       <param name="~el_upper_limit" value="85" />
