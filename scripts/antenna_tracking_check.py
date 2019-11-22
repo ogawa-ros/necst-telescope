@@ -74,7 +74,7 @@ class tracking_check(object):
                 self.tracking = True
             else:
                 self.tracking = False
-            print(self.tracking)
+            #print(self.tracking)
             time.sleep(0.1)
         return self.tracking
 

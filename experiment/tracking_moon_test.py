@@ -32,5 +32,4 @@ print("Moving to moon")
 antenna.move_planet("moon")
 antenna.tracking_check()
 time.sleep(10)
-
 logger.stop()

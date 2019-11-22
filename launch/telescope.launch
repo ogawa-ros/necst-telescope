@@ -1,12 +1,9 @@
 <launch>
 
-    <include file="$(find necst-telescope)/launch/antenna-pid.launch" />
-    <include file="$(find necst-telescope)/launch/antenna-relay.launch" />
-    <include file="$(find necst-telescope)/launch/azel-relay.launch" />
-    <include file="$(find necst-telescope)/launch/coordinate.launch" />
-    <include file="$(find necst-telescope)/launch/tracking.launch" />
-    <include file="$(find necst-telescope)/launch/antenna_motor_lock_cmd_writer.launch" />
-    <include file="$(find necst-telescope)/launch/motor_2nd_soft_limit.launch" />
-
+    <include file="$(find necst-telescope)/launch/antenna_pid.launch" />
+    <include file="$(find necst-telescope)/launch/antenna_relay.launch" />
+    <include file="$(find necst-telescope)/launch/antenna_tracking_check.launch" />
+    <include file="$(find necst-telescope)/launch/antenna_2nd_soft_limit.launch" />
+    <include file="$(find necst-telescope)/launch/necst_coordinate.launch" />
 
 </launch>

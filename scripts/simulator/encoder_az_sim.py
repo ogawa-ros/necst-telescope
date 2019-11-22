@@ -16,14 +16,14 @@ class encoder_az_sim(object):
     def __init__(self):
 
         self.topic_to = rospy.Publisher(
-                name = "/1p85m2019/az",
+                name = "/1p85m/az",
                 data_class = std_msgs.msg.Float64,
                 latch = True,
                 queue_size = 1,
             )
 
         self.topic_from = rospy.Subscriber(
-                name = "/1p85m2019/az_speed",
+                name = "/1p85m/az_speed",
                 data_class = std_msgs.msg.Float64,
                 callback = self.encoder_az_sim,
                 queue_size = 1,

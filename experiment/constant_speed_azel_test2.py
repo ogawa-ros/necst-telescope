@@ -77,7 +77,7 @@ class constant_speed_azel_test(object):
 
     def publish_azel(self):
         while not rospy.is_shutdown():
-            if self.el_cmd != '':                #obstime = altaz.obstime
+            if self.el_cmd != '':                
                 alt = self.el_cmd
                 az = self.az_cmd
                 array = Float64MultiArray()

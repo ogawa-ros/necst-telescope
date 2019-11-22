@@ -16,14 +16,14 @@ class encoder_el_sim(object):
     def __init__(self):
 
         self.topic_to = rospy.Publisher(
-                name = "/1p85m2019/el",
+                name = "/1p85m/el",
                 data_class = std_msgs.msg.Float64,
                 latch = True,
                 queue_size = 1,
             )
 
         self.topic_from = rospy.Subscriber(
-                name = "/1p85m2019/el_speed",
+                name = "/1p85m/el_speed",
                 data_class = std_msgs.msg.Float64,
                 callback = self.encoder_el_sim,
                 queue_size = 1,

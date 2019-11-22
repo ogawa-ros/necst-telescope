@@ -1,0 +1,5 @@
+<launch>
+  <node pkg="necst-telescope" name="antenna_tracking_check" type="antenna_tracking_check.py" required="true" output="screen">
+      <param name="~trac_threshold" value="10" />
+  </node>
+</launch>
