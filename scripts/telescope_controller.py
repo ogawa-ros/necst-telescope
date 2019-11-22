@@ -34,7 +34,7 @@ class antenna(object):
     def __init__(self):
         self.make_pub = make_pub()
         #rospy.init_node("anntena_controller")
-        self.track  = topic_utils.receiver('/necst_telescope/tracking_check',std_msgs.msg.Bool)
+        self.track  = topic_utils.receiver('/necst/telescope/tracking_check',std_msgs.msg.Bool)
         self.az     = topic_utils.receiver('/1p85m/az'                  ,std_msgs.msg.Float64)
         self.az_cmd = topic_utils.receiver('/1p85m/az_cmd2'             ,std_msgs.msg.Float64)
         self.el     = topic_utils.receiver('/1p85m/el'                  ,std_msgs.msg.Float64)
@@ -47,12 +47,12 @@ class antenna(object):
         - unit : az [deg]
                : el [deg]
         """
-        topic_name = '/necst_telescope/coordinate/stop_refracted_cmd'
+        topic_name = '/necst/telescope/coordinate/stop_refracted_cmd'
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         time.sleep(0.1)
-        topic_name = '/necst_telescope/coordinate/refracted_azel_cmd'
+        topic_name = '/necst/telescope/coordinate/refracted_azel_cmd'
         data_class = std_msgs.msg.Float64MultiArray
         cmd = std_msgs.msg.Float64MultiArray()
         cmd.data = [az,el]
@@ -65,12 +65,12 @@ class antenna(object):
         - type : String
         - cmd : 'earth','sun','moon','mercury','venus','earth-moon-barycenter','mars','jupiter','saturn','uranus','neptune'
         """
-        topic_name = '/necst_telescope/coordinate/stop_refracted_cmd'
+        topic_name = '/necst/telescope/coordinate/stop_refracted_cmd'
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         time.sleep(0.1)
-        topic_name = '/necst_telescope/coordinate/planet_cmd'
+        topic_name = '/necst/telescope/coordinate/planet_cmd'
         data_class = std_msgs.msg.String
         cmd = planet
         self.make_pub.publish(topic_name, data_class, msg = cmd)
@@ -84,12 +84,12 @@ class antenna(object):
                : dec [deg]
         - frame : fk5
         """
-        topic_name = '/necst_telescope/coordinate/stop_refracted_cmd'
+        topic_name = '/necst/telescope/coordinate/stop_refracted_cmd'
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         time.sleep(0.1)
-        topic_name = '/necst_telescope/coordinate/wcs_cmd'
+        topic_name = '/necst/telescope/coordinate/wcs_cmd'
         data_class = std_msgs.msg.Float64MultiArray
         cmd = std_msgs.msg.Float64MultiArray()
         cmd.data = [ra,dec]

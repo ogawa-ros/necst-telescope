@@ -20,12 +20,12 @@ class tracking_check(object):
 
     def __init__(self):
         self.trac_threshold = rospy.get_param("~trac_threshold")
-        rospy.Subscriber("/necst_telescope/coordinate/apparent_az_cmd", Float64, self.recieve_az_cmd)
-        rospy.Subscriber("/necst_telescope/coordinate/apparent_el_cmd", Float64, self.recieve_el_cmd)
+        rospy.Subscriber("/necst/telescope/coordinate/apparent_az_cmd", Float64, self.recieve_az_cmd)
+        rospy.Subscriber("/necst/telescope/coordinate/apparent_el_cmd", Float64, self.recieve_el_cmd)
         rospy.Subscriber("/1p85m/az", Float64, self.recieve_az)
         rospy.Subscriber("/1p85m/el", Float64, self.recieve_el)
-        rospy.Subscriber("/necst_telescope/coordinate/planet_cmd", String, self.recieve_coord_cmd)
-        rospy.Subscriber("/necst_telescope/coordinate/wcs_cmd"   , Float64MultiArray, self.recieve_coord_cmd)
+        rospy.Subscriber("/necst/telescope/coordinate/planet_cmd", String, self.recieve_coord_cmd)
+        rospy.Subscriber("/necst/telescope/coordinate/wcs_cmd"   , Float64MultiArray, self.recieve_coord_cmd)
 
 
     def recieve_az_cmd(self, q):
@@ -79,7 +79,7 @@ class tracking_check(object):
         return self.tracking
 
     def pub_tracking(self):
-        pub = rospy.Publisher('/necst_telescope/tracking_check', Bool, queue_size = 10, latch = True)
+        pub = rospy.Publisher('/necst/telescope/tracking_check', Bool, queue_size = 10, latch = True)
         track = Bool()
         while not rospy.is_shutdown():
             track.data = self.tracking

@@ -36,13 +36,13 @@ class planet2refracted(object):
 
     def __init__(self):
         conf.auto_max_age = None
-        rospy.Subscriber('/necst_telescope/coordinate/planet_cmd',String,self.recieve_planet)
-        rospy.Subscriber('/necst_telescope/weather/pressure',Float64,self.recieve_pressure)
-        rospy.Subscriber('/necst_telescope/weather/temperature',Float64,self.recieve_temprature)
-        rospy.Subscriber('/necst_telescope/weather/humidity',Float64,self.recieve_humidity)
-        rospy.Subscriber('/necst_telescope/coordinate/stop_refracted_cmd' ,Bool, self.recieve_stop_cmd)
+        rospy.Subscriber('/necst/telescope/coordinate/planet_cmd',String,self.recieve_planet)
+        rospy.Subscriber('/necst/telescope/weather/pressure',Float64,self.recieve_pressure)
+        rospy.Subscriber('/necst/telescope/weather/temperature',Float64,self.recieve_temprature)
+        rospy.Subscriber('/necst/telescope/weather/humidity',Float64,self.recieve_humidity)
+        rospy.Subscriber('/necst/telescope/coordinate/stop_refracted_cmd' ,Bool, self.recieve_stop_cmd)
 
-        self.pub_real_azel = rospy.Publisher('/necst_telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
+        self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
 
     def recieve_planet(self,q):
         self.planet = q.data
