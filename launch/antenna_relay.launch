@@ -44,18 +44,32 @@
         <remap from = '/dev/ND287/__port__/el' to = '/dev/ND287/ttyUSB1/el'/>
   </node>
 
-  <node name = "az_necst_1p85"
+  <node name = "necst_1p85_az_cmd"
         type = "relay.py"
         pkg = "necst-telescope">
     <param name = "config_file"
-           value = "$(find necst-telescope)/relay_conf/az_necst_1p85m.conf" />
+           value = "$(find necst-telescope)/relay_conf/necst_1p85m_az_cmd.conf" />
   </node>
 
-  <node name = "el_necst_1p85"
+  <node name = "necst_1p85m_el_cmd"
         type = "relay.py"
         pkg = "necst-telescope">
     <param name = "config_file"
-           value = "$(find necst-telescope)/relay_conf/el_necst_1p85m.conf" />
+           value = "$(find necst-telescope)/relay_conf/necst_1p85m_el_cmd.conf" />
+  </node>
+
+  <node name = "necst_1p85_az"
+        type = "relay.py"
+        pkg = "necst-telescope">
+    <param name = "config_file"
+           value = "$(find necst-telescope)/relay_conf/necst_1p85m_az.conf" />
+  </node>
+
+  <node name = "necst_1p85m_el"
+        type = "relay.py"
+        pkg = "necst-telescope">
+    <param name = "config_file"
+           value = "$(find necst-telescope)/relay_conf/necst_1p85m_el.conf" />
   </node>
 
   <node name = "az_motor_lock_cmd_writer"
