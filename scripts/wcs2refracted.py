@@ -29,10 +29,10 @@ class wcs2refracted(object):
     wcs =''
 
     press =  1000
-    temp = -2
-    humid = 0.8
-    #obswl = 230 #GHz
-    obswl = 600000 #GHz
+    temp =  0
+    humid = 0.5
+    obswl = 230 #GHz
+    #obswl = 600000 #GHz
 
     def __init__(self):
         conf.auto_max_age = None
@@ -41,6 +41,7 @@ class wcs2refracted(object):
         rospy.Subscriber('/necst/telescope/weather/temperature',Float64,self.recieve_temprature)
         rospy.Subscriber('/necst/telescope/weather/humidity',Float64,self.recieve_humidity)
         rospy.Subscriber('/necst/telescope/coordinate/stop_refracted_cmd' ,Bool, self.recieve_stop_cmd)
+        rospy.Subscriber('/necst/telescope/obswl',Float64,self.recieve_obswl)
 
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
 
@@ -55,6 +56,9 @@ class wcs2refracted(object):
 
     def recieve_humidity(self,q):
         self.humid = q.data
+
+    def recieve_obswl(self,q):
+        self.obswl = q.data
 
     def recieve_stop_cmd(self,q):
         if q.data == True:
@@ -85,7 +89,7 @@ class wcs2refracted(object):
                 self.pub_real_azel.publish(array)
                 time.sleep(0.1)
             else:
-                time.sleep(1)
+                time.sleep(0.1)
             continue
 
     def start_thread(self):
