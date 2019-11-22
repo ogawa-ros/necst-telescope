@@ -69,7 +69,7 @@ class refracted2apparent(object):
                 self.pub_el.publish(el2)
                 time.sleep(0.1)
             else:
-                time.sleep(1)
+                time.sleep(0.1)
             continue
 
     def start_thread(self):

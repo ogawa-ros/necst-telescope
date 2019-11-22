@@ -30,8 +30,8 @@ class planet2refracted(object):
     planet = ''
 
     press =  1000
-    temp = 15
-    humid = 0.2
+    temp = 10
+    humid = 0.5
     obswl = 230 #GHz
 
     def __init__(self):
@@ -41,6 +41,8 @@ class planet2refracted(object):
         rospy.Subscriber('/necst/telescope/weather/temperature',Float64,self.recieve_temprature)
         rospy.Subscriber('/necst/telescope/weather/humidity',Float64,self.recieve_humidity)
         rospy.Subscriber('/necst/telescope/coordinate/stop_refracted_cmd' ,Bool, self.recieve_stop_cmd)
+        rospy.Subscriber('/necst/telescope/obswl',Float64,self.recieve_obswl)
+
 
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
 
@@ -61,6 +63,9 @@ class planet2refracted(object):
             self.planet = ''
         else:
             pass
+
+    def recieve_obswl(self,q):
+        self.obswl = q.data
 
     def convert_azel(self):
         on_coord = astropy.coordinates.get_body(location=self.nobeyama,time=Time.now(),body=self.planet)
@@ -85,7 +90,7 @@ class planet2refracted(object):
                 self.pub_real_azel.publish(array)
                 time.sleep(0.1)
             else:
-                time.sleep(1)
+                time.sleep(0.1)
             continue
 
     def start_thread(self):

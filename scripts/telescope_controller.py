@@ -33,12 +33,11 @@ class make_pub(object):
 class antenna(object):
     def __init__(self):
         self.make_pub = make_pub()
-        #rospy.init_node("anntena_controller")
-        self.track  = topic_utils.receiver('/necst/telescope/tracking_check',std_msgs.msg.Bool)
-        self.az     = topic_utils.receiver('/1p85m/az'                  ,std_msgs.msg.Float64)
-        self.az_cmd = topic_utils.receiver('/1p85m/az_cmd2'             ,std_msgs.msg.Float64)
-        self.el     = topic_utils.receiver('/1p85m/el'                  ,std_msgs.msg.Float64)
-        self.el_cmd = topic_utils.receiver('/1p85m/el_cmd2'             ,std_msgs.msg.Float64)
+        self.track  = topic_utils.receiver('/necst/telescope/tracking_check'            ,std_msgs.msg.Bool)
+        self.az     = topic_utils.receiver('/necst/telescope/az'                        ,std_msgs.msg.Float64)
+        self.az_cmd = topic_utils.receiver('/necst/telescope/coordinate/apprent_az_cmd' ,std_msgs.msg.Float64)
+        self.el     = topic_utils.receiver('/necst/telescope/el'                        ,std_msgs.msg.Float64)
+        self.el_cmd = topic_utils.receiver('/necst/telescope/coordinate/apprent_az_cmd' ,std_msgs.msg.Float64)
 
     def move_azel(self,az,el):
         """
