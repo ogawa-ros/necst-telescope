@@ -37,20 +37,20 @@ class antenna_az_feedback(object):
         self.MOTOR_AZ_MAXSPEED = rospy.get_param("~MOTOR_AZ_MAXSPEED")
 
         self.topic_to = rospy.Publisher(
-                name = "/1p85m2019/az_speed",
+                name = "/1p85m/az_speed",
                 data_class = std_msgs.msg.Float64,
                 queue_size = 1,
             )
 
         topic_from1 = rospy.Subscriber(
-                name = "/1p85m2019/az_cmd2",
+                name = "/1p85m/az_cmd2",
                 data_class = std_msgs.msg.Float64,
                 callback = self.antenna_az_feedback,
                 queue_size = 1,
             )
 
         topic_from2 = rospy.Subscriber(
-                name = "/1p85m2019/az",
+                name = "/1p85m/az",
                 data_class = std_msgs.msg.Float64,
                 callback = self.antenna_az_encoder,
                 queue_size = 1,

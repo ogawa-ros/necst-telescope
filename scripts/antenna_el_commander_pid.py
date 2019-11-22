@@ -38,20 +38,20 @@ class antenna_el_feedback(object):
         self.MOTOR_EL_MAXSPEED = rospy.get_param("~MOTOR_EL_MAXSPEED")
 
         self.topic_to = rospy.Publisher(
-                name = "/1p85m2019/el_speed",
+                name = "/1p85m/el_speed",
                 data_class = std_msgs.msg.Float64,
                 queue_size = 1,
             )
 
         topic_from1 = rospy.Subscriber(
-                name = "/1p85m2019/el_cmd2",
+                name = "/1p85m/el_cmd2",
                 data_class = std_msgs.msg.Float64,
                 callback = self.antenna_el_feedback,
                 queue_size = 1,
             )
 
         topic_from2 = rospy.Subscriber(
-                name = "/1p85m2019/el",
+                name = "/1p85m/el",
                 data_class = std_msgs.msg.Float64,
                 callback = self.antenna_el_encoder,
                 queue_size = 1,

@@ -22,8 +22,8 @@ class tracking_check(object):
         self.trac_threshold = rospy.get_param("~trac_threshold")
         rospy.Subscriber("/necst_telescope/coordinate/apparent_az_cmd", Float64, self.recieve_az_cmd)
         rospy.Subscriber("/necst_telescope/coordinate/apparent_el_cmd", Float64, self.recieve_el_cmd)
-        rospy.Subscriber("/1p85m2019/az", Float64, self.recieve_az)
-        rospy.Subscriber("/1p85m2019/el", Float64, self.recieve_el)
+        rospy.Subscriber("/1p85m/az", Float64, self.recieve_az)
+        rospy.Subscriber("/1p85m/el", Float64, self.recieve_el)
         rospy.Subscriber("/necst_telescope/coordinate/planet_cmd", String, self.recieve_coord_cmd)
         rospy.Subscriber("/necst_telescope/coordinate/wcs_cmd"   , Float64MultiArray, self.recieve_coord_cmd)
 

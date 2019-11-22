@@ -35,10 +35,10 @@ class antenna(object):
         self.make_pub = make_pub()
         #rospy.init_node("anntena_controller")
         self.track  = topic_utils.receiver('/necst_telescope/tracking_check',std_msgs.msg.Bool)
-        self.az     = topic_utils.receiver('/1p85m2019/az'                  ,std_msgs.msg.Float64)
-        self.az_cmd = topic_utils.receiver('/1p85m2019/az_cmd2'             ,std_msgs.msg.Float64)
-        self.el     = topic_utils.receiver('/1p85m2019/el'                  ,std_msgs.msg.Float64)
-        self.el_cmd = topic_utils.receiver('/1p85m2019/el_cmd2'             ,std_msgs.msg.Float64)
+        self.az     = topic_utils.receiver('/1p85m/az'                  ,std_msgs.msg.Float64)
+        self.az_cmd = topic_utils.receiver('/1p85m/az_cmd2'             ,std_msgs.msg.Float64)
+        self.el     = topic_utils.receiver('/1p85m/el'                  ,std_msgs.msg.Float64)
+        self.el_cmd = topic_utils.receiver('/1p85m/el_cmd2'             ,std_msgs.msg.Float64)
 
     def move_azel(self,az,el):
         """
@@ -125,22 +125,22 @@ class antenna(object):
     def initilize(self):
         data_class = std_msgs.msg.Bool
         data = True
-        topic_name = '/1p85m2019/el_lock_cmd'
+        topic_name = '/1p85m/el_lock_cmd'
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-        topic_name = '/1p85m2019/az_lock_cmd'
+        topic_name = '/1p85m/az_lock_cmd'
         self.make_pub.publish(topic_name, data_class, msg = cmd)
 
     def finalize(self):
         data_class = std_msgs.msg.Bool
         data = False
-        topic_name = '/1p85m2019/el_lock_cmd'
+        topic_name = '/1p85m/el_lock_cmd'
         self.make_pub.publish(topic_name, data_class, msg = cmd)
 
         data_class = std_msgs.msg.Bool
         data = False
-        topic_name = '/1p85m2019/el_lock_cmd'
+        topic_name = '/1p85m/el_lock_cmd'
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-        topic_name = '/1p85m2019/az_lock_cmd'
+        topic_name = '/1p85m/az_lock_cmd'
         self.make_pub.publish(topic_name, data_class, msg = cmd)
     """
 
