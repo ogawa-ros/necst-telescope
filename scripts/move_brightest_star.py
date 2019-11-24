@@ -50,7 +50,7 @@ class brightest_star(object):
         nro.date=ephem.now()+obstimedelay
 
         data = []
-        file = open("/Users/kondo/Downloads/bsc5.dat","r")
+        file = open(self.catalog_file,"r")
         for line in file.readlines():
             try:
                 ra2000 = float(line[75:77]) + float(line[77:79]) / 60. + float(line[79:83])/3600.
