@@ -3,9 +3,9 @@
 import sys
 import time
 import datetime
-sys.path.append("/home/exito/necst-telescope/scripts")
+sys.path.append("/home/exito/ros/src/necst-telescope/scripts")
 import telescope_controller
-sys.path.append("/home/exito/necst-core/scripts")
+sys.path.append("/home/exito/ros/src/necst-core/scripts")
 import core_controller
 import rospy
 
