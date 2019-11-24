@@ -32,7 +32,7 @@ class brightest_star(object):
         self.logger = core_controller.logger()
         pass
 
-    def select_brightest_star(reverse=False, obstimedelay=0.0, elmin=20., elmax=90., vmagmin=0, vmagmax=3, azmin=0.,azmax=360., pmramax=1, pmdecmax=1,azint=30., show_graph=True):
+    def select_brightest_star(self,reverse=False, obstimedelay=0.0, elmin=20., elmax=90., vmagmin=0, vmagmax=3, azmin=0.,azmax=360., pmramax=1, pmdecmax=1,azint=30., show_graph=True):
         #from operator import itemgetter
         def itemgetter(item):
             return lambda x: x[item]
