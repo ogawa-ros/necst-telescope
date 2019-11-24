@@ -113,7 +113,7 @@ class brightest_star(object):
 
         self.logger.stop()
 
-        return filepath
+        return 
 
 
 if __name__ == "__main__":
