@@ -106,7 +106,7 @@ class brightest_star(object):
         print(file_name)
         self.logger.start(file_name)
 
-        self.antenna.move_wcs(float(data[i,1])*15 ,float(data[i,2]))
+        self.antenna.move_wcs(float(data[1])*15 ,float(data[2]))
         self.antenna.tracking_check()
 
         time.sleep(5)
