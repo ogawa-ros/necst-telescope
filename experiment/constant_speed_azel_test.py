@@ -97,7 +97,7 @@ class constant_speed_azel_test(object):
                 #array.data = [obstime, az, alt]
                 array.data = [az, alt]
                 self.pub_real_azel.publish(array)
-                time.sleep(0.05)
+                time.sleep(0.2)
             else:
                 time.sleep(1)
             continue
