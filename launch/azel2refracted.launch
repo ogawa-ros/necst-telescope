@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="necst-telescope" name="azel2refracted" type="azel2refracted.py" required="true" output="screen">
+  </node>
+</launch>
