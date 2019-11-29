@@ -32,10 +32,10 @@ class azel2refracted(object):
     def publish_azel(self):
         while not rospy.is_shutdown():
             if self.azel_cmd != '':
-                alt = self.el_cmd
-                az = self.az_cmd
+                az = self.azel_cmd[0]
+                el = self.azel_cmd[1]
                 array = Float64MultiArray()
-                array.data = [az, alt]
+                array.data = [az, el]
                 self.pub_real_azel.publish(array)
                 time.sleep(0.1)
             else:
