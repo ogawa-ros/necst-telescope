@@ -25,7 +25,7 @@ class refracted2apparent(object):
         self.read_kisa()
         self.pub_az = rospy.Publisher("/necst/telescope/coordinate/apparent_az_cmd",Float64, queue_size=1)
         self.pub_el = rospy.Publisher("/necst/telescope/coordinate/apparent_el_cmd", Float64, queue_size=1)
-        rospy.Subscriber('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, self.recieve_azel)
+        rospy.Subscriber('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, self.alculate_offset)
 
     def recieve_azel(self, array):
         self.azel = array.data
@@ -41,45 +41,32 @@ class refracted2apparent(object):
         self.b3 = float(kisa[5])
         self.g1 = float(kisa[6])
 
-    def calculate_offset(self):
-        while not rospy.is_shutdown():
-            if self.azel != '':
-                #az = math.radians(self.azel[1])
-                #el = math.radians(self.azel[2])
-                az = math.radians(self.azel[0])
-                el = math.radians(self.azel[1])
 
-                cos_az = math.cos(az)
-                sin_az = math.sin(az)
-                cos_el = math.cos(el)
-                sin_el = math.sin(el)
-                pi = math.pi
+    def calculate_offset(self,q):
+        az = math.radians(q.data[0])
+        el = math.radians(q.data[1])
 
-                ## d_az[deg] , d_el[deg] ##
-                d_az = self.a1*sin_el + self.a2 + self.a3*cos_el + self.b1*sin_az*sin_el - self.b2*cos_az*sin_el
-                d_el = self.b1*cos_az + self.b2*sin_az + self.b3 + self.g1*el
-                ### convert to encoder offset on the horizon ###
-                d_az = d_az / cos_el
+        cos_az = math.cos(az)
+        sin_az = math.sin(az)
+        cos_el = math.cos(el)
+        sin_el = math.sin(el)
+        pi = math.pi
 
-                ### apply the correction values  ###
-                az2 = self.azel[0] + d_az
-                el2 = self.azel[1] + d_el
+        ## d_az[deg] , d_el[deg] ##
+        d_az = self.a1*sin_el + self.a2 + self.a3*cos_el + self.b1*sin_az*sin_el - self.b2*cos_az*sin_el
+        d_el = self.b1*cos_az + self.b2*sin_az + self.b3 + self.g1*el
+        ### convert to encoder offset on the horizon ###
+        d_az = d_az / cos_el
 
-                self.pub_az.publish(az2)
-                self.pub_el.publish(el2)
-                time.sleep(0.1)
-            else:
-                time.sleep(0.1)
-            continue
+        ### apply the correction values  ###
+        az2 = q.data[0] + d_az
+        el2 = q.data[1] + d_el
 
-    def start_thread(self):
-        th = threading.Thread(target=self.calculate_offset)
-        th.setDaemon(True)
-        th.start()
+        self.pub_az.publish(az2)
+        self.pub_el.publish(el2)
 
 
 if __name__ == "__main__":
     rospy.init_node(name)
     azel = refracted2apparent()
-    azel.start_thread()
     rospy.spin()
