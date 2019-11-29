@@ -25,7 +25,7 @@ class refracted2apparent(object):
         self.read_kisa()
         self.pub_az = rospy.Publisher("/necst/telescope/coordinate/apparent_az_cmd",Float64, queue_size=1)
         self.pub_el = rospy.Publisher("/necst/telescope/coordinate/apparent_el_cmd", Float64, queue_size=1)
-        rospy.Subscriber('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, self.alculate_offset)
+        rospy.Subscriber('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, self.calculate_offset)
 
     def recieve_azel(self, array):
         self.azel = array.data

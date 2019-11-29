@@ -20,11 +20,11 @@ class azel2refracted(object):
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
 
     def recieve_azel(self,q):
-        self.azel = q.data
+        self.azel_cmd = q.data
 
     def recieve_stop_cmd(self,q):
         if q.data == True:
-            self.azel = ''
+            self.azel_cmd = ''
         else:
             pass
 
