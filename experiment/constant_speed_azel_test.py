@@ -42,7 +42,7 @@ class constant_speed_azel_test(object):
         self.start_el = float(input("Start el = "))
         self.end_el = float(input("End el = "))
         self.logger = core_controller.logger()
-        self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
+        self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/azel_cmd', Float64MultiArray, queue_size=1)
 
 
     def convert_refracted_azel(self):
