@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 name = "refracted2apparent"
-kisa_path = "/home/exito/ros/src/necst-telescope/lib/kisa.dat"
+kisa_path = "/home/exito/ros/src/necst-1p85m2019/lib/kisa.dat"
 
 import math
 import rospy
