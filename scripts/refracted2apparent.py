@@ -60,11 +60,11 @@ class refracted2apparent(object):
         d_az = d_az / cos_el
 
         ### apply the correction values  ###
-        az2 = q.data[0] + d_az
-        el2 = q.data[1] + d_el
+        azaz = q.data[0] + d_az
+        elel = q.data[1] + d_el
 
-        self.pub_az.publish(az2)
-        self.pub_el.publish(el2)
+        self.pub_az.publish(azaz)
+        self.pub_el.publish(elel)
 
 
 if __name__ == "__main__":
