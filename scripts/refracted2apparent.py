@@ -45,6 +45,7 @@ class refracted2apparent(object):
     def calculate_offset(self,q):
         az = math.radians(q.data[0])
         el = math.radians(q.data[1])
+        el2 = math.degrees(q.data[1]/180*math.pi)
 
         cos_az = math.cos(az)
         sin_az = math.sin(az)
@@ -54,7 +55,7 @@ class refracted2apparent(object):
 
         ## d_az[deg] , d_el[deg] ##
         d_az = self.a1*sin_el + self.a2 + self.a3*cos_el + self.b1*sin_az*sin_el - self.b2*cos_az*sin_el
-        d_el = self.b1*cos_az + self.b2*sin_az + self.b3 + self.g1*el
+        d_el = self.b1*cos_az + self.b2*sin_az + self.b3 + self.g1*el2
         ### convert to encoder offset on the horizon ###
         d_az = d_az / cos_el
 
