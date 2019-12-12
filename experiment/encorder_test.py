@@ -32,7 +32,7 @@ az = antenna.get_az()
 el = antenna.get_el()
 print("current position : az="+str(az)+" el="+str(el))
 
-antenna.move_azel(float(180),float(13))
+antenna.move_azel(float(180),float(15))
 antenna.tracking_check()
 time.sleep(1)
 antenna.move_azel(float(180),float(82))
