@@ -41,11 +41,9 @@ class refracted2apparent(object):
         while not rospy.is_shutdown():
             try:
                 azel = self.azel.pop(0)
-                print(azel)
             except:
                 continue
-            print(azel[0])
-            print(time.time())
+
             while True:
                 if azel[0] < time.time():
                     q = [azel[1],azel[2]] #[az,el]
