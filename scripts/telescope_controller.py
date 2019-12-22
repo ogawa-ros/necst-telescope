@@ -98,7 +98,7 @@ class antenna(object):
         topic_name = '/necst/telescope/coordinate/wcs_cmd'
         data_class = std_msgs.msg.Float64MultiArray
         cmd = std_msgs.msg.Float64MultiArray()
-        cmd.data = [x,y]
+        cmd.data = [x,y,off_x,off_y]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
