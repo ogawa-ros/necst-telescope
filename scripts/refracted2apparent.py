@@ -69,10 +69,10 @@ class refracted2apparent(object):
         self.g1 = float(kisa[6])
 
 
-    def calculate_offset(self,q):
-        az = math.radians(q.data[0])
-        el = math.radians(q.data[1])
-        el2 = math.degrees(q.data[1]/180*math.pi)
+    def calculate_offset(self,azel):
+        az = math.radians(azel[0])
+        el = math.radians(azel[1])
+        el2 = math.degrees(azel[1]/180*math.pi)
 
         cos_az = math.cos(az)
         sin_az = math.sin(az)
@@ -87,8 +87,8 @@ class refracted2apparent(object):
         d_az = d_az / cos_el
 
         ### apply the correction values  ###
-        azaz = q.data[0] + d_az
-        elel = q.data[1] + d_el
+        azaz = azel[0] + d_az
+        elel = azel[1] + d_el
 
         self.pub_az.publish(azaz)
         self.pub_el.publish(elel)
