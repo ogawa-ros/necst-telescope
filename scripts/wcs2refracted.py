@@ -50,7 +50,7 @@ class wcs2refracted(object):
     def recieve_wcs(self,q):
         self.wcs = q.data
 
-    def recieve_wcs(self,q):
+    def recieve_wcs_frame(self,q):
         self.wcs_frame = q.data
 
     def recieve_pressure(self,q):
