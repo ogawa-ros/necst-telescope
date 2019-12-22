@@ -41,7 +41,7 @@ class refracted2apparent(object):
         while not rospy.is_shutdown():
             try:
                 azel = self.azel.pop(0)
-                print("1")
+                print(azel)
             except:
                 continue
 
@@ -52,7 +52,6 @@ class refracted2apparent(object):
                     calculate_offset(q)
                     break
                 else:
-                    print("3")
                     time.sleep(0.0001)
                     continue
 
