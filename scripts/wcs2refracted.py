@@ -24,7 +24,7 @@ class wcs2refracted(object):
     latitude = 35.940874
     longitude = 138.472153
     height = 1386
-    frame = 'fk5'
+    wcs_frame = 'fk5'
     nobeyama = EarthLocation(lat = latitude*u.deg, lon = longitude*u.deg, height = height*u.m)
     wcs =''
 
@@ -36,16 +36,21 @@ class wcs2refracted(object):
 
     def __init__(self):
         rospy.Subscriber('/necst/telescope/coordinate/wcs_cmd',Float64MultiArray,self.recieve_wcs)
+        rospy.Subscriber('/necst/telescope/coordinate/wcs_frame_cmd',String,self.recieve_wcs_frame)
+        rospy.Subscriber('/necst/telescope/coordinate/stop_refracted_cmd' ,Bool, self.recieve_stop_cmd)
+
         rospy.Subscriber('/necst/telescope/weather/pressure',Float64,self.recieve_pressure)
         rospy.Subscriber('/necst/telescope/weather/temperature',Float64,self.recieve_temprature)
         rospy.Subscriber('/necst/telescope/weather/humidity',Float64,self.recieve_humidity)
-        rospy.Subscriber('/necst/telescope/coordinate/stop_refracted_cmd' ,Bool, self.recieve_stop_cmd)
         rospy.Subscriber('/necst/telescope/obswl',Float64,self.recieve_obswl)
 
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
 
     def recieve_wcs(self,q):
         self.wcs = q.data
+
+    def recieve_wcs(self,q):
+        self.wcs_frame = q.data
 
     def recieve_pressure(self,q):
         self.press = q.data
@@ -62,33 +67,47 @@ class wcs2refracted(object):
     def recieve_stop_cmd(self,q):
         if q.data == True:
             self.wcs = ''
+            self.init_flag  = True
         else:
             pass
 
-    def convert_azel(self):
-        on_coord = SkyCoord(self.wcs[0], self.wcs[1],frame=self.frame, unit=(u.deg, u.deg))
+    def convert_azel(self,dt):
+        on_coord = SkyCoord(self.wcs[0]+self.wcs[2], self.wcs[1]+self.wcs[3],frame=self.wcs_frame, unit=(u.deg, u.deg))
         on_coord.location = self.nobeyama
         on_coord.pressure = self.press*u.hPa
         on_coord.temperature = self.temp*u.deg_C
         on_coord.relative_humidity = self.humid
         on_coord.obswl = (astropy.constants.c/(self.obswl*u.GHz)).to('micron')
-        altaz_list = on_coord.transform_to(AltAz(obstime=Time.now()))
+        altaz_list = on_coord.transform_to(AltAz(obstime=Time.now()+TimeDelta(dt, format='sec')))
         return altaz_list
 
     def publish_azel(self):
         while not rospy.is_shutdown():
             if self.wcs != '':
-                altaz = self.convert_azel()
-                #obstime = altaz.obstime
-                alt = altaz.alt.deg
-                az = altaz.az.deg
-                array = Float64MultiArray()
-                #array.data = [obstime, az, alt]
-                array.data = [az, alt]
-                self.pub_real_azel.publish(array)
-                time.sleep(0.1)
+                if self.init_flag == True:
+                    for i in range(11):
+                        altaz = self.convert_azel(dt=0.1*i)
+                        obstime = altaz.obstime.to_value("unix")
+                        alt = altaz.alt.deg
+                        az = altaz.az.deg
+                        array = Float64MultiArray()
+                        array.data = [obstime, az, alt]
+                        self.pub_real_azel.publish(array)
+                        time.sleep(0.0001)
+                    self.init_flag  = False
+
+                else:
+                    altaz = self.convert_azel(dt=1)
+                    obstime = altaz.obstime.to_value("unix")
+                    alt = altaz.alt.deg
+                    az = altaz.az.deg
+                    array = Float64MultiArray()
+                    array.data = [obstime, az, alt]
+                    self.pub_real_azel.publish(array)
+                    time.sleep(0.1)
+
             else:
-                time.sleep(0.1)
+                time.sleep(0.01)
             continue
 
     def start_thread(self):

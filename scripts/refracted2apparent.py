@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 
-name = "refracted2apparent"
-kisa_path = "/home/exito/ros/src/necst-1p85m2019/lib/kisa.dat"
-
 import math
 import rospy
 import threading
@@ -10,9 +7,11 @@ from std_msgs.msg import Float64
 from std_msgs.msg import Float64MultiArray
 import time
 
+name = "refracted2apparent"
+kisa_path = "/home/exito/ros/src/necst-1p85m2019/lib/kisa.dat"
 
 class refracted2apparent(object):
-    azel = ""
+    azel = []
     a1 = 0
     a2 = 0
     a3 = 0
@@ -25,10 +24,34 @@ class refracted2apparent(object):
         self.read_kisa()
         self.pub_az = rospy.Publisher("/necst/telescope/coordinate/apparent_az_cmd",Float64, queue_size=1)
         self.pub_el = rospy.Publisher("/necst/telescope/coordinate/apparent_el_cmd", Float64, queue_size=1)
-        rospy.Subscriber('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, self.calculate_offset)
+        rospy.Subscriber('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, self.recieve_azel)
+        rospy.Subscriber('/necst/telescope/coordinate/stop_refracted_cmd' ,Bool, self.recieve_stop_cmd)
+
 
     def recieve_azel(self, array):
-        self.azel = array.data
+        self.azel.append(array.data)
+        self.azel.sort()
+
+    def recieve_stop_cmd(self, q):
+        self.azel = []
+
+    def time_handler(self):
+        while not rospy.is_shutdown():
+            try:
+                azel = self.azel.pop(0)
+            except:
+                continue
+
+            while True:
+                if azel[0] > time.time():
+                    q = [self.azel[1],self.azel[2]] #[az,el]
+                    calculate_offset(q)
+                    break
+                else:
+                    time.sleep(0.0001)
+                    continue
+
+            continue
 
     def read_kisa(self):
         fkisa = open(kisa_path,"r")
@@ -66,8 +89,13 @@ class refracted2apparent(object):
         self.pub_az.publish(azaz)
         self.pub_el.publish(elel)
 
+    def start_thread(self):
+        th = threading.Thread(target=self.time_handler)
+        th.setDaemon(True)
+        th.start()
 
 if __name__ == "__main__":
     rospy.init_node(name)
     azel = refracted2apparent()
+    azel.start_thread()
     rospy.spin()

@@ -50,7 +50,7 @@ class antenna(object):
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-        time.sleep(0.1)
+
         topic_name = '/necst/telescope/coordinate/azel_cmd'
         data_class = std_msgs.msg.Float64MultiArray
         cmd = std_msgs.msg.Float64MultiArray()
@@ -68,26 +68,33 @@ class antenna(object):
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-        time.sleep(0.1)
+
         topic_name = '/necst/telescope/coordinate/planet_cmd'
         data_class = std_msgs.msg.String
         cmd = planet
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
-    def move_wcs(self,ra,dec):
+    def move_wcs(self,ra,dec,frame="fk5"):
         """
         msg
         - type : list
         - unit : ra  [deg]
                : dec [deg]
-        - frame : fk5
+
+        - type : string
+        - cmd : fk5 , galactic, icrs
         """
         topic_name = '/necst/telescope/coordinate/stop_refracted_cmd'
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-        time.sleep(0.1)
+
+        topic_name = '/necst/telescope/coordinate/wcs_frame_cmd'
+        data_class = std_msgs.msg.String
+        cmd.data = frame
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+
         topic_name = '/necst/telescope/coordinate/wcs_cmd'
         data_class = std_msgs.msg.Float64MultiArray
         cmd = std_msgs.msg.Float64MultiArray()
@@ -98,7 +105,7 @@ class antenna(object):
     def tracking_check(self):
         tracking_flag = False
         print(" Moving now....")
-        time.sleep(2.)
+        time.sleep(1)
         while not tracking_flag:
             tracking_flag = self.track.recv()
             time.sleep(0.01)
