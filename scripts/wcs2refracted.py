@@ -11,6 +11,7 @@ from std_msgs.msg import Bool
 from std_msgs.msg import String
 
 from astropy.time import Time
+from astropy.time import TimeDelta
 from astropy.coordinates import FK5
 import astropy.units as u
 from astropy.coordinates import EarthLocation
