@@ -92,7 +92,7 @@ class antenna(object):
 
         topic_name = '/necst/telescope/coordinate/wcs_frame_cmd'
         data_class = std_msgs.msg.String
-        cmd.data = frame
+        cmd = frame
         self.make_pub.publish(topic_name, data_class, msg = cmd)
 
         topic_name = '/necst/telescope/coordinate/wcs_cmd'
