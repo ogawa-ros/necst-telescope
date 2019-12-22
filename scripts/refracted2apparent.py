@@ -49,7 +49,7 @@ class refracted2apparent(object):
             while True:
                 if azel[0] < time.time():
                     q = [azel[1],azel[2]] #[az,el]
-                    calculate_offset(q)
+                    self.calculate_offset(q)
                     break
                 else:
                     time.sleep(0.0001)
