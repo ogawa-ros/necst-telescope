@@ -75,7 +75,7 @@ class antenna(object):
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
-    def move_wcs(self,ra,dec,frame="fk5"):
+    def move_wcs(self,x,y,off_x=0,off_y=0,frame="fk5"):
         """
         msg
         - type : list
@@ -98,7 +98,7 @@ class antenna(object):
         topic_name = '/necst/telescope/coordinate/wcs_cmd'
         data_class = std_msgs.msg.Float64MultiArray
         cmd = std_msgs.msg.Float64MultiArray()
-        cmd.data = [ra,dec]
+        cmd.data = [x,y]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
