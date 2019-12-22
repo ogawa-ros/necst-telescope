@@ -26,7 +26,7 @@ class brightest_star(object):
 
     def __init__(self):
         rospy.init_node(name)
-        self.catalog_file = "/home/exito/ros/src/necst-1p85m/lib/bsc5.dat"
+        self.catalog_file = "/home/exito/ros/src/necst-1p85m2019/lib/bsc5.dat"
         self.camera = telescope_controller.camera()
         self.antenna = telescope_controller.antenna()
         self.logger = core_controller.logger()
