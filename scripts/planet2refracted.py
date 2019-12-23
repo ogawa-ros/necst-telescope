@@ -41,8 +41,9 @@ class planet2refracted(object):
         rospy.Subscriber('/necst/telescope/coordinate/stop_refracted_cmd' ,Bool, self.recieve_stop_cmd)
         rospy.Subscriber('/necst/telescope/obswl',Float64,self.recieve_obswl)
 
-
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
+
+        self.init_flag  = True
 
     def recieve_planet(self,q):
         self.planet[0] = q.data[0]
