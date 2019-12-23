@@ -36,8 +36,8 @@ class azel2refracted(object):
                 if self.init_flag == True:
                     for i in range(11):
                         obstime = time.time()+ 0.1*i
-                        alt = self.azel_cmd[0] + self.azel_cmd[2]
-                        az  = self.azel_cmd[1] + self.azel_cmd[3]
+                        az = self.azel_cmd[0] + self.azel_cmd[2]
+                        alt  = self.azel_cmd[1] + self.azel_cmd[3]
                         array = Float64MultiArray()
                         array.data = [obstime, az, alt]
                         self.pub_real_azel.publish(array)
@@ -46,8 +46,8 @@ class azel2refracted(object):
 
                 else:
                     obstime = time.time()+ 1
-                    alt = self.azel_cmd[0] + self.azel_cmd[2]
-                    az  = self.azel_cmd[1] + self.azel_cmd[3]
+                    az = self.azel_cmd[0] + self.azel_cmd[2]
+                    alt= self.azel_cmd[1] + self.azel_cmd[3]
                     array = Float64MultiArray()
                     array.data = [obstime, az, alt]
                     self.pub_real_azel.publish(array)
