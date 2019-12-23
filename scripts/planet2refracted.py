@@ -46,14 +46,14 @@ class planet2refracted(object):
 
     def recieve_planet(self,q):
         if q.data[0]==0 : q.data[0] = "sun"
-        if q.data[0]==1 : q.data[1] = "moon"
-        if q.data[0]==2 : q.data[2] = "mercury"
-        if q.data[0]==3 : q.data[3] = "venus"
-        if q.data[0]==4 : q.data[4] = "mars"
-        if q.data[0]==5 : q.data[5] = "jupiter"
-        if q.data[0]==6 : q.data[6] = "saturn"
-        if q.data[0]==7 : q.data[7] = "uranus"
-        if q.data[0]==8 : q.data[8] = "neptune"
+        if q.data[0]==1 : q.data[0] = "moon"
+        if q.data[0]==2 : q.data[0] = "mercury"
+        if q.data[0]==3 : q.data[0] = "venus"
+        if q.data[0]==4 : q.data[0] = "mars"
+        if q.data[0]==5 : q.data[0] = "jupiter"
+        if q.data[0]==6 : q.data[0] = "saturn"
+        if q.data[0]==7 : q.data[0] = "uranus"
+        if q.data[0]==8 : q.data[0] = "neptune"
 
     def recieve_pressure(self,q):
         self.press = q.data
