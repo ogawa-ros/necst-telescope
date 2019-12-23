@@ -26,7 +26,7 @@ class planet2refracted(object):
     height = 1386
     frame = 'fk5'
     nobeyama = EarthLocation(lat = latitude*u.deg, lon = longitude*u.deg, height = height*u.m)
-    planet = []
+    planet = ""
 
     press =  1000
     temp = 10
@@ -46,9 +46,7 @@ class planet2refracted(object):
         self.init_flag  = True
 
     def recieve_planet(self,q):
-        self.planet[0] = q.data[0]
-        self.planet[1] = q.data[1]
-        self.planet[2] = q.data[2]
+        self.planet = [q.data[0],q.data[1],q.data[2]]
 
         if self.planet[0]==0 : self.planet[0] = "sun"
         if self.planet[0]==1 : self.planet[0] = "moon"
@@ -72,7 +70,7 @@ class planet2refracted(object):
 
     def recieve_stop_cmd(self,q):
         if q.data == True:
-            self.planet = ''
+            self.planet = ""
             self.init_flag  = True
         else:
             pass
@@ -95,7 +93,7 @@ class planet2refracted(object):
 
     def publish_azel(self):
         while not rospy.is_shutdown():
-            if self.planet != '':
+            if self.planet != "":
                 if self.init_flag == True:
                     for i in range(11):
                         altaz,off_x,off_y = self.convert_azel(dt=0.1*i)
