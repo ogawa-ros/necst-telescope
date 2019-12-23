@@ -11,14 +11,13 @@ from std_msgs.msg import String
 from std_msgs.msg import Bool
 
 from astropy.time import Time
+from astropy.time import TimeDelta
 from astropy.coordinates import FK5
 import astropy.units as u
 from astropy.coordinates import EarthLocation
 from astropy.coordinates import SkyCoord
 from astropy.coordinates import AltAz
 import astropy.constants
-from astropy.utils.iers import conf
-
 
 class planet2refracted(object):
 
@@ -35,7 +34,6 @@ class planet2refracted(object):
     obswl = 230 #GHz
 
     def __init__(self):
-        conf.auto_max_age = None
         rospy.Subscriber('/necst/telescope/coordinate/planet_cmd',String,self.recieve_planet)
         rospy.Subscriber('/necst/telescope/weather/pressure',Float64,self.recieve_pressure)
         rospy.Subscriber('/necst/telescope/weather/temperature',Float64,self.recieve_temprature)
@@ -47,7 +45,15 @@ class planet2refracted(object):
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
 
     def recieve_planet(self,q):
-        self.planet = q.data
+        if q.data[0]==0 : q.data[0] = "sun"
+        if q.data[0]==1 : q.data[1] = "moon"
+        if q.data[0]==2 : q.data[2] = "mercury"
+        if q.data[0]==3 : q.data[3] = "venus"
+        if q.data[0]==4 : q.data[4] = "mars"
+        if q.data[0]==5 : q.data[5] = "jupiter"
+        if q.data[0]==6 : q.data[6] = "saturn"
+        if q.data[0]==7 : q.data[7] = "uranus"
+        if q.data[0]==8 : q.data[8] = "neptune"
 
     def recieve_pressure(self,q):
         self.press = q.data
@@ -61,36 +67,53 @@ class planet2refracted(object):
     def recieve_stop_cmd(self,q):
         if q.data == True:
             self.planet = ''
+            self.init_flag  = True
         else:
             pass
 
     def recieve_obswl(self,q):
         self.obswl = q.data
 
-    def convert_azel(self):
-        on_coord = astropy.coordinates.get_body(location=self.nobeyama,time=Time.now(),body=self.planet)
+    def convert_azel(self,dt):
+        target = self.planet
+        on_coord = astropy.coordinates.get_body(location=self.nobeyama,time=Time.now(),body=target[0])
         on_coord.location = self.nobeyama
         on_coord.pressure = self.press*u.hPa
         on_coord.temperature = self.temp*u.deg_C
         on_coord.relative_humidity = self.humid
         on_coord.obswl = (astropy.constants.c/(self.obswl*u.GHz)).to('micron')
-        altaz_list = on_coord.transform_to(AltAz(obstime=Time.now()))
-        return altaz_list
+        altaz_list = on_coord.transform_to(AltAz(obstime=Time.now()+TimeDelta(dt, format='sec')))
+        off_x = target[1]
+        off_y = target[2]
+        return altaz_list,off_x,off_y
 
     def publish_azel(self):
         while not rospy.is_shutdown():
             if self.planet != '':
-                altaz = self.convert_azel()
-                #obstime = altaz.obstime
-                alt = altaz.alt.deg
-                az = altaz.az.deg
-                array = Float64MultiArray()
-                #array.data = [obstime, az, alt]
-                array.data = [az, alt]
-                self.pub_real_azel.publish(array)
-                time.sleep(0.1)
+                if self.init_flag == True:
+                    for i in range(11):
+                        altaz,off_x,off_y = self.convert_azel(dt=0.1*i)
+                        obstime = altaz.obstime.to_value("unix")
+                        alt = altaz.alt.deg + off_x
+                        az  = altaz.az.deg  + off_y
+                        array = Float64MultiArray()
+                        array.data = [obstime, az, alt]
+                        self.pub_real_azel.publish(array)
+                        time.sleep(0.0001)
+                    self.init_flag  = False
+
+                else:
+                    altaz,off_x,off_y = self.convert_azel(dt=1)
+                    obstime = altaz.obstime.to_value("unix")
+                    alt = altaz.alt.deg + off_x
+                    az  = altaz.az.deg  + off_y
+                    array = Float64MultiArray()
+                    array.data = [obstime, az, alt]
+                    self.pub_real_azel.publish(array)
+                    time.sleep(0.1)
+
             else:
-                time.sleep(0.1)
+                time.sleep(0.01)
             continue
 
     def start_thread(self):

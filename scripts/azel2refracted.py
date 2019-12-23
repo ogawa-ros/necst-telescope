@@ -26,21 +26,38 @@ class azel2refracted(object):
     def recieve_stop_cmd(self,q):
         if q.data == True:
             self.azel_cmd = ''
+            self.init_flag  = True
         else:
             pass
 
     def publish_azel(self):
         while not rospy.is_shutdown():
             if self.azel_cmd != '':
-                az = self.azel_cmd[0]
-                el = self.azel_cmd[1]
-                array = Float64MultiArray()
-                array.data = [az, el]
-                self.pub_real_azel.publish(array)
-                time.sleep(0.1)
+                if self.init_flag == True:
+                    for i in range(11):
+                        obstime = time.time()+ 0.1*i
+                        alt = self.azel_cmd[0] + self.azel_cmd[2]
+                        az  = self.azel_cmd[1] + self.azel_cmd[3]
+                        array = Float64MultiArray()
+                        array.data = [obstime, az, alt]
+                        self.pub_real_azel.publish(array)
+                        time.sleep(0.0001)
+                    self.init_flag  = False
+
+                else:
+                    obstime = time.time()+ 1
+                    alt = self.azel_cmd[0] + self.azel_cmd[2]
+                    az  = self.azel_cmd[1] + self.azel_cmd[3]
+                    array = Float64MultiArray()
+                    array.data = [obstime, az, alt]
+                    self.pub_real_azel.publish(array)
+                    time.sleep(0.1)
+
             else:
-                time.sleep(0.1)
+                time.sleep(0.01)
             continue
+
+
 
     def start_thread(self):
         th = threading.Thread(target=self.publish_azel)

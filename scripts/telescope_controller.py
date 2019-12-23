@@ -39,12 +39,14 @@ class antenna(object):
         self.el     = topic_utils.receiver('/necst/telescope/el'                        ,std_msgs.msg.Float64)
         self.el_cmd = topic_utils.receiver('/necst/telescope/coordinate/apprent_az_cmd' ,std_msgs.msg.Float64)
 
-    def move_azel(self,az,el):
+    def move_azel(self,az,el,off_x=0,off_y=0):
         """
         msg
         - type : list
         - unit : az [deg]
                : el [deg]
+               : off_x [deg]
+               : off_y [deg]
         """
         topic_name = '/necst/telescope/coordinate/stop_refracted_cmd'
         data_class = std_msgs.msg.Bool
@@ -54,15 +56,23 @@ class antenna(object):
         topic_name = '/necst/telescope/coordinate/azel_cmd'
         data_class = std_msgs.msg.Float64MultiArray
         cmd = std_msgs.msg.Float64MultiArray()
-        cmd.data = [az,el]
+        cmd.data = [az,el,off_x,off_y]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
-    def move_planet(self,planet):
+    def move_planet(self,planet,off_x=0,off_y=0):
         """
         msg
-        - type : String
-        - cmd : 'earth','sun','moon','mercury','venus','earth-moon-barycenter','mars','jupiter','saturn','uranus','neptune'
+        - type : list
+        - cmd : 0 : sun
+                1 : moon
+                2 : mercury
+                3 : venus
+                4 : mars
+                5 : jupiter
+                6 : saturn
+                7 : uranus
+                8 : neptune
         """
         topic_name = '/necst/telescope/coordinate/stop_refracted_cmd'
         data_class = std_msgs.msg.Bool
@@ -70,8 +80,9 @@ class antenna(object):
         self.make_pub.publish(topic_name, data_class, msg = cmd)
 
         topic_name = '/necst/telescope/coordinate/planet_cmd'
-        data_class = std_msgs.msg.String
-        cmd = planet
+        data_class = std_msgs.msg.Float64MultiArray
+        cmd = std_msgs.msg.Float64MultiArray()
+        cmd.data = [planet,off_x,off_y]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
@@ -81,9 +92,11 @@ class antenna(object):
         - type : list
         - unit : ra  [deg]
                : dec [deg]
+               : off_x [deg]
+               : off_y [deg]
 
         - type : string
-        - cmd : fk5 , galactic, icrs
+        - cmd : fk5, galactic, icrs
         """
         topic_name = '/necst/telescope/coordinate/stop_refracted_cmd'
         data_class = std_msgs.msg.Bool
