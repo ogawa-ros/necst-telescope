@@ -24,8 +24,9 @@ class tracking_check(object):
         rospy.Subscriber("/necst/telescope/coordinate/apparent_el_cmd", Float64, self.recieve_el_cmd)
         rospy.Subscriber("/1p85m/az", Float64, self.recieve_az)
         rospy.Subscriber("/1p85m/el", Float64, self.recieve_el)
-        rospy.Subscriber("/necst/telescope/coordinate/planet_cmd", String, self.recieve_coord_cmd)
+        rospy.Subscriber("/necst/telescope/coordinate/planet_cmd", Float64MultiArray, self.recieve_coord_cmd)
         rospy.Subscriber("/necst/telescope/coordinate/wcs_cmd"   , Float64MultiArray, self.recieve_coord_cmd)
+        rospy.Subscriber("/necst/telescope/coordinate/azel_cmd"   , Float64MultiArray, self.recieve_coord_cmd)
 
 
     def recieve_az_cmd(self, q):

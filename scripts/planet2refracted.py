@@ -26,7 +26,7 @@ class planet2refracted(object):
     height = 1386
     frame = 'fk5'
     nobeyama = EarthLocation(lat = latitude*u.deg, lon = longitude*u.deg, height = height*u.m)
-    planet = ''
+    planet = []
 
     press =  1000
     temp = 10
