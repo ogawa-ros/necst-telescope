@@ -34,7 +34,7 @@ class planet2refracted(object):
     obswl = 230 #GHz
 
     def __init__(self):
-        rospy.Subscriber('/necst/telescope/coordinate/planet_cmd',String,self.recieve_planet)
+        rospy.Subscriber('/necst/telescope/coordinate/planet_cmd',Float64MultiArray,self.recieve_planet)
         rospy.Subscriber('/necst/telescope/weather/pressure',Float64,self.recieve_pressure)
         rospy.Subscriber('/necst/telescope/weather/temperature',Float64,self.recieve_temprature)
         rospy.Subscriber('/necst/telescope/weather/humidity',Float64,self.recieve_humidity)
