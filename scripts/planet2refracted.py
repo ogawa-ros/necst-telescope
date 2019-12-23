@@ -45,12 +45,12 @@ class planet2refracted(object):
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
 
     def recieve_planet(self,q):
-        self.planet[1] = q.data[0]
+        self.planet[0] = q.data[0]
         self.planet[1] = q.data[1]
         self.planet[2] = q.data[2]
 
-        if self.planet[0]]==0 : self.planet[0] = "sun"
-        if self.planet[0]]==1 : self.planet[0] = "moon"
+        if self.planet[0]==0 : self.planet[0] = "sun"
+        if self.planet[0]==1 : self.planet[0] = "moon"
         if self.planet[0]==2 : self.planet[0] = "mercury"
         if self.planet[0]==3 : self.planet[0] = "venus"
         if self.planet[0]==4 : self.planet[0] = "mars"
