@@ -39,15 +39,25 @@ class antenna(object):
         self.el     = topic_utils.receiver('/necst/telescope/el'                        ,std_msgs.msg.Float64)
         self.el_cmd = topic_utils.receiver('/necst/telescope/coordinate/apprent_az_cmd' ,std_msgs.msg.Float64)
 
-    def move_azel(self,az,el,off_x=0,off_y=0):
+    def move_azel(self,az,el,off_x=0,off_y=0,off_unit="deg"):
         """
         msg
         - type : list
         - unit : az [deg]
                : el [deg]
-               : off_x [deg]
-               : off_y [deg]
+               : off_x [deg] or [arcsec] or [arcmin]
+               : off_y [deg] or [arcsec] or [arcmin]
         """
+
+        if off_unit == "arcsec" :
+            az = az*3600
+            el = el*3600
+        if off_unit == "arcmin" :
+            az = az*60
+            el = el*60
+        if off_unit == "deg" :
+            pass
+
         topic_name = '/necst/telescope/coordinate/stop_refracted_cmd'
         data_class = std_msgs.msg.Bool
         cmd = True
@@ -60,7 +70,7 @@ class antenna(object):
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
-    def move_planet(self,planet,off_x=0,off_y=0):
+    def move_planet(self,planet,off_x=0,off_y=0,off_unit="deg"):
         """
         msg
         - type : list
@@ -73,7 +83,19 @@ class antenna(object):
                 6 : saturn
                 7 : uranus
                 8 : neptune
+        - unit : off_x [deg]
+               : off_y [deg]
         """
+
+        if off_unit == "arcsec" :
+            az = az*3600
+            el = el*3600
+        if off_unit == "arcmin" :
+            az = az*60
+            el = el*60
+        if off_unit == "deg" :
+            pass
+
         topic_name = '/necst/telescope/coordinate/stop_refracted_cmd'
         data_class = std_msgs.msg.Bool
         cmd = True
@@ -98,6 +120,7 @@ class antenna(object):
         - type : string
         - cmd : fk5, galactic, icrs
         """
+
         topic_name = '/necst/telescope/coordinate/stop_refracted_cmd'
         data_class = std_msgs.msg.Bool
         cmd = True
