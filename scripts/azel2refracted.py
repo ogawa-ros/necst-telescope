@@ -57,8 +57,6 @@ class azel2refracted(object):
                 time.sleep(0.01)
             continue
 
-
-
     def start_thread(self):
         th = threading.Thread(target=self.publish_azel)
         th.setDaemon(True)
