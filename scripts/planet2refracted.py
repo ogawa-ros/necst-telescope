@@ -45,15 +45,17 @@ class planet2refracted(object):
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
 
     def recieve_planet(self,q):
-        if q.data[0]==0 : q.data[0] = "sun"
-        if q.data[0]==1 : q.data[0] = "moon"
-        if q.data[0]==2 : q.data[0] = "mercury"
-        if q.data[0]==3 : q.data[0] = "venus"
-        if q.data[0]==4 : q.data[0] = "mars"
-        if q.data[0]==5 : q.data[0] = "jupiter"
-        if q.data[0]==6 : q.data[0] = "saturn"
-        if q.data[0]==7 : q.data[0] = "uranus"
-        if q.data[0]==8 : q.data[0] = "neptune"
+        if q.data[0]==0 : self.planet[0] = "sun"
+        if q.data[0]==1 : self.planet[0] = "moon"
+        if q.data[0]==2 : self.planet[0] = "mercury"
+        if q.data[0]==3 : self.planet[0] = "venus"
+        if q.data[0]==4 : self.planet[0] = "mars"
+        if q.data[0]==5 : self.planet[0] = "jupiter"
+        if q.data[0]==6 : self.planet[0] = "saturn"
+        if q.data[0]==7 : self.planet[0] = "uranus"
+        if q.data[0]==8 : self.planet[0] = "neptune"
+        self.planet[1] = q.data[1]
+        self.planet[2] = q.data[2]
 
     def recieve_pressure(self,q):
         self.press = q.data
