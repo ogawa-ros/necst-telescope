@@ -39,26 +39,26 @@ class antenna(object):
         self.el     = topic_utils.receiver('/necst/telescope/el'                        ,std_msgs.msg.Float64)
         self.el_cmd = topic_utils.receiver('/necst/telescope/coordinate/apprent_az_cmd' ,std_msgs.msg.Float64)
 
-    def move_azel(self,az,el,off_x=0,off_y=0,off_unit="deg"):
+    def move_azel(self,az,el,offset_x=0,offset_y=0,offset_unit="deg"):
         """
         msg
         - type : list
         - unit : az [deg]
                : el [deg]
-               : off_x [deg] or [arcsec] or [arcmin]
-               : off_y [deg] or [arcsec] or [arcmin]
+               : offset_x [deg] or [arcsec] or [arcmin]
+               : offset_y [deg] or [arcsec] or [arcmin]
         """
 
-        if off_unit == "arcsec" :
-            az = az*3600
-            el = el*3600
-        if off_unit == "arcmin" :
-            az = az*60
-            el = el*60
-        if off_unit == "deg" :
+        if offset_unit == "arcsec" :
+            az = az/3600
+            el = el/3600
+        if offset_unit == "arcmin" :
+            az = az/60
+            el = el/60
+        if offset_unit == "deg" :
             pass
 
-        topic_name = '/necst/telescope/coordinate/stop_refracted_cmd'
+        topic_name = '/necst/telescope/coordinate/stop_cmd'
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
@@ -66,11 +66,11 @@ class antenna(object):
         topic_name = '/necst/telescope/coordinate/azel_cmd'
         data_class = std_msgs.msg.Float64MultiArray
         cmd = std_msgs.msg.Float64MultiArray()
-        cmd.data = [az,el,off_x,off_y]
+        cmd.data = [az,el,offset_x,offset_y]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
-    def move_planet(self,planet,off_x=0,off_y=0,off_unit="deg"):
+    def move_planet(self,planet,offset_x=0,offset_y=0,offset_unit="deg"):
         """
         msg
         - type : list
@@ -83,20 +83,20 @@ class antenna(object):
                 6 : saturn
                 7 : uranus
                 8 : neptune
-        - unit : off_x [deg]
-               : off_y [deg]
+        - unit : offset_x [deg]
+               : offset_y [deg]
         """
 
-        if off_unit == "arcsec" :
-            az = az*3600
-            el = el*3600
-        if off_unit == "arcmin" :
-            az = az*60
-            el = el*60
-        if off_unit == "deg" :
+        if offset_unit == "arcsec" :
+            az = az/3600
+            el = el/3600
+        if offset_unit == "arcmin" :
+            az = az/60
+            el = el/60
+        if offset_unit == "deg" :
             pass
 
-        topic_name = '/necst/telescope/coordinate/stop_refracted_cmd'
+        topic_name = '/necst/telescope/coordinate/stop_cmd'
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
@@ -104,24 +104,33 @@ class antenna(object):
         topic_name = '/necst/telescope/coordinate/planet_cmd'
         data_class = std_msgs.msg.Float64MultiArray
         cmd = std_msgs.msg.Float64MultiArray()
-        cmd.data = [planet,off_x,off_y]
+        cmd.data = [planet,offset_x,offset_y]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
-    def move_wcs(self,x,y,off_x=0,off_y=0,frame="fk5"):
+    def move_wcs(self,x,y,offset_x=0,offset_y=0,frame="fk5",offset_unit="deg"):
         """
         msg
         - type : list
         - unit : x [deg]
                : y [deg]
-               : off_x [deg]
-               : off_y [deg]
-
+               : offset_x [deg]
+               : offset_y [deg]
+        msg
         - type : string
         - cmd : fk5, galactic, icrs
         """
 
-        topic_name = '/necst/telescope/coordinate/stop_refracted_cmd'
+        if offset_unit == "arcsec" :
+            offset_x = offset_x/3600
+            offset_y = offset_y/3600
+        if offset_unit == "arcmin" :
+            offset_x = offset_x/60
+            offset_y = offset_y/60
+        if offset_unit == "deg" :
+            pass
+
+        topic_name = '/necst/telescope/coordinate/stop_cmd'
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
@@ -134,24 +143,43 @@ class antenna(object):
         topic_name = '/necst/telescope/coordinate/wcs_cmd'
         data_class = std_msgs.msg.Float64MultiArray
         cmd = std_msgs.msg.Float64MultiArray()
-        cmd.data = [x,y,off_x,off_y]
+        cmd.data = [x,y,offset_x,offset_y]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
-    def move_raster_wcs(self,x,y,lx,ly,start_t,scan_t,frame="fk5"):
-        dx = x/scan_t*0.1
-        num = int(lx/dx)
+    def move_raster_wcs(self,x,y,lx,ly,l_unit="deg",scan_t,frame="fk5"):
+        """
+        msg
+        - type : list
+        - unit : x [deg]
+               : y [deg]
+               : lx [deg]
+               : ly [deg]
+               : scan_t [s]
+        msg
+        - type : string
+        - cmd : fk5, galactic, icrs
+        """
 
-        topic_name = '/necst/telescope/coordinate/wcs_cmd'
+        if l_unit == "arcsec" :
+            lx = lx/3600
+            ly = ly/3600
+        if l_unit == "arcmin" :
+            lx = lx/60
+            ly = ly/60
+        if l_unit == "deg" :
+            pass
+
+        topic_name = '/necst/telescope/coordinate/wcs_frame_cmd'
+        data_class = std_msgs.msg.String
+        cmd = frame
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+
+        topic_name = '/necst/telescope/coordinate/wcs_raster_cmd'
         data_class = std_msgs.msg.Float64MultiArray
         cmd = std_msgs.msg.Float64MultiArray()
-
-        for i in range(num):
-            off_x = dx*i
-            off_y = dy*i
-            cmd.data = [x,y,off_x,off_y]
-            self.make_pub.publish(topic_name, data_class, msg = cmd)
-            continue
+        cmd.data = [x,y,lx,ly,scan_t]
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
 
         pass
 
