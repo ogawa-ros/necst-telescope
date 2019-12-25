@@ -147,7 +147,7 @@ class antenna(object):
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
-    def move_raster_wcs(self,x,y,lx,ly,l_unit="deg",scan_t,frame="fk5"):
+    def move_raster_wcs(self,x,y,lx,ly,scan_t,l_unit="deg",frame="fk5"):
         """
         msg
         - type : list
