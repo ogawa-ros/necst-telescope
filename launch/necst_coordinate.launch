@@ -4,5 +4,5 @@
     <include file="$(find necst-telescope)/launch/refracted2apparent.launch" />
     <include file="$(find necst-telescope)/launch/wcs2refracted.launch" />
     <include file="$(find necst-telescope)/launch/azel2refracted.launch" />
-
+    <include file="$(find necst-telescope)/launch/wcs2refracted_raster.launch" />
 </launch>
