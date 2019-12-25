@@ -82,7 +82,7 @@ class wcs2refracted_raster(object):
             offset_x = lx*i
             offset_y = lx*i
             dt = 0.1*i
-            altaz = convert_azel(x,y,offset_x,offset_y,dt)
+            altaz = self.convert_azel(x,y,offset_x,offset_y,dt)
             obstime = altaz.obstime.to_value("unix")
             alt = altaz.alt.deg
             az = altaz.az.deg
