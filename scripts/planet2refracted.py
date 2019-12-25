@@ -38,7 +38,7 @@ class planet2refracted(object):
         rospy.Subscriber('/necst/telescope/weather/pressure',Float64,self.recieve_pressure)
         rospy.Subscriber('/necst/telescope/weather/temperature',Float64,self.recieve_temprature)
         rospy.Subscriber('/necst/telescope/weather/humidity',Float64,self.recieve_humidity)
-        rospy.Subscriber('/necst/telescope/coordinate/stop_refracted_cmd' ,Bool, self.recieve_stop_cmd)
+        rospy.Subscriber('/necst/telescope/coordinate/stop_cmd' ,Bool, self.recieve_stop_cmd)
         rospy.Subscriber('/necst/telescope/obswl',Float64,self.recieve_obswl)
 
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)

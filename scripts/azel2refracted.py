@@ -15,7 +15,7 @@ from std_msgs.msg import Bool
 class azel2refracted(object):
     azel_cmd = ""
     def __init__(self):
-        rospy.Subscriber('/necst/telescope/coordinate/stop_refracted_cmd' ,Bool, self.recieve_stop_cmd)
+        rospy.Subscriber('/necst/telescope/coordinate/stop_cmd' ,Bool, self.recieve_stop_cmd)
         rospy.Subscriber('/necst/telescope/coordinate/azel_cmd',Float64MultiArray,self.recieve_azel)
 
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)

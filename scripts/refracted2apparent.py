@@ -26,8 +26,10 @@ class refracted2apparent(object):
         self.read_kisa()
         self.pub_az = rospy.Publisher("/necst/telescope/coordinate/apparent_az_cmd",Float64, queue_size=1)
         self.pub_el = rospy.Publisher("/necst/telescope/coordinate/apparent_el_cmd", Float64, queue_size=1)
+        self.pub_cmd_num = rospy.Publisher("/necst/telescope/coordinate/apparent_cmd_num", Int64, queue_size=1)
+
         rospy.Subscriber('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, self.recieve_azel)
-        rospy.Subscriber('/necst/telescope/coordinate/stop_refracted_cmd' ,Bool, self.recieve_stop_cmd)
+        rospy.Subscriber('/necst/telescope/coordinate/stop_cmd' ,Bool, self.recieve_stop_cmd)
 
 
     def recieve_azel(self, array):
@@ -42,15 +44,16 @@ class refracted2apparent(object):
             try:
                 azel = self.azel.pop(0)
             except:
+                self.pub_cmd_num.publish(len(self.azel))
                 continue
 
             while True:
                 if azel[0] < time.time():
                     q = [azel[1],azel[2]] #[az,el]
-                    self.calculate_offset(q)
+                    self.calculate_kisa(q)
                     break
                 else:
-                    time.sleep(0.0001)
+                    time.sleep(0.00001)
                     continue
 
             continue
@@ -67,7 +70,7 @@ class refracted2apparent(object):
         self.g1 = float(kisa[6])
 
 
-    def calculate_offset(self,azel):
+    def calculate_kisa(self,azel):
         az = math.radians(azel[0])
         el = math.radians(azel[1])
         el2 = math.degrees(azel[1]/180*math.pi)
