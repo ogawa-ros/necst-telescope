@@ -1,4 +1,0 @@
-<launch>
-  <node pkg="necst-telescope" name="planet2refracted" type="planet2refracted.py" required="true" output="screen">
-  </node>
-</launch>

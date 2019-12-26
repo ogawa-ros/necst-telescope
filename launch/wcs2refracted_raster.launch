@@ -1,4 +1,0 @@
-<launch>
-  <node pkg="necst-telescope" name="wcs2refracted_raster" type="wcs2refracted_raster.py" required="true" output="screen">
-  </node>
-</launch>
