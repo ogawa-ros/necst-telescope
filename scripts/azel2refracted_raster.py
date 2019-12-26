@@ -14,7 +14,7 @@ from astropy.time import Time
 
 class azel2refracted_raster(object):
     def __init__(self):
-        rospy.Subscriber('/necst/telescope/coordinate/azel_raster_cmd',Float64MultiArray,self.recieve_azel)
+        rospy.Subscriber('/necst/telescope/coordinate/azel_raster_cmd',Float64MultiArray,self.publish)
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
         self.pub_raster_check = rospy.Publisher('/necst/telescope/coordinate/raster_check', Bool, queue_size=1)
 
