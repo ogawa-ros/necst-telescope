@@ -91,7 +91,7 @@ class wcs2refracted_raster(object):
             array.data = [obstime, az, alt]
             self.pub_real_azel.publish(array)
             time.sleep(0.01)
-        while obstime < time.time():
+        while obstime > time.time():
             time.sleep(0.1)
             continue
         self.pub_raster_check.publish(False)
