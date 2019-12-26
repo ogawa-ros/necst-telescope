@@ -32,6 +32,7 @@ class make_pub(object):
 class antenna(object):
     def __init__(self):
         self.make_pub = make_pub()
+        self.raster = topic_utils.receiver('/necst/telescope/coordinate/raster_check'   ,std_msgs.msg.Bool)
         self.track  = topic_utils.receiver('/necst/telescope/tracking_check'            ,std_msgs.msg.Bool)
         self.az     = topic_utils.receiver('/necst/telescope/az'                        ,std_msgs.msg.Float64)
         self.az_cmd = topic_utils.receiver('/necst/telescope/coordinate/apprent_az_cmd' ,std_msgs.msg.Float64)
@@ -197,6 +198,8 @@ class antenna(object):
         cmd.data = [x,y,lx,ly,scan_t]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
 
+        self.raster_check()
+
         pass
 
     def move_raster_planet(self,planet,lx,ly,scan_t,l_unit="deg"):
@@ -242,6 +245,8 @@ class antenna(object):
         cmd.data = [planet,lx,ly,scan_t]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
 
+        self.raster_check()
+
         pass
 
 
@@ -279,6 +284,7 @@ class antenna(object):
         cmd.data = [x,y,lx,ly,scan_t]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
 
+        self.raster_check()
         pass
 
     def tracking_check(self):
@@ -290,6 +296,17 @@ class antenna(object):
             time.sleep(0.01)
             pass
         return
+
+    def raster_check(self):
+        raster_flag = True
+        print(" raster scan now....")
+        time.sleep(1)
+        while raster_flag:
+            raster_flag = self.raster.recv()
+            time.sleep(0.01)
+            pass
+        return
+
 
     def get_az_cmd(self):
         az_cmd = self.az_cmd.recv()

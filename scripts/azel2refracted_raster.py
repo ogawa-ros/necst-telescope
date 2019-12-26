@@ -15,6 +15,7 @@ class azel2refracted_raster(object):
     def __init__(self):
         rospy.Subscriber('/necst/telescope/coordinate/azel_raster_cmd',Float64MultiArray,self.recieve_azel)
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
+        self.pub_raster_check = rospy.Publisher('/necst/telescope/coordinate/raster_check', Bool, queue_size=1)
 
 
     def publish(self,q):
@@ -30,6 +31,8 @@ class azel2refracted_raster(object):
         dy = dl * ly/length
         num = int(length/dl)
         t0 = time.time()
+        self.pub_raster_check.publish(True)
+
         for i in range(num):
             obstime = t0 + 0.1*i
             az = x + dx*i
@@ -38,6 +41,11 @@ class azel2refracted_raster(object):
             array.data = [obstime, az, el]
             self.pub_real_azel.publish(array)
             time.sleep(0.01)
+
+        while obstime < time.time():
+            time.sleep(0.1)
+            continue
+        self.pub_raster_check.publish(False)
         return
 
 

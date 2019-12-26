@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""
-For test of telescope driving
-"""
+
 import sys
 import time
 import numpy
@@ -14,8 +12,12 @@ sys.path.append("/home/exito/ros/src/necst-core/scripts")
 import core_controller
 import rospy
 
-name = "wait_sun_test"
+planet = "sun"
+lx = 1 #deg
+ly = 1 #deg
+scan_t = 60
 
+name = "raster_scan_" + planet
 rospy.init_node(name)
 
 logger = core_controller.logger()
@@ -27,9 +29,7 @@ print(file_name)
 
 logger.start(file_name)
 
-time.sleep(3)
-print("Moving to moon")
-antenna.move_azel("sun")
-antenna.tracking_check()
-time.sleep(10)
+antenna.move_raster_planet(planet,lx=lx,ly=0 ,scan_t,l_unit="deg")
+antenna.move_raster_planet(planet,lx=0 ,ly=ly,scan_t,l_unit="deg")
+
 logger.stop()
