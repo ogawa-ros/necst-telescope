@@ -287,6 +287,8 @@ class antenna(object):
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
 
+        time.sleep(0.1)
+
         topic_name = '/necst/telescope/coordinate/azel_raster_cmd'
         data_class = std_msgs.msg.Float64MultiArray
         cmd = std_msgs.msg.Float64MultiArray()
