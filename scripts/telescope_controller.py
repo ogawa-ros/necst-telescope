@@ -85,15 +85,15 @@ class antenna(object):
         - unit : offset_x [deg]
                : offset_y [deg]
         """
-        if planet = "sun"    : planet = 0
-        if planet = "moon"   : planet = 1
-        if planet = "mercury": planet = 2
-        if planet = "venus"  : planet = 3
-        if planet = "mars"   : planet = 4
-        if planet = "jupiter": planet = 5
-        if planet = "saturn" : planet = 6
-        if planet = "uranus" : planet = 7
-        if planet = "neptune": planet = 8
+        if planet == "sun"    : planet = 0
+        if planet == "moon"   : planet = 1
+        if planet == "mercury": planet = 2
+        if planet == "venus"  : planet = 3
+        if planet == "mars"   : planet = 4
+        if planet == "jupiter": planet = 5
+        if planet == "saturn" : planet = 6
+        if planet == "uranus" : planet = 7
+        if planet == "neptune": planet = 8
 
         if offset_unit == "arcsec" :
             az = az/3600
