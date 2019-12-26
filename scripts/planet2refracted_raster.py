@@ -56,14 +56,13 @@ class planet2refracted_raster(object):
         self.obswl = q.data
 
     def convert_azel(self,plnaet,t0,dt):
-        on_coord = astropy.coordinates.get_body(location=self.nobeyama,time=Time.now(),body=planet)
+        on_coord = astropy.coordinates.get_body(location=self.nobeyama,time=t0+TimeDelta(dt, format='sec'),body=planet)
         on_coord.location = self.nobeyama
         on_coord.pressure = self.press*u.hPa
         on_coord.temperature = self.temp*u.deg_C
         on_coord.relative_humidity = self.humid
         on_coord.obswl = (astropy.constants.c/(self.obswl*u.GHz)).to('micron')
-        altaz_list = on_coord.transform_to(AltAz(obstime=t0+TimeDelta(dt, format='sec')))
-        return altaz_list
+        return on_coord
 
     def publish(self,q):
         if q.data[0]==0 : planet = "sun"

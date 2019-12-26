@@ -80,16 +80,15 @@ class planet2refracted(object):
 
     def convert_azel(self,dt):
         target = self.planet
-        on_coord = astropy.coordinates.get_body(location=self.nobeyama,time=Time.now(),body=target[0])
+        on_coord = astropy.coordinates.get_body(location=self.nobeyama,time=Time.now()+TimeDelta(dt, format='sec'),body=target[0])
         on_coord.location = self.nobeyama
         on_coord.pressure = self.press*u.hPa
         on_coord.temperature = self.temp*u.deg_C
         on_coord.relative_humidity = self.humid
         on_coord.obswl = (astropy.constants.c/(self.obswl*u.GHz)).to('micron')
-        altaz_list = on_coord.transform_to(AltAz(obstime=Time.now()+TimeDelta(dt, format='sec')))
         off_x = target[1]
         off_y = target[2]
-        return altaz_list,off_x,off_y
+        return on_coord,off_x,off_y
 
     def publish_azel(self):
         while not rospy.is_shutdown():
