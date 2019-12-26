@@ -10,7 +10,6 @@ import topic_utils
 class controller(object):
     def __init__(self):
         self.antenna = antenna()
-        self.camera = camera()
 
 class make_pub(object):
     def __init__(self):
@@ -86,6 +85,15 @@ class antenna(object):
         - unit : offset_x [deg]
                : offset_y [deg]
         """
+        if planet = "sun"    : planet = 0
+        if planet = "moon"   : planet = 1
+        if planet = "mercury": planet = 2
+        if planet = "venus"  : planet = 3
+        if planet = "mars"   : planet = 4
+        if planet = "jupiter": planet = 5
+        if planet = "saturn" : planet = 6
+        if planet = "uranus" : planet = 7
+        if planet = "neptune": planet = 8
 
         if offset_unit == "arcsec" :
             az = az/3600
@@ -170,6 +178,9 @@ class antenna(object):
         if l_unit == "deg" :
             pass
 
+        self.move_wcs(x,y)
+        self.tracking_check()
+
         topic_name = '/necst/telescope/coordinate/stop_cmd'
         data_class = std_msgs.msg.Bool
         cmd = True
@@ -188,7 +199,87 @@ class antenna(object):
 
         pass
 
+    def move_raster_planet(self,planet,lx,ly,scan_t,l_unit="deg"):
+        """
+        msg
+        - type : list
+        - unit : planet
+               : lx [deg]
+               : ly [deg]
+               : scan_t [s]
+        """
 
+        if l_unit == "arcsec" :
+            lx = lx/3600
+            ly = ly/3600
+        if l_unit == "arcmin" :
+            lx = lx/60
+            ly = ly/60
+        if l_unit == "deg" :
+            pass
+
+        if planet = "sun"    : planet = 0
+        if planet = "moon"   : planet = 1
+        if planet = "mercury": planet = 2
+        if planet = "venus"  : planet = 3
+        if planet = "mars"   : planet = 4
+        if planet = "jupiter": planet = 5
+        if planet = "saturn" : planet = 6
+        if planet = "uranus" : planet = 7
+        if planet = "neptune": planet = 8
+
+        self.move_planet(planet,-lx/2,-ly/2)
+        self.tracking_check()
+
+        topic_name = '/necst/telescope/coordinate/stop_cmd'
+        data_class = std_msgs.msg.Bool
+        cmd = True
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+
+        topic_name = '/necst/telescope/coordinate/planet_raster_cmd'
+        data_class = std_msgs.msg.Float64MultiArray
+        cmd = std_msgs.msg.Float64MultiArray()
+        cmd.data = [planet,lx,ly,scan_t]
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+
+        pass
+
+
+    def move_raster_azel(self,x,y,lx,ly,scan_t,l_unit="deg"):
+        """
+        msg
+        - type : list
+        - unit : x [deg]
+               : y [deg]
+               : lx [deg]
+               : ly [deg]
+               : scan_t [s]
+        """
+
+        if l_unit == "arcsec" :
+            lx = lx/3600
+            ly = ly/3600
+        if l_unit == "arcmin" :
+            lx = lx/60
+            ly = ly/60
+        if l_unit == "deg" :
+            pass
+
+        self.move_azel(x,y)
+        self.tracking_check()
+
+        topic_name = '/necst/telescope/coordinate/stop_cmd'
+        data_class = std_msgs.msg.Bool
+        cmd = True
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+
+        topic_name = '/necst/telescope/coordinate/azel_raster_cmd'
+        data_class = std_msgs.msg.Float64MultiArray
+        cmd = std_msgs.msg.Float64MultiArray()
+        cmd.data = [x,y,lx,ly,scan_t]
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+
+        pass
 
     def tracking_check(self):
         tracking_flag = False
@@ -223,37 +314,14 @@ class antenna(object):
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         topic_name = '/1p85m/az_lock_cmd'
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-
-    def finalize(self):
-        data_class = std_msgs.msg.Bool
-        data = False
-        topic_name = '/1p85m/el_lock_cmd'
-        self.make_pub.publish(topic_name, data_class, msg = cmd)
-
-        data_class = std_msgs.msg.Bool
-        data = False
-        topic_name = '/1p85m/el_lock_cmd'
-        self.make_pub.publish(topic_name, data_class, msg = cmd)
-        topic_name = '/1p85m/az_lock_cmd'
-        self.make_pub.publish(topic_name, data_class, msg = cmd)
     """
 
-    def get_condition(self):
-        pass
-
-
-class camera(object):
-    def __init__(self):
-        self.make_pub = make_pub()
-
-    def capture(self,savepath):
-        """
-        msg
-        - type : String
-
-        """
-        topic_name = '/dev/m100/capture/savepath'
-        data_class = std_msgs.msg.String
-        cmd = savepath
+    def finalize(self):
+        topic_name = '/necst/telescope/coordinate/stop_cmd'
+        data_class = std_msgs.msg.Bool
+        cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
+
+
+    def get_condition(self):
         pass
