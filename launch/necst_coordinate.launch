@@ -1,11 +1,11 @@
 <launch>
   <node pkg="necst-telescope" name="azel2refracted" type="azel2refracted.py" required="true" output="screen">
   </node>
-  <node pkg="necst-telescope" name="azel2refracted_raster" type="azel2refracted.py" required="true" output="screen">
+  <node pkg="necst-telescope" name="azel2refracted_raster" type="azel2refracted_raster.py" required="true" output="screen">
   </node>
   <node pkg="necst-telescope" name="planet2refracted" type="planet2refracted.py" required="true" output="screen">
   </node>
-  <node pkg="necst-telescope" name="planet2refracted_raster" type="planet2refracted.py" required="true" output="screen">
+  <node pkg="necst-telescope" name="planet2refracted_raster" type="planet2refracted_raster.py" required="true" output="screen">
   </node>
   <node pkg="necst-telescope" name="wcs2refracted" type="wcs2refracted.py" required="true" output="screen">
   </node>
