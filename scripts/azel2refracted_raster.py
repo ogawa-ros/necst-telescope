@@ -31,7 +31,7 @@ class azel2refracted_raster(object):
         dx = dl * lx/length
         dy = dl * ly/length
         num = int(length/dl)
-        t0 = Time.now()
+        t0 = time.time()
         self.pub_raster_check.publish(True)
 
         for i in range(num):
@@ -43,7 +43,7 @@ class azel2refracted_raster(object):
             self.pub_real_azel.publish(array)
             time.sleep(0.01)
 
-        while obstime < time.time():
+        while obstime > time.time():
             time.sleep(0.1)
             continue
         self.pub_raster_check.publish(False)
