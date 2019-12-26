@@ -207,6 +207,15 @@ class antenna(object):
         msg
         - type : list
         - unit : planet
+                    sun     : 0
+                    moon    : 1
+                    mercury : 2
+                    venus   : 3
+                    mars    : 4
+                    jupiter : 5
+                    saturn  : 6
+                    uranus  : 7
+                    neptune : 8
                : lx [deg]
                : ly [deg]
                : scan_t [s]

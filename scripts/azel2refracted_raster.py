@@ -10,6 +10,7 @@ import datetime
 from std_msgs.msg import Float64
 from std_msgs.msg import Float64MultiArray
 from std_msgs.msg import Bool
+from astropy.time import Time
 
 class azel2refracted_raster(object):
     def __init__(self):
@@ -30,7 +31,7 @@ class azel2refracted_raster(object):
         dx = dl * lx/length
         dy = dl * ly/length
         num = int(length/dl)
-        t0 = time.time()
+        t0 = Time.now()
         self.pub_raster_check.publish(True)
 
         for i in range(num):
