@@ -200,6 +200,9 @@ class antenna(object):
 
         self.raster_check()
 
+        self.move_wcs(x+lx,y+ly)
+        self.tracking_check()
+
         pass
 
     def move_raster_planet(self,planet,lx,ly,scan_t,l_unit="deg"):
@@ -256,6 +259,9 @@ class antenna(object):
 
         self.raster_check()
 
+        self.move_planet(planet,lx/2,ly/2)
+        self.tracking_check()
+
         pass
 
 
@@ -294,6 +300,10 @@ class antenna(object):
         self.make_pub.publish(topic_name, data_class, msg = cmd)
 
         self.raster_check()
+
+        self.move_azel(x+lx,y+ly)
+        self.tracking_check()
+
         pass
 
     def tracking_check(self):
