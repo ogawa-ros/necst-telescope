@@ -41,6 +41,7 @@ class planet2refracted_raster(object):
         rospy.Subscriber('/necst/telescope/obswl',Float64,self.recieve_obswl)
 
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=10)
+        self.pub_offset = rospy.Publisher('/necst/telescope/coordinate/planet_offset', Float64MultiArray, queue_size=10)
         self.pub_raster_check = rospy.Publisher('/necst/telescope/coordinate/raster_check', Bool, queue_size=1)
 
     def recieve_pressure(self,q):
@@ -81,7 +82,7 @@ class planet2refracted_raster(object):
         print(planet,lx,ly,scan_t)
 
         length = (lx**2 + ly**2)**(1/2)
-        dl = length/scan_t * 0.1
+        dl = length/scan_t * 0.2
         dx = dl * lx/length
         dy = dl * ly/length
         start_x = -lx/2
@@ -92,7 +93,7 @@ class planet2refracted_raster(object):
         for i in range(num):
             offset_x = start_x + dx*i
             offset_y = start_y + dy*i
-            dt = 0.1*i
+            dt = 0.2*i
             t1 = time.time()
             altaz = self.convert_azel(planet,t0,dt)
             t2 = time.time()
@@ -100,9 +101,14 @@ class planet2refracted_raster(object):
             obstime = altaz.obstime.to_value("unix")
             alt = altaz.alt.deg + offset_x
             az  = altaz.az.deg  + offset_y
+
             array = Float64MultiArray()
             array.data = [obstime, az, alt]
             self.pub_real_azel.publish(array)
+
+            offset = Float64MultiArray()
+            offset.data = [obstime, az, alt]
+            self.pub_offset.publish(offset)
             time.sleep(0.001)
 
         while obstime > time.time():
