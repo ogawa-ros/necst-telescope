@@ -62,7 +62,7 @@ class planet2refracted_raster(object):
         on_coord.temperature = self.temp*u.deg_C
         on_coord.relative_humidity = self.humid
         on_coord.obswl = (astropy.constants.c/(self.obswl*u.GHz)).to('micron')
-        return on_coord
+        return on_coord.altaz
 
     def publish(self,q):
         if q.data[0]==0 : planet = "sun"

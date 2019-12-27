@@ -88,17 +88,17 @@ class planet2refracted(object):
         on_coord.obswl = (astropy.constants.c/(self.obswl*u.GHz)).to('micron')
         off_x = target[1]
         off_y = target[2]
-        return on_coord,off_x,off_y
+        return on_coord.altaz,off_x,off_y
 
     def publish_azel(self):
         while not rospy.is_shutdown():
             if self.planet != "":
                 if self.init_flag == True:
                     for i in range(11):
-                        on_coord,off_x,off_y = self.convert_azel(dt=0.1*i)
-                        obstime = on_coord.obstime.to_value("unix")
-                        alt = on_coord.altaz.alt.deg + off_x
-                        az  = on_coord.altaz.az.deg  + off_y
+                        altaz,off_x,off_y = self.convert_azel(dt=0.1*i)
+                        obstime = altaz.obstime.to_value("unix")
+                        alt = altaz.alt.deg + off_x
+                        az  = altaz.az.deg  + off_y
                         array = Float64MultiArray()
                         array.data = [obstime, az, alt]
                         self.pub_real_azel.publish(array)
