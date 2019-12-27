@@ -100,7 +100,7 @@ class planet2refracted_raster(object):
             array = Float64MultiArray()
             array.data = [obstime, az, alt]
             self.pub_real_azel.publish(array)
-            time.sleep(0.01)
+            time.sleep(0.001)
 
         while obstime > time.time():
             time.sleep(0.1)
