@@ -78,6 +78,7 @@ class planet2refracted_raster(object):
         lx = q.data[1]
         ly = q.data[2]
         scan_t = q.data[3]
+        print(planet,lx,ly,scan_t)
 
         length = (lx**2 + ly**2)**(1/2)
         dl = length/scan_t * 0.1
