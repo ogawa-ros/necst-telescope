@@ -40,7 +40,7 @@ class planet2refracted_raster(object):
         rospy.Subscriber('/necst/telescope/weather/humidity',Float64,self.recieve_humidity)
         rospy.Subscriber('/necst/telescope/obswl',Float64,self.recieve_obswl)
 
-        self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
+        self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=10)
         self.pub_raster_check = rospy.Publisher('/necst/telescope/coordinate/raster_check', Bool, queue_size=1)
 
     def recieve_pressure(self,q):
