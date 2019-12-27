@@ -36,7 +36,7 @@ class refracted2apparent(object):
     def recieve_azel(self, array):
         self.azel.append(array.data)
         self.azel.sort()
-        print(array)
+        #print(array)
 
     def recieve_stop_cmd(self, q):
         self.azel = []

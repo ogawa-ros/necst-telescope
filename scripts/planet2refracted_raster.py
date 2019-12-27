@@ -79,7 +79,7 @@ class planet2refracted_raster(object):
         lx = q.data[1]
         ly = q.data[2]
         scan_t = q.data[3]
-        print(planet,lx,ly,scan_t)
+        #print(planet,lx,ly,scan_t)
 
         length = (lx**2 + ly**2)**(1/2)
         dl = length/scan_t * 0.2
@@ -94,10 +94,10 @@ class planet2refracted_raster(object):
             offset_x = start_x + dx*i
             offset_y = start_y + dy*i
             dt = 0.2*i
-            t1 = time.time()
+            #t1 = time.time()
             altaz = self.convert_azel(planet,t0,dt)
-            t2 = time.time()
-            print(t2-t1)
+            #t2 = time.time()
+            #print(t2-t1)
             obstime = altaz.obstime.to_value("unix")
             alt = altaz.alt.deg + offset_x
             az  = altaz.az.deg  + offset_y
