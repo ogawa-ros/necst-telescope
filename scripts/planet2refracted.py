@@ -95,10 +95,10 @@ class planet2refracted(object):
             if self.planet != "":
                 if self.init_flag == True:
                     for i in range(11):
-                        altaz,off_x,off_y = self.convert_azel(dt=0.1*i)
+                        on_coord,off_x,off_y = self.convert_azel(dt=0.1*i)
                         obstime = altaz.obstime.to_value("unix")
-                        alt = altaz.alt.deg + off_x
-                        az  = altaz.az.deg  + off_y
+                        alt = on_coord.altaz.alt.deg + off_x
+                        az  = on_coord.altaz.az.deg  + off_y
                         array = Float64MultiArray()
                         array.data = [obstime, az, alt]
                         self.pub_real_azel.publish(array)
