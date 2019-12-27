@@ -74,15 +74,15 @@ class antenna(object):
         """
         msg
         - type : list
-        - cmd : 0 : sun
-                1 : moon
-                2 : mercury
-                3 : venus
-                4 : mars
-                5 : jupiter
-                6 : saturn
-                7 : uranus
-                8 : neptune
+        - cmd : sun
+                moon
+                mercury
+                venus
+                mars
+                jupiter
+                saturn
+                uranus
+                neptune
         - unit : offset_x [deg]
                : offset_y [deg]
         """
@@ -210,15 +210,15 @@ class antenna(object):
         msg
         - type : list
         - unit : planet
-                    sun     : 0
-                    moon    : 1
-                    mercury : 2
-                    venus   : 3
-                    mars    : 4
-                    jupiter : 5
-                    saturn  : 6
-                    uranus  : 7
-                    neptune : 8
+                    sun
+                    moon
+                    mercury
+                    venus
+                    mars
+                    jupiter
+                    saturn
+                    uranus
+                    neptune
                : lx [deg]
                : ly [deg]
                : scan_t [s]
@@ -259,8 +259,8 @@ class antenna(object):
 
         self.raster_check()
 
-        self.move_planet(planet,lx/2,ly/2)
-        self.tracking_check()
+        #self.move_planet(planet,lx/2,ly/2)
+        #self.tracking_check()
 
         pass
 

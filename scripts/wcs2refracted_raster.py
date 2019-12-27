@@ -64,7 +64,6 @@ class wcs2refracted_raster(object):
     def recieve_obswl(self,q):
         self.obswl = q.data
 
-
     def publish(self,q):
         x = q.data[0]
         y = q.data[1]
