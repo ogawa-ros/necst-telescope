@@ -34,7 +34,7 @@ class azel2refracted_raster(object):
         t0 = time.time()
         self.pub_raster_check.publish(True)
 
-        for i in range(num):
+        for i in range(num+1):
             obstime = t0 + 0.1*i
             az = x + dx*i
             el = y + dy*i

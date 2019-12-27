@@ -78,7 +78,7 @@ class wcs2refracted_raster(object):
         num = int(length/dl)
         t0 = Time.now()
         self.pub_raster_check.publish(True)
-        for i in range(num):
+        for i in range(num+1):
             offset_x = dx*i
             offset_y = dy*i
             dt = 0.1*i

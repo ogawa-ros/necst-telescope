@@ -90,7 +90,7 @@ class planet2refracted_raster(object):
         num = int(length/dl)
         t0 = Time.now()
         self.pub_raster_check.publish(True)
-        for i in range(num):
+        for i in range(num+1):
             offset_x = start_x + dx*i
             offset_y = start_y + dy*i
             dt = 0.2*i
