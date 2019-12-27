@@ -29,7 +29,7 @@ print(file_name)
 
 logger.start(file_name)
 
-antenna.move_raster_planet(planet,lx=lx,ly=0 ,scan_t,l_unit="deg")
-antenna.move_raster_planet(planet,lx=0 ,ly=ly,scan_t,l_unit="deg")
+antenna.move_raster_planet(planet,lx=lx,ly=0 ,scan_t=scan_t,l_unit="deg")
+antenna.move_raster_planet(planet,lx=0 ,ly=ly,scan_t=scan_t,l_unit="deg")
 
 logger.stop()
