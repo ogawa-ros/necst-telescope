@@ -259,8 +259,8 @@ class antenna(object):
 
         self.raster_check()
 
-        self.move_planet(planet,lx/2,ly/2)
-        self.tracking_check()
+        #self.move_planet(planet,lx/2,ly/2)
+        #self.tracking_check()
 
         pass
 
@@ -358,6 +358,15 @@ class antenna(object):
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
 
+        topic_name = '/pyinterface/pci7415/rsw0/y/speed_cmd'
+        data_class = std_msgs.msg.Float64
+        cmd = 0
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+
+        topic_name = '/pyinterface/pci7415/rsw0/x/speed_cmd'
+        data_class = std_msgs.msg.Float64
+        cmd = 0
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
 
     def get_condition(self):
         pass

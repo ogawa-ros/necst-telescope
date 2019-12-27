@@ -15,7 +15,7 @@ import rospy
 planet = "sun"
 lx = 1 #deg
 ly = 1 #deg
-scan_t = 60
+scan_t = 30
 
 name = "raster_scan_" + planet
 rospy.init_node(name)
