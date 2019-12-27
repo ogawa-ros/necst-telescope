@@ -107,7 +107,7 @@ class planet2refracted_raster(object):
             self.pub_real_azel.publish(array)
 
             offset = Float64MultiArray()
-            offset.data = [obstime, az, alt]
+            offset.data = [offset_x,offset_y]
             self.pub_offset.publish(offset)
             time.sleep(0.001)
 
