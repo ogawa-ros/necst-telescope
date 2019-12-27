@@ -55,7 +55,7 @@ class planet2refracted_raster(object):
     def recieve_obswl(self,q):
         self.obswl = q.data
 
-    def convert_azel(self,plnaet,t0,dt):
+    def convert_azel(self,planet,t0,dt):
         on_coord = astropy.coordinates.get_body(location=self.nobeyama,time=t0+TimeDelta(dt, format='sec'),body=planet)
         on_coord.location = self.nobeyama
         on_coord.pressure = self.press*u.hPa
