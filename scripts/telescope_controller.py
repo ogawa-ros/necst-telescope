@@ -259,8 +259,8 @@ class antenna(object):
 
         self.raster_check()
 
-        #self.move_planet(planet,lx/2,ly/2)
-        #self.tracking_check()
+        self.move_planet(planet,lx/2,ly/2)
+        self.tracking_check()
 
         pass
 
