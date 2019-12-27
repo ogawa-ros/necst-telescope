@@ -92,7 +92,7 @@ class planet2refracted_raster(object):
             offset_x = start_x + dx*i
             offset_y = start_y + dy*i
             dt = 0.1*i
-            altaz = self.convert_azel(plnaet,t0,dt)
+            altaz = self.convert_azel(planet,t0,dt)
             obstime = altaz.obstime.to_value("unix")
             alt = altaz.alt.deg + offset_x
             az  = altaz.az.deg  + offset_y
