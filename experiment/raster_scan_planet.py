@@ -12,7 +12,7 @@ sys.path.append("/home/exito/ros/src/necst-core/scripts")
 import core_controller
 import rospy
 
-planet = "sun"
+planet = "neptune"
 lx = 1 #deg
 ly = 1 #deg
 scan_t = 30
