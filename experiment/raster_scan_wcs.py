@@ -12,10 +12,12 @@ sys.path.append("/home/exito/ros/src/necst-core/scripts")
 import core_controller
 import rospy
 
-planet = "neptune"
+x = 0
+y = 0
 lx = 1 #deg
-ly = 1 #deg
-scan_t = 30
+ly = 0 #deg
+scan_t = 60
+frame = "fk5"
 
 name = "raster_scan_" + planet
 rospy.init_node(name)
@@ -29,8 +31,5 @@ print(file_name)
 
 logger.start(file_name)
 
-antenna.move_raster_planet(planet,lx=lx,ly=0 ,scan_t=scan_t,l_unit="deg")
-time.sleep(1)
-antenna.move_raster_planet(planet,lx=0 ,ly=ly,scan_t=scan_t,l_unit="deg")
-
+antenna.move_raster_wcs(x,y,lx,ly,scan_t,l_unit="deg",frame=frame)
 logger.stop()
