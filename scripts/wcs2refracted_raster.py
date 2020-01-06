@@ -47,7 +47,7 @@ class wcs2refracted_raster(object):
 
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
         self.pub_raster_check = rospy.Publisher('/necst/telescope/coordinate/raster_check', Bool, queue_size=1)
-
+        self.pub_offset = rospy.Publisher('/necst/telescope/coordinate/wcs_offset', Float64MultiArray, queue_size=10)
 
     def recieve_wcs_frame(self,q):
         self.wcs_frame = q.data
@@ -90,6 +90,12 @@ class wcs2refracted_raster(object):
             array.data = [obstime, az, alt]
             self.pub_real_azel.publish(array)
             time.sleep(0.01)
+
+            offset = Float64MultiArray()
+            offset.data = [offset_x,offset_y]
+            self.pub_offset.publish(offset)
+            time.sleep(0.001)
+
         while obstime > time.time():
             time.sleep(0.1)
             continue
