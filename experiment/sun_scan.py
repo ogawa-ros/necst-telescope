@@ -15,6 +15,7 @@ sys.path.append("/home/exito/ros/src/necst-1p85m2019/scripts")
 import controller_1p85m2019
 
 import rospy
+import std_msgs
 
 planet = "sun"
 lx = 1 #deg

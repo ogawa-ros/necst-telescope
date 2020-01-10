@@ -40,10 +40,7 @@ class refracted2apparent(object):
         rospy.Subscriber('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, self.recieve_azel)
         rospy.Subscriber('/necst/telescope/coordinate/stop_cmd' ,Bool, self.recieve_stop_cmd)
 
-
         rospy.Subscriber('/necst/telescope/coordinate/optobs', Bool, self.recieve_optobs)
-
-
 
     def recieve_azel(self, array):
         self.azel.append(array.data)
