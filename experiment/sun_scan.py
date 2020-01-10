@@ -34,6 +34,11 @@ date = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
 file_name = name + '/' + date + '.necstdb'
 print(file_name)
 
+antenna.move_planet(planet,-lx/2,-ly/2) #deg
+antenna.tracking_check()
+time.sleep(1)
+
+print('START SUN SCAN')
 
 logger.start(file_name)
 
