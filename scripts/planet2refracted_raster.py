@@ -99,8 +99,8 @@ class planet2refracted_raster(object):
             #t2 = time.time()
             #print(t2-t1)
             obstime = altaz.obstime.to_value("unix")
-            alt = altaz.alt.deg + offset_x
-            az  = altaz.az.deg  + offset_y
+            az  = altaz.az.deg  + offset_x
+            alt = altaz.alt.deg + offset_y
 
             array = Float64MultiArray()
             array.data = [obstime, az, alt]

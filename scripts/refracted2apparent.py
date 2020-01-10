@@ -22,6 +22,14 @@ class refracted2apparent(object):
     b2 = 0
     b3 = 0
     g1 = 0
+    c1 = 0
+    c2 = 0
+    d1 = 0
+    d2 = 0
+    e1 = 0
+    e2 = 0
+
+    optobs = False
 
     def __init__(self):
         self.read_kisa()
@@ -33,6 +41,10 @@ class refracted2apparent(object):
         rospy.Subscriber('/necst/telescope/coordinate/stop_cmd' ,Bool, self.recieve_stop_cmd)
 
 
+        rospy.Subscriber('/necst/telescope/coordinate/optobs', Bool, self.recieve_optobs)
+
+
+
     def recieve_azel(self, array):
         self.azel.append(array.data)
         self.azel.sort()
@@ -40,6 +52,9 @@ class refracted2apparent(object):
 
     def recieve_stop_cmd(self, q):
         self.azel = []
+
+    def recieve_optobs(self, q):
+        self.optobs = q.data
 
     def time_handler(self):
         while not rospy.is_shutdown():
@@ -71,6 +86,12 @@ class refracted2apparent(object):
         self.b2 = float(kisa[4])
         self.b3 = float(kisa[5])
         self.g1 = float(kisa[6])
+        self.c1 = float(kisa[7])
+        self.c2 = float(kisa[8])
+        self.d1 = float(kisa[9])
+        self.d2 = float(kisa[10])
+        self.e1 = float(kisa[11])
+        self.e2 = float(kisa[12])
 
 
     def calculate_kisa(self,azel):
@@ -82,11 +103,20 @@ class refracted2apparent(object):
         sin_az = math.sin(az)
         cos_el = math.cos(el)
         sin_el = math.sin(el)
+        cos_azel = math.cos(az-el)
+        sin_azel = math.sin(az-el)
         pi = math.pi
 
         ## d_az[deg] , d_el[deg] ##
         d_az = self.a1*sin_el + self.a2 + self.a3*cos_el + self.b1*sin_az*sin_el - self.b2*cos_az*sin_el
         d_el = self.b1*cos_az + self.b2*sin_az + self.b3 + self.g1*el2
+
+        if self.optobs == False:
+            d_az = d_az + self.c1*sin_azel + self.c2*cos_azel + self.d1+ self.e1*cos_el - self.e2*sin_el
+            d_el = d_el + self.c1*cos_azel - self.c2*sin_azel + self.d2+ self.e1*sin_el + self.e2*cos_el
+        else:
+            pass
+
         ### convert to encoder offset on the horizon ###
         d_az = d_az / cos_el
 
@@ -96,6 +126,7 @@ class refracted2apparent(object):
 
         self.pub_az.publish(azaz)
         self.pub_el.publish(elel)
+
 
     def start_thread(self):
         th = threading.Thread(target=self.time_handler)
