@@ -18,9 +18,9 @@ import rospy
 import std_msgs
 
 planet = "moon"
-lx = 1.5 #deg
-ly = 1.5 #deg
-scan_t = 45
+lx = 2 #deg
+ly = 2 #deg
+scan_t = 60
 
 name = "moon_scan"
 rospy.init_node(name)
