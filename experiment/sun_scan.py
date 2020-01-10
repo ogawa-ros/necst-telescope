@@ -56,3 +56,5 @@ status.publish("{0:2}".format("el"))
 antenna.move_raster_planet(planet,lx=0 ,ly=ly,scan_t=scan_t,l_unit="deg")
 
 logger.stop()
+
+antenna.finalize()
