@@ -18,9 +18,9 @@ import rospy
 import std_msgs
 
 planet = "sun"
-lx = 1 #deg
-ly = 1 #deg
-scan_t = 30
+lx = 4 #deg
+ly = 4 #deg
+scan_t = 60
 
 name = "sun_scan"
 rospy.init_node(name)
@@ -35,7 +35,7 @@ date = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
 file_name = name + '/' + date + '.necstdb'
 print(file_name)
 
-antenna.move_planet(planet,-lx/2,-ly/2) #deg
+antenna.move_planet(planet,-lx/2,0) #deg
 antenna.tracking_check()
 time.sleep(1)
 
