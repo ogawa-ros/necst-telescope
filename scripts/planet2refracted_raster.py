@@ -93,7 +93,6 @@ class planet2refracted_raster(object):
         num = int(length/dl)
         t0 = Time.now()
         self.pub_raster_check.publish(True)
-        self.start_thread()
         for i in range(num+1):
             offset_x = start_x + dx*i
             offset_y = start_y + dy*i
@@ -147,5 +146,5 @@ class planet2refracted_raster(object):
 if __name__ == "__main__":
     rospy.init_node(name)
     azel = planet2refracted_raster()
-    #azel.start_thread()
+    azel.start_thread()
     rospy.spin()
