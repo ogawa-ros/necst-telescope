@@ -68,7 +68,7 @@ class planet2refracted_raster(object):
         return on_coord.altaz
 
     def publish(self,q):
-        self.start_thread()
+
         if q.data[0]==0 : planet = "sun"
         if q.data[0]==1 : planet = "moon"
         if q.data[0]==2 : planet = "mercury"
@@ -93,6 +93,7 @@ class planet2refracted_raster(object):
         num = int(length/dl)
         t0 = Time.now()
         self.pub_raster_check.publish(True)
+        self.start_thread()
         for i in range(num+1):
             offset_x = start_x + dx*i
             offset_y = start_y + dy*i
