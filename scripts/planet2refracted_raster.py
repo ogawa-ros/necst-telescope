@@ -132,7 +132,7 @@ class planet2refracted_raster(object):
                     self.pub_offset.publish(q)
                     break
                 else:
-                    time.sleep(0.00001)
+                    time.sleep(0.0001)
                     continue
 
             continue
