@@ -33,6 +33,8 @@ class planet2refracted_raster(object):
     humid = 0.5
     obswl = 230 #GHz
 
+    offset_li = []
+
     def __init__(self):
         rospy.Subscriber('/necst/telescope/coordinate/planet_raster_cmd',Float64MultiArray,self.publish)
         rospy.Subscriber('/necst/telescope/weather/pressure',Float64,self.recieve_pressure)
@@ -99,16 +101,14 @@ class planet2refracted_raster(object):
             #t2 = time.time()
             #print(t2-t1)
             obstime = altaz.obstime.to_value("unix")
-            alt = altaz.alt.deg + offset_x
-            az  = altaz.az.deg  + offset_y
+            az  = altaz.az.deg  + offset_x
+            alt = altaz.alt.deg + offset_y
 
             array = Float64MultiArray()
             array.data = [obstime, az, alt]
             self.pub_real_azel.publish(array)
 
-            offset = Float64MultiArray()
-            offset.data = [offset_x,offset_y]
-            self.pub_offset.publish(offset)
+            self.offset_li.append([obstime,offset_x,offset_y])
             time.sleep(0.001)
 
         while obstime > time.time():
@@ -117,7 +117,32 @@ class planet2refracted_raster(object):
         self.pub_raster_check.publish(False)
         pass
 
+    def offfset_pub(self):
+        while not rospy.is_shutdown():
+            try:
+                offset = self.offset_li.pop(0)
+            except:
+                continue
+
+            while True:
+                if offset[0] < time.time():
+                    q = Float64MultiArray()
+                    q.data = [offset[1],offset[2]] #[offset_az,offset_el]
+                    self.pub_offset.publish(q)
+                    break
+                else:
+                    time.sleep(0.00001)
+                    continue
+
+            continue
+
+    def start_thread(self):
+        th = threading.Thread(target=self.offfset_pub)
+        th.setDaemon(True)
+        th.start()
+
 if __name__ == "__main__":
     rospy.init_node(name)
     azel = planet2refracted_raster()
+    azel.start_thread()
     rospy.spin()
