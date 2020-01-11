@@ -119,14 +119,16 @@ class planet2refracted_raster(object):
 
     def offfset_pub(self):
         while not rospy.is_shutdown():
-            print("a")
             try:
                 offset = self.offset_li.pop(0)
+                print("a")
+
             except:
                 continue
 
             while True:
                 if offset[0] < time.time():
+                    print("b")
                     q = Float64MultiArray()
                     q.data = [offset[1],offset[2]] #[offset_az,offset_el]
                     self.pub_offset.publish(q)
