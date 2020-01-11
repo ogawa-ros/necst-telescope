@@ -117,7 +117,7 @@ class planet2refracted_raster(object):
         self.pub_raster_check.publish(False)
         pass
 
-    def pub_offfset(self):
+    def offfset_pub(self):
         while not rospy.is_shutdown():
             try:
                 offset = self.offset_li.pop(0)
@@ -137,7 +137,7 @@ class planet2refracted_raster(object):
             continue
 
     def start_thread(self):
-        th = threading.Thread(target=self.pub_offset)
+        th = threading.Thread(target=self.offfset_pub)
         th.setDaemon(True)
         th.start()
 
