@@ -20,7 +20,7 @@ import std_msgs
 planet = "sun"
 lx = 2 #deg
 ly = 2 #deg
-scan_t = 30
+scan_t = 60
 
 name = "sun_scan"
 rospy.init_node(name)
