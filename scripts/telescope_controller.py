@@ -328,7 +328,7 @@ class antenna(object):
                 time.sleep(0.01)
                 print(111)
         except KeyboardInterrupt:
-            tracking_flag = True
+            print('interrupted!')
 
 
     def raster_check(self):
