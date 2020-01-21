@@ -124,6 +124,7 @@ class planet2refracted_raster(object):
             try:
                 offset = self.offset_li.pop(0)
             except:
+                time.sleep(0.00001)
                 continue
 
             while True:
