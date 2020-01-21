@@ -322,14 +322,13 @@ class antenna(object):
         tracking_flag = False
         print(" Moving now....")
         time.sleep(1)
-
         try:
             while not tracking_flag:
                 tracking_flag = self.track.recv()
                 time.sleep(0.01)
         except KeyboardInterrupt:
             print('interrupted!')
-        return
+
 
     def raster_check(self):
         raster_flag = True
@@ -342,7 +341,6 @@ class antenna(object):
         except KeyboardInterrupt:
             print('interrupted!')
 
-        return
 
 
     def get_az_cmd(self):
