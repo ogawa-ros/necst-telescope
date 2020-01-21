@@ -312,16 +312,6 @@ class antenna(object):
 
         pass
 
-    def tracking_check(self):
-        tracking_flag = False
-        print(" Moving now....")
-        time.sleep(1)
-        while not tracking_flag:
-            tracking_flag = self.track.recv()
-            time.sleep(0.01)
-            pass
-        return
-
     def select_optobs(self,cmd):
         topic_name = '/necst/telescope/coordinate/optobs'
         data_class = std_msgs.msg.Bool
