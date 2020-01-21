@@ -340,7 +340,6 @@ class antenna(object):
                 pass
         except KeyboardInterrupt:
             print('interrupted!')
-            break
         return
 
     def raster_check(self):
@@ -351,9 +350,10 @@ class antenna(object):
             while raster_flag:
                 raster_flag = self.raster.recv()
                 time.sleep(0.01)
+                pass
         except KeyboardInterrupt:
             print('interrupted!')
-            break
+
         return
 
 
