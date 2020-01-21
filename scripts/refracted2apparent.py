@@ -60,6 +60,7 @@ class refracted2apparent(object):
                 self.pub_cmd_num.publish(len(self.azel))
             except:
                 self.pub_cmd_num.publish(len(self.azel))
+                time.sleep(0.00001)
                 continue
 
             while True:
