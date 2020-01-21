@@ -337,7 +337,6 @@ class antenna(object):
             while not tracking_flag:
                 tracking_flag = self.track.recv()
                 time.sleep(0.01)
-                pass
         except KeyboardInterrupt:
             print('interrupted!')
         return
@@ -350,7 +349,6 @@ class antenna(object):
             while raster_flag:
                 raster_flag = self.raster.recv()
                 time.sleep(0.01)
-                pass
         except KeyboardInterrupt:
             print('interrupted!')
 
