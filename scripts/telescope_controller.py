@@ -340,7 +340,7 @@ class antenna(object):
                 pass
         except KeyboardInterrupt:
             print('interrupted!')
-            break
+            pass
         return
 
     def raster_check(self):
@@ -353,7 +353,7 @@ class antenna(object):
                 time.sleep(0.01)
         except KeyboardInterrupt:
             print('interrupted!')
-            break
+            pass
         return
 
 
