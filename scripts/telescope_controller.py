@@ -322,25 +322,21 @@ class antenna(object):
         tracking_flag = False
         print(" Moving now....")
         time.sleep(1)
-        try:
-            while not tracking_flag:
-                tracking_flag = self.track.recv()
-                time.sleep(0.01)
-                print(1)
-        except KeyboardInterrupt:
-            print('interrupted!')
+        while not tracking_flag:
+            tracking_flag = self.track.recv()
+            time.sleep(0.01)
+            pass
 
 
     def raster_check(self):
         raster_flag = True
         print(" raster scan now....")
         time.sleep(1)
-        try:
-            while raster_flag:
-                raster_flag = self.raster.recv()
-                time.sleep(0.01)
-        except KeyboardInterrupt:
-            print('interrupted!')
+
+        while raster_flag:
+            raster_flag = self.raster.recv()
+            time.sleep(0.01)
+            pass
 
 
 
