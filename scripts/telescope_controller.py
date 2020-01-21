@@ -323,12 +323,9 @@ class antenna(object):
         print(" Moving now....")
         time.sleep(1)
         try:
-            a = 0
             while not tracking_flag:
                 tracking_flag = self.track.recv()
                 time.sleep(0.01)
-                a = a +1
-                print(a)
         except KeyboardInterrupt:
             print('interrupted!')
 
