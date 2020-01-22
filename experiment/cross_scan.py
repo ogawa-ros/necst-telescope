@@ -29,7 +29,7 @@ obs_dec_cmd = 41+10/60+1/3600 #deg
 
 lx = 1 #deg
 ly = 1 #deg
-scan_t = 60
+scan_t = 180
 
 name = "cross_scan"
 rospy.init_node(name)
