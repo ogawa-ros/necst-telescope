@@ -29,6 +29,8 @@ obs_dec_cmd = 41+10/60+1/3600 #deg
 
 lx = 1 #deg
 ly = 1 #deg
+start_offset_px = -0.5
+start_offset_py = -0.5
 scan_t = 180
 
 name = "cross_scan"
@@ -44,7 +46,7 @@ date = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
 file_name = name + '/' + date + '.necstdb'
 print(file_name)
 
-antenna.move_wcs(obs_ra_cmd,obs_dec_cmd,-lx/2,0) #deg
+antenna.move_wcs(obs_ra_cmd+start_offset_px,obs_dec_cmd+start_offset_py,-lx/2,0) #deg
 antenna.tracking_check()
 time.sleep(1)
 
@@ -58,11 +60,11 @@ load.move_sky()
 time.sleep(5)
 
 status.publish("{0:2}".format("az"))
-antenna.move_raster_wcs(obs_ra_cmd,obs_dec_cmd,lx=lx,ly=0 ,scan_t=scan_t,l_unit="deg")
+antenna.move_raster_wcs(obs_ra_cmd,obs_dec_cmd,start_offset_px=start_offset_px,start_offset_py=0,lx=lx,ly=0 ,scan_t=scan_t,l_unit="deg")
 time.sleep(1)
 
 status.publish("{0:2}".format("el"))
-antenna.move_raster_wcs(obs_ra_cmd,obs_dec_cmd,lx=0 ,ly=ly,scan_t=scan_t,l_unit="deg")
+antenna.move_raster_wcs(obs_ra_cmd,obs_dec_cmd,start_offset_px=0,start_offset_py=start_offset_py,lx=lx,ly=0 ,scan_t=scan_t,l_unit="deg")
 
 logger.stop()
 
