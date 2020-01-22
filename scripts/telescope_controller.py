@@ -204,8 +204,6 @@ class antenna(object):
 
         self.raster_check()
 
-        self.move_wcs(x+lx,y+ly)
-        self.tracking_check()
 
         pass
 
