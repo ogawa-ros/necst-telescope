@@ -159,7 +159,7 @@ class antenna(object):
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
-    def move_raster_wcs(self,x,y,lx,ly,scan_t,l_unit="deg",frame="fk5"):
+    def move_raster_wcs(self,x,y,lx,ly,scan_t,start_offset_px,start_offset_py,l_unit="deg",frame="fk5"):
         """
         msg
         - type : list
@@ -199,7 +199,7 @@ class antenna(object):
         topic_name = '/necst/telescope/coordinate/wcs_raster_cmd'
         data_class = std_msgs.msg.Float64MultiArray
         cmd = std_msgs.msg.Float64MultiArray()
-        cmd.data = [x,y,lx,ly,scan_t]
+        cmd.data = [x,y,lx,ly,scan_t,start_offset_px,start_offset_py]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
 
         self.raster_check()

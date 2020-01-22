@@ -72,11 +72,15 @@ class wcs2refracted_raster(object):
         lx = q.data[2]
         ly = q.data[3]
         scan_t = q.data[4]
+        start_offset_px = q.data[5]
+        start_offset_py = q.data[6]
 
         length = (lx**2 + ly**2)**(1/2)
         dl = length/scan_t * 0.1
         dx = dl * lx/length
         dy = dl * ly/length
+        x = x + start_offset_px
+        y = y + start_offset_py
         num = int(length/dl)
         t0 = Time.now()
         self.pub_raster_check.publish(True)
