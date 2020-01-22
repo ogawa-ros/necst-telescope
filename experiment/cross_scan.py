@@ -48,7 +48,7 @@ antenna.move_wcs(obs_ra_cmd,obs_dec_cmd,-lx/2,0) #deg
 antenna.tracking_check()
 time.sleep(1)
 
-print('START'+ target +'SCAN')
+print('START '+ target +' SCAN')
 
 logger.start(file_name)
 
