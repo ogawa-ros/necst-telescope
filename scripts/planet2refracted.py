@@ -97,8 +97,8 @@ class planet2refracted(object):
                     for i in range(11):
                         altaz,off_x,off_y = self.convert_azel(dt=0.1*i)
                         obstime = altaz.obstime.to_value("unix")
-                        alt = altaz.alt.deg + off_x
-                        az  = altaz.az.deg  + off_y
+                        alt = altaz.alt.deg + off_y
+                        az  = altaz.az.deg  + off_x
                         array = Float64MultiArray()
                         array.data = [obstime, az, alt]
                         self.pub_real_azel.publish(array)
@@ -108,8 +108,8 @@ class planet2refracted(object):
                 else:
                     altaz,off_x,off_y = self.convert_azel(dt=1)
                     obstime = altaz.obstime.to_value("unix")
-                    alt = altaz.alt.deg + off_x
-                    az  = altaz.az.deg  + off_y
+                    alt = altaz.alt.deg + off_y
+                    az  = altaz.az.deg  + off_x
                     array = Float64MultiArray()
                     array.data = [obstime, az, alt]
                     self.pub_real_azel.publish(array)
