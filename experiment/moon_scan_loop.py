@@ -24,7 +24,7 @@ scan_t = 60
 
 num = 5
 
-name = "sun_scan_loop"
+name = "moon_scan_loop"
 rospy.init_node(name)
 
 logger = core_controller.logger()
