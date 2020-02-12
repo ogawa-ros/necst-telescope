@@ -40,6 +40,12 @@ print(file_name)
 time.sleep(1)
 
 print('START SUN SCAN')
+print("===========================")
+print("length of x : "+str(lx)+"[deg]")
+print("length of y : "+str(ly)+"[deg]")
+print("scan time : "+str(scan_t)+"[s]")
+print("scan num : "+str(num))
+print("===========================")
 
 logger.start(file_name)
 
@@ -51,11 +57,13 @@ for i in range(num):
     time.sleep(5)
     antenna.tracking_check()
 
+    print("{0:2}{1:2}".format("az",i+1))
     status.publish("{0:2}{1:2}".format("az",i+1))
     antenna.move_raster_planet(planet,lx=lx,ly=0 ,scan_t=scan_t,l_unit="deg")
     time.sleep(1)
 
-    status.publish("{0:2}{1:2}".format("el",1+1))
+    print("{0:2}{1:2}".format("el",i+1))
+    status.publish("{0:2}{1:2}".format("el",i+1))
     antenna.move_raster_planet(planet,lx=0 ,ly=ly,scan_t=scan_t,l_unit="deg")
 
 logger.stop()
