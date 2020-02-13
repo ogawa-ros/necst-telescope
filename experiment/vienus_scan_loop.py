@@ -17,14 +17,14 @@ import controller_1p85m2019
 import rospy
 import std_msgs
 
-planet = "moon"
+planet = "venus"
 lx = 2 #deg
 ly = 2 #deg
 scan_t = 60
 
 num = 5
 
-name = "moon_scan_loop"
+name = "venus_scan_loop"
 rospy.init_node(name)
 
 logger = core_controller.logger()
@@ -39,7 +39,7 @@ print(file_name)
 
 time.sleep(1)
 
-print('START SUN SCAN')
+print('START VENUS SCAN')
 print("===========================")
 print("length of x : "+str(lx)+"[deg]")
 print("length of y : "+str(ly)+"[deg]")
