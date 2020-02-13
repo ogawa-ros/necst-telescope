@@ -18,8 +18,8 @@ import rospy
 import std_msgs
 
 planet = "sun"
-lx = 2 #deg
-ly = 2 #deg
+lx = -2 #deg
+ly = -2 #deg
 scan_t = 60
 
 num = 5
