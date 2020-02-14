@@ -43,9 +43,11 @@ class refracted2apparent(object):
         rospy.Subscriber('/necst/telescope/coordinate/optobs', Bool, self.recieve_optobs)
 
     def recieve_azel(self, array):
-        self.azel.append(array.data)
-        self.azel.sort()
-        #print(array)
+        if array.data[0] > time.time():
+            self.azel.append(array.data)
+            self.azel.sort()
+        else:
+            pass
 
     def recieve_stop_cmd(self, q):
         self.azel = []
