@@ -64,8 +64,6 @@ class refracted2apparent(object):
                 continue
 
             while True:
-                #if abs(azel[0] - time.time()) > 0.1 :
-                #    break
                 if azel[0] < time.time():
                     q = [azel[1],azel[2]] #[az,el]
                     self.calculate_kisa(q)
@@ -73,7 +71,7 @@ class refracted2apparent(object):
                 else:
                     time.sleep(0.0001)
                     continue
-
+            time.sleep(0.01)
             continue
 
     def read_kisa(self):
