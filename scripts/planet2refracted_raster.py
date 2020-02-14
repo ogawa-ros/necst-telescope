@@ -115,14 +115,14 @@ class planet2refracted_raster(object):
             self.pub_real_azel.publish(array)
 
             self.offset_li.append([obstime,offset_x,offset_y])
-            time.sleep(0.001)
+            time.sleep(0.01)
             print(3)
             if i == num:
                 print(4)
                 last_obstime = obstime
 
         print(5)
-        while last_obstime > Time.now():
+        while last_obstime > time.time():
             print(6)
             time.sleep(0.1)
             continue
