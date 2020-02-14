@@ -57,9 +57,9 @@ class refracted2apparent(object):
         while not rospy.is_shutdown():
             try:
                 azel = self.azel.pop(0)
-                print((len(self.azel)))
+                self.pub_cmd_num.publish(len(self.azel))
             except:
-                print((len(self.azel)))
+                self.pub_cmd_num.publish(len(self.azel))
                 time.sleep(0.0001)
                 continue
 
