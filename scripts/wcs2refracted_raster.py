@@ -118,7 +118,7 @@ class wcs2refracted_raster(object):
 
     def offfset_pub(self):
         while not rospy.is_shutdown():
-            print(len(self.offset_li))
+            #print(len(self.offset_li))
             try:
                 offset = self.offset_li.pop(0)
             except:
