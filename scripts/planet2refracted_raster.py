@@ -61,7 +61,7 @@ class planet2refracted_raster(object):
 
     def convert_azel(self,planet,times):
         on_coord = astropy.coordinates.get_body(location=self.nobeyama,time=times,body=planet)
-        solar_system_ephemeris.set('de432s') #between 1950-2050
+        #solar_system_ephemeris.set('de432s') #between 1950-2050
         on_coord.location = self.nobeyama
         on_coord.pressure = self.press*u.hPa
         on_coord.temperature = self.temp*u.deg_C
@@ -115,8 +115,10 @@ class planet2refracted_raster(object):
 
             self.offset_li.append([obstime,offset_x,offset_y])
             time.sleep(0.001)
+            if i == num:
+                last_obstime = obstime
 
-        while obstime > time.time():
+        while last_obstime > Time.now():
             time.sleep(0.1)
             continue
         self.pub_raster_check.publish(False)
