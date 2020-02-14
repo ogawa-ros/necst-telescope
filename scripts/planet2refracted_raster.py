@@ -4,6 +4,7 @@ name = "planet2refracted_raster"
 
 import time
 import rospy
+import numpy
 import threading
 from std_msgs.msg import Float64
 from std_msgs.msg import Float64MultiArray
@@ -61,7 +62,7 @@ class planet2refracted_raster(object):
 
     def convert_azel(self,planet,times):
         on_coord = astropy.coordinates.get_body(location=self.nobeyama,time=times,body=planet)
-        #solar_system_ephemeris.set('de432s') #between 1950-2050
+        solar_system_ephemeris.set('de432s') #between 1950-2050
         on_coord.location = self.nobeyama
         on_coord.pressure = self.press*u.hPa
         on_coord.temperature = self.temp*u.deg_C
