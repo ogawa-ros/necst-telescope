@@ -73,7 +73,7 @@ class refracted2apparent(object):
                 else:
                     time.sleep(0.0001)
                     continue
-            time.sleep(0.05)
+            time.sleep(0.1)
             continue
 
     def read_kisa(self):
