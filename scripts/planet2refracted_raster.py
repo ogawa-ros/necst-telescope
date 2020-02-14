@@ -94,11 +94,11 @@ class planet2refracted_raster(object):
         start_y = -ly/2
 
         num = int(length/dl)
-
+        print(1)
         t0 = Time.now()
         times = t0 + numpy.linspace(0, scan_t, num+1)*u.s
         altaz = self.convert_azel(planet,times)
-
+        print(2)
         self.pub_raster_check.publish(True)
 
         for i in range(num+1):
@@ -115,12 +115,17 @@ class planet2refracted_raster(object):
 
             self.offset_li.append([obstime,offset_x,offset_y])
             time.sleep(0.001)
+            print(3)
             if i == num:
+                print(4)
                 last_obstime = obstime
 
+        print(5)
         while last_obstime > Time.now():
+            print(6)
             time.sleep(0.1)
             continue
+        print(7)
         self.pub_raster_check.publish(False)
         pass
 
