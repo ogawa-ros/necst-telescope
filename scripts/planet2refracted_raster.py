@@ -132,9 +132,7 @@ class planet2refracted_raster(object):
                 continue
 
             while True:
-                if abs(azel[0] - time.time()) > 0.3:
-                    break
-                elif offset[0] < time.time():
+                if offset[0] < time.time():
                     q = Float64MultiArray()
                     q.data = [offset[1],offset[2]] #[offset_az,offset_el]
                     self.pub_offset.publish(q)
