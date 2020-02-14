@@ -17,6 +17,7 @@ import astropy.units as u
 from astropy.coordinates import EarthLocation
 from astropy.coordinates import SkyCoord
 from astropy.coordinates import AltAz
+from astropy.coordinates import solar_system_ephemeris
 import astropy.constants
 
 class planet2refracted_raster(object):
@@ -58,8 +59,9 @@ class planet2refracted_raster(object):
     def recieve_obswl(self,q):
         self.obswl = q.data
 
-    def convert_azel(self,planet,t0,dt):
-        on_coord = astropy.coordinates.get_body(location=self.nobeyama,time=t0+TimeDelta(dt, format='sec'),body=planet)
+    def convert_azel(self,planet,times):
+        on_coord = astropy.coordinates.get_body(location=self.nobeyama,time=times,body=planet)
+        solar_system_ephemeris.set('de432s') #between 1950-2050
         on_coord.location = self.nobeyama
         on_coord.pressure = self.press*u.hPa
         on_coord.temperature = self.temp*u.deg_C
@@ -85,25 +87,27 @@ class planet2refracted_raster(object):
         print(planet,lx,ly,scan_t)
 
         length = (lx**2 + ly**2)**(1/2)
-        dl = length/scan_t * 0.2
+        dl = length/scan_t * 0.1
         dx = dl * lx/length
         dy = dl * ly/length
         start_x = -lx/2
         start_y = -ly/2
+
         num = int(length/dl)
+
         t0 = Time.now()
+        times = t0 + numpy.linspace(0, scan_t, num+1)*u.s
+        altaz = self.convert_azel(planet,times)
+
         self.pub_raster_check.publish(True)
+
         for i in range(num+1):
             offset_x = start_x + dx*i
             offset_y = start_y + dy*i
-            dt = 0.2*i
-            #t1 = time.time()
-            altaz = self.convert_azel(planet,t0,dt)
-            #t2 = time.time()
-            #print(t2-t1)
-            obstime = altaz.obstime.to_value("unix")
-            az  = altaz.az.deg  + offset_x
-            alt = altaz.alt.deg + offset_y
+
+            obstime = altaz[i].obstime.to_value("unix")
+            az  = altaz[i].az.deg  + offset_x
+            alt = altaz[i].alt.deg + offset_y
 
             array = Float64MultiArray()
             array.data = [obstime, az, alt]
@@ -128,7 +132,9 @@ class planet2refracted_raster(object):
                 continue
 
             while True:
-                if offset[0] < time.time():
+                if abs(azel[0] - time.time()) > 0.3:
+                    break
+                elif offset[0] < time.time():
                     q = Float64MultiArray()
                     q.data = [offset[1],offset[2]] #[offset_az,offset_el]
                     self.pub_offset.publish(q)

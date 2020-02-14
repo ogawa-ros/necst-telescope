@@ -57,14 +57,16 @@ class refracted2apparent(object):
         while not rospy.is_shutdown():
             try:
                 azel = self.azel.pop(0)
-                self.pub_cmd_num.publish(len(self.azel))
+                print((len(self.azel)))
             except:
-                self.pub_cmd_num.publish(len(self.azel))
+                print((len(self.azel)))
                 time.sleep(0.0001)
                 continue
 
             while True:
-                if azel[0] < time.time():
+                if abs(azel[0] - time.time()) > 0.3:
+                    break
+                elif azel[0] < time.time():
                     q = [azel[1],azel[2]] #[az,el]
                     self.calculate_kisa(q)
                     break
