@@ -18,9 +18,9 @@ import rospy
 import std_msgs
 
 planet = "moon"
-lx = 1 #deg
-ly = 1 #deg
-scan_t = 30
+lx = 0.5 #deg
+ly = 0.5 #deg
+scan_t = 15
 
 num = 5
 
