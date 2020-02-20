@@ -96,7 +96,7 @@ class planet2refracted_raster(object):
 
         num = int(length/dl)
 
-        t0 = Time.now() + 1 #time for calculate = 1s??
+        t0 = Time.now()
         times = t0 + numpy.linspace(0, scan_t, num+1)*u.s
         altaz = self.convert_azel(planet,times)
         self.pub_raster_check.publish(True)
