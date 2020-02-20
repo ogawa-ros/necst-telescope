@@ -260,6 +260,8 @@ class antenna(object):
         cmd.data = [planet,lx,ly,scan_t]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
 
+        time.sleep(2)
+
         self.raster_check()
 
         #self.move_planet(planet,lx/2,ly/2)
