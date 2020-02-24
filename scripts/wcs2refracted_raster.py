@@ -49,7 +49,7 @@ class wcs2refracted_raster(object):
 
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
         self.pub_raster_check = rospy.Publisher('/necst/telescope/coordinate/raster_check', Bool, queue_size=1)
-        self.pub_offset = rospy.Publisher('/necst/telescope/coordinate/wcs_offset', Float64MultiArray, queue_size=10)
+        self.pub_offset = rospy.Publisher('/necst/telescope/coordinate/wcs_offset', Float64MultiArray, queue_size=1)
 
     def recieve_wcs_frame(self,q):
         self.wcs_frame = q.data
@@ -82,16 +82,18 @@ class wcs2refracted_raster(object):
         x = x - start_offset_px
         y = y - start_offset_py
         num = int(length/dl)
-        t0 = Time.now()
+        times = t0 + numpy.linspace(0, scan_t, num+1)*u.s
+        altaz = self.convert_azel(x,y,offset_x,offset_y,times)
+
         self.pub_raster_check.publish(True)
         for i in range(num+1):
             offset_x = dx*i
             offset_y = dy*i
             dt = 0.1*i
-            altaz = self.convert_azel(x,y,offset_x,offset_y,t0,dt)
-            obstime = altaz.obstime.to_value("unix")
-            alt = altaz.alt.deg
-            az = altaz.az.deg
+            obstime = altaz[i].obstime.to_value("unix")
+            az  = altaz[i].az.deg  + offset_x
+            alt = altaz[i].alt.deg + offset_y
+
             array = Float64MultiArray()
             array.data = [obstime, az, alt]
             self.pub_real_azel.publish(array)
@@ -99,6 +101,8 @@ class wcs2refracted_raster(object):
 
             self.offset_li.append([obstime,offset_x,offset_y])
             time.sleep(0.001)
+            if i == num:
+                last_obstime = obstime
 
         while obstime > time.time():
             time.sleep(0.1)
@@ -106,14 +110,14 @@ class wcs2refracted_raster(object):
         self.pub_raster_check.publish(False)
         pass
 
-    def convert_azel(self,x,y,offset_x,offset_y,t0,dt):
+    def convert_azel(self,x,y,offset_x,offset_y,times):
         on_coord = SkyCoord(x+offset_x, y+offset_y,frame=self.wcs_frame, unit=(u.deg, u.deg))
         on_coord.location = self.nobeyama
         on_coord.pressure = self.press*u.hPa
         on_coord.temperature = self.temp*u.deg_C
         on_coord.relative_humidity = self.humid
         on_coord.obswl = (astropy.constants.c/(self.obswl*u.GHz)).to('micron')
-        altaz_list = on_coord.transform_to(AltAz(obstime=t0+TimeDelta(dt, format='sec')))
+        altaz_list = on_coord.transform_to(AltAz(obstime=times))
         return altaz_list
 
     def offfset_pub(self):
