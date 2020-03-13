@@ -18,11 +18,12 @@ import rospy
 import std_msgs
 
 planet = "sun"
-lx = -2 #deg
-ly = -2 #deg
+scan_direction = 1 #1or-1
+_lx = 2 #deg
+_ly = 2 #deg
 scan_t = 60
 
-num = 5
+num = 3
 
 name = "sun_scan_loop"
 rospy.init_node(name)
@@ -32,9 +33,12 @@ antenna = telescope_controller.antenna()
 load = controller_1p85m2019.load()
 
 status = rospy.Publisher('/'+name+'/scan_status', std_msgs.msg.String, queue_size=1)
+direct = rospy.Publisher('/'+name+'/scan_direction', std_msgs.msg.Float64, queue_size=1)
 
 date = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
 file_name = name + '/' + date + '.necstdb'
+lx = _lx*scan_direction
+ly = _ly*scan_direction
 print(file_name)
 
 time.sleep(1)
@@ -48,6 +52,8 @@ print("scan num : "+str(num))
 print("===========================")
 
 logger.start(file_name)
+time.sleep(1)
+direct.publish(scan_direction)
 
 for i in range(num):
     antenna.move_planet(planet,-lx/2,0)
