@@ -36,7 +36,7 @@ class azel2refracted(object):
         while not rospy.is_shutdown():
             if self.azel_cmd != '':
                 if self.init_flag == True:
-                    for i in range(11):
+                    for i in range(10):
                         obstime = time.time()+ 0.1*i
                         az = self.azel_cmd[0] + self.azel_cmd[2]
                         alt  = self.azel_cmd[1] + self.azel_cmd[3]
