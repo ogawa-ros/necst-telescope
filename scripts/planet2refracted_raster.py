@@ -88,7 +88,7 @@ class planet2refracted_raster(object):
         print(planet,lx,ly,scan_t)
 
         length = (lx**2 + ly**2)**(1/2)
-        dl = length/scan_t * 0.1
+        dl = length/scan_t * 1
         dx = dl * lx/length
         dy = dl * ly/length
         start_x = -lx/2
@@ -119,7 +119,7 @@ class planet2refracted_raster(object):
                 last_obstime = obstime
 
         while last_obstime > time.time():
-            time.sleep(0.1)
+            time.sleep(0.001)
             continue
 
         self.pub_raster_check.publish(False)
