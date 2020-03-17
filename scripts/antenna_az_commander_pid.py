@@ -42,6 +42,25 @@ class antenna_az_feedback(object):
                 queue_size = 1,
             )
 
+        self.topic_cur = rospy.Publisher(
+                name = "/1p85m/az_current_speed",
+                data_class = std_msgs.msg.Float64,
+                queue_size = 1,
+            )
+
+
+        self.topic_tar = rospy.Publisher(
+                name = "/1p85m/az_target_speed",
+                data_class = std_msgs.msg.Float64,
+                queue_size = 1,
+            )
+
+        self.topic_hensa = rospy.Publisher(
+                name = "/1p85m/az_pid_hensa",
+                data_class = std_msgs.msg.Float64,
+                queue_size = 1,
+            )
+
         topic_from1 = rospy.Subscriber(
                 name = "/1p85m/az_cmd2",
                 data_class = std_msgs.msg.Float64,
@@ -157,12 +176,15 @@ class antenna_az_feedback(object):
         except:
             ihensa = 0
 
-            #PID
+        #PID
         rate = target_speed + p_coeff*hensa + i_coeff*ihensa*(t_now-t_past) + d_coeff*dhensa/(t_now-t_past)
 
-        print(current_speed)
-        print(target_deg,pre_deg,t_now,t_past)
-        print(rate,target_speed,hensa)
+        #print(current_speed)
+        #print(target_deg,pre_deg,t_now,t_past)
+        #print(rate,target_speed,hensa)
+        self.topic_tar.publish(target_speed)
+        self.topic_cur.publish(current_speed)
+        self.topic_hensa.publish(hensa)
         return [rate, ihensa]
 
 if __name__ == "__main__":

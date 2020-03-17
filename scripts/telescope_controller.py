@@ -202,6 +202,8 @@ class antenna(object):
         cmd.data = [x,y,lx,ly,scan_t,start_offset_px,start_offset_py]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
 
+        time.sleep(5)
+
         self.raster_check()
 
 
@@ -260,7 +262,7 @@ class antenna(object):
         cmd.data = [planet,lx,ly,scan_t]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
 
-        time.sleep(2)
+        time.sleep(5)
 
         self.raster_check()
 
@@ -305,11 +307,17 @@ class antenna(object):
         cmd.data = [x,y,lx,ly,scan_t]
         self.make_pub.publish(topic_name, data_class, msg = cmd)
 
+        time.sleep(5)
+
         self.raster_check()
 
         #self.move_azel(x+lx,y+ly)
         #self.tracking_check()
 
+        pass
+
+    def otf_wcs(self):
+        move_raster_wcs(x,y,lx,ly,scan_t,start_offset_px=0,start_offset_py=0,l_unit="deg",frame="fk5")
         pass
 
     def select_optobs(self,cmd):

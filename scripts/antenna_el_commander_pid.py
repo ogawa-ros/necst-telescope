@@ -43,6 +43,25 @@ class antenna_el_feedback(object):
                 queue_size = 1,
             )
 
+        self.topic_cur = rospy.Publisher(
+                name = "/1p85m/el_current_speed",
+                data_class = std_msgs.msg.Float64,
+                queue_size = 1,
+            )
+
+
+        self.topic_tar = rospy.Publisher(
+                name = "/1p85m/el_target_speed",
+                data_class = std_msgs.msg.Float64,
+                queue_size = 1,
+            )
+
+        self.topic_hensa = rospy.Publisher(
+                name = "/1p85m/el_pid_hensa",
+                data_class = std_msgs.msg.Float64,
+                queue_size = 1,
+            )
+
         topic_from1 = rospy.Subscriber(
                 name = "/1p85m/el_cmd2",
                 data_class = std_msgs.msg.Float64,
@@ -164,6 +183,9 @@ class antenna_el_feedback(object):
         #PID
         rate = target_speed + p_coeff*hensa + i_coeff*ihensa*(t_now-t_past) + d_coeff*dhensa/(t_now-t_past)
 
+        self.topic_tar.publish(target_speed)
+        self.topic_cur.publish(current_speed)
+        self.topic_hensa.publish(hensa)
         return [rate, ihensa]
 
 if __name__ == "__main__":
