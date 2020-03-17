@@ -160,6 +160,9 @@ class antenna_az_feedback(object):
             #PID
         rate = target_speed + p_coeff*hensa + i_coeff*ihensa*(t_now-t_past) + d_coeff*dhensa/(t_now-t_past)
 
+        print(current_speed)
+        print(target_deg,pre_deg,t_now,t_past)
+        print(rate,target_speed,hensa)
         return [rate, ihensa]
 
 if __name__ == "__main__":
