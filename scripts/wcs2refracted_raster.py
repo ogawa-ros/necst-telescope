@@ -5,7 +5,6 @@ name = "wcs2refracted_raster"
 import time
 import rospy
 import threading
-import numpy
 from std_msgs.msg import Float64
 from std_msgs.msg import Float64MultiArray
 from std_msgs.msg import Bool
@@ -38,6 +37,7 @@ class wcs2refracted_raster(object):
     #obswl = 600000 #GHz
 
     offset_li = []
+    wcs_li = []
 
     def __init__(self):
         rospy.Subscriber('/necst/telescope/coordinate/wcs_raster_cmd',Float64MultiArray,self.publish)
@@ -51,6 +51,8 @@ class wcs2refracted_raster(object):
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
         self.pub_raster_check = rospy.Publisher('/necst/telescope/coordinate/raster_check', Bool, queue_size=1)
         self.pub_offset = rospy.Publisher('/necst/telescope/coordinate/wcs_offset', Float64MultiArray, queue_size=1)
+        self.pub_wcs = rospy.Publisher('/necst/telescope/coordinate/wcs', Float64MultiArray, queue_size=1)
+
 
     def recieve_wcs_frame(self,q):
         self.wcs_frame = q.data
@@ -84,25 +86,22 @@ class wcs2refracted_raster(object):
         y = y - start_offset_py
         num = int(length/dl)
 
-        t0 = Time.now()
-        times = t0 + numpy.linspace(0, scan_t, num+1)*u.s
-        altaz = self.convert_azel(x,y,offset_x,offset_y,times)
-
         self.pub_raster_check.publish(True)
+
         for i in range(num+1):
             offset_x = dx*i
             offset_y = dy*i
+            dt = 0.1*i
+            altaz = self.convert_azel(x,y,offset_x,offset_y,dt)
             obstime = altaz[i].obstime.to_value("unix")
-            az  = altaz[i].az.deg  + offset_x
-            alt = altaz[i].alt.deg + offset_y
 
             array = Float64MultiArray()
-            array.data = [obstime, az, alt]
+            array.data = [obstime, altaz.az.deg, altaz.alt.deg]
             self.pub_real_azel.publish(array)
-            time.sleep(0.01)
 
-            self.offset_li.append([obstime,offset_x,offset_y])
-            time.sleep(0.001)
+            self.offset_li.append([obstime, offset_x, offset_y])
+            self.wcs_li.append([obstime, x+offset_x, y+offset_y])
+
             if i == num:
                 last_obstime = obstime
 
@@ -119,7 +118,7 @@ class wcs2refracted_raster(object):
         on_coord.temperature = self.temp*u.deg_C
         on_coord.relative_humidity = self.humid
         on_coord.obswl = (astropy.constants.c/(self.obswl*u.GHz)).to('micron')
-        altaz_list = on_coord.transform_to(AltAz(obstime=times))
+        altaz_list = on_coord.transform_to(AltAz(obstime=Time.now()+TimeDelta(dt, format='sec')))
         return altaz_list
 
     def offfset_pub(self):
@@ -134,8 +133,29 @@ class wcs2refracted_raster(object):
             while True:
                 if offset[0] < time.time():
                     q = Float64MultiArray()
-                    q.data = [offset[1],offset[2]] #[offset_az,offset_el]
+                    q.data = [offset[0],offset[1],offset[2]] #[time, offset_az,offset_el]
                     self.pub_offset.publish(q)
+                    break
+                else:
+                    time.sleep(0.0001)
+                    continue
+
+            continue
+
+    def wcs_pub(self):
+        while not rospy.is_shutdown():
+            #print(len(self.offset_li))
+            try:
+                wcs = self.wcs_li.pop(0)
+            except:
+                time.sleep(0.00001)
+                continue
+
+            while True:
+                if wcs[0] < time.time():
+                    q = Float64MultiArray()
+                    q.data = [wcs[0],wcs[1],wcs[2]] #[time,x,y]
+                    self.pub_wcs.publish(q)
                     break
                 else:
                     time.sleep(0.0001)
@@ -147,6 +167,10 @@ class wcs2refracted_raster(object):
         th = threading.Thread(target=self.offfset_pub)
         th.setDaemon(True)
         th.start()
+
+        th2 = threading.Thread(target=self.wcs_pub)
+        th2.setDaemon(True)
+        th2.start()
 
 
 if __name__ == "__main__":
