@@ -93,7 +93,7 @@ class wcs2refracted_raster(object):
             offset_y = dy*i
             dt = 0.1*i
             altaz = self.convert_azel(x,y,offset_x,offset_y,dt)
-            obstime = altaz[i].obstime.to_value("unix")
+            obstime = altaz.obstime.to_value("unix")
 
             array = Float64MultiArray()
             array.data = [obstime, altaz.az.deg, altaz.alt.deg]
