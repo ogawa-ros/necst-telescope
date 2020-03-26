@@ -19,19 +19,19 @@ import std_msgs
 
 
 # target radec
-#target = 'Orion KL'
-#obs_ra_cmd = 15*(5+35/60+14.16/3600) #deg
-#obs_dec_cmd = -5+22/60+21.5/3600 #deg
+target = 'Orion KL'
+obs_ra_cmd = 15*(5+35/60+14.16/3600) #deg
+obs_dec_cmd = -5+22/60+21.5/3600 #deg
 
-target = 'Cyg X'
-obs_ra_cmd = 15*(20+28/60+40.8/3600) #deg
-obs_dec_cmd = 41+10/60+1/3600 #deg
+#target = 'Cyg X'
+#obs_ra_cmd = 15*(20+28/60+40.8/3600) #deg
+#obs_dec_cmd = 41+10/60+1/3600 #deg
 
-lx = 1 #deg
-ly = 1 #deg
+lx = 1.5 #deg
+ly = 1.5 #deg
 start_offset_px = -0.5
 start_offset_py = -0.5
-scan_t = 180
+scan_t =40 
 
 name = "cross_scan"
 rospy.init_node(name)
