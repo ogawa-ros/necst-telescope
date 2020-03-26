@@ -111,7 +111,7 @@ class wcs2refracted_raster(object):
         self.pub_raster_check.publish(False)
         pass
 
-    def convert_azel(self,x,y,offset_x,offset_y,times):
+    def convert_azel(self,x,y,offset_x,offset_y,dt):
         on_coord = SkyCoord(x+offset_x, y+offset_y,frame=self.wcs_frame, unit=(u.deg, u.deg))
         on_coord.location = self.nobeyama
         on_coord.pressure = self.press*u.hPa
