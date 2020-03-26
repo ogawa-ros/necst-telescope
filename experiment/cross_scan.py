@@ -59,12 +59,12 @@ time.sleep(5)
 load.move_sky()
 time.sleep(5)
 
-status.publish("{0:2}".format("az"))
+status.publish("{0:2}".format("x"))
 antenna.move_raster_wcs(obs_ra_cmd,obs_dec_cmd,start_offset_px=start_offset_px,start_offset_py=0,lx=lx,ly=0 ,scan_t=scan_t,l_unit="deg")
 time.sleep(1)
 
-status.publish("{0:2}".format("el"))
-antenna.move_raster_wcs(obs_ra_cmd,obs_dec_cmd,start_offset_px=0,start_offset_py=start_offset_py,lx=lx,ly=0 ,scan_t=scan_t,l_unit="deg")
+status.publish("{0:2}".format("y"))
+antenna.move_raster_wcs(obs_ra_cmd,obs_dec_cmd,start_offset_px=0,start_offset_py=start_offset_py,lx=0,ly=ly ,scan_t=scan_t,l_unit="deg")
 
 logger.stop()
 
