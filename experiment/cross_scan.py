@@ -29,9 +29,9 @@ obs_dec_cmd = -5+22/60+21.5/3600 #deg
 
 lx = 1.5 #deg
 ly = 1.5 #deg
-start_offset_px = -0.5
-start_offset_py = -0.5
-scan_t =40 
+start_offset_px = 0.5
+start_offset_py = 0.5
+scan_t =40
 
 name = "cross_scan"
 rospy.init_node(name)
@@ -53,11 +53,6 @@ time.sleep(1)
 print('START '+ target +' SCAN')
 
 logger.start(file_name)
-
-load.move_hot()
-time.sleep(5)
-load.move_sky()
-time.sleep(5)
 
 status.publish("{0:2}".format("x"))
 antenna.move_raster_wcs(obs_ra_cmd,obs_dec_cmd,start_offset_px=start_offset_px,start_offset_py=0,lx=lx,ly=0 ,scan_t=scan_t,l_unit="deg")
