@@ -182,7 +182,7 @@ class antenna(object):
         if l_unit == "deg" :
             pass
 
-        self.move_wcs(x-start_offset_px,y-start_offset_py)
+        self.move_wcs(x-start_offset_px,y-start_offset_py,frame=frame)
         self.tracking_check()
 
         topic_name = '/necst/telescope/coordinate/stop_cmd'
