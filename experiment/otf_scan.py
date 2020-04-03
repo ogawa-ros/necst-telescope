@@ -24,9 +24,14 @@ from std_msgs.msg import String
 name = "otf"
 param = {}
 
+#IRC+10216
+#param["on_x"] = (9 + 45/60 + 14/3600)*15
+#param["on_y"] = 13 + 30/60 + 40/3600
 
-param["on_x"] = (9 + 45/60 + 14/3600)*15
-param["on_y"] = 13 + 30/60 + 40/3600
+'13h49m01s -28d22m03s'
+param["on_x"] = (13 + 49/60 + 1/3600)*15
+param["on_y"] = -(28 + 22/60 + 3/3600)
+
 param["on_frame"] = "fk5"
 
 param["num_x"] = 5
@@ -37,8 +42,8 @@ param["delta_t"] = 0.3
 
 param["ramp"] = 1
 
-param["off_x"] = (9 + 50/60 + 14/3600)*15
-param["off_y"] = 13 + 35/60 + 40/3600
+param["off_x"] = (13 + 45/60 + 1/3600)*15
+param["off_y"] = -(28 + 37/60 + 3/3600)
 param["off_frame"] = "fk5"
 param["off_integ"] = 1
 
