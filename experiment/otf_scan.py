@@ -60,8 +60,8 @@ class otf_observation(object):
         self.antenna = telescope_controller.antenna()
         self.load = controller_1p85m2019.load()
 
-        self.obsmode = rospy.Publisher('/otf/obsmode', std_msgs.msg.String, queue_size=1)
-        self.target = rospy.Publisher('/otf/target', std_msgs.msg.String, queue_size=1)
+        self.obsmode = rospy.Publisher('/otf/obsmode', String, queue_size=1)
+        self.target = rospy.Publisher('/otf/target', String, queue_size=1)
 
     def hot_obs(self,hot_time):
         self.load.move_hot()
