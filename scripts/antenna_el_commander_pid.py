@@ -32,7 +32,9 @@ class antenna_el_feedback(object):
         self.hensa_stock = [0]*self.i_ave_num
 
         self.gear_ratio = rospy.get_param("~gear_ratio")
-        self.palthper360deg = rospy.get_param("~palthper360deg")
+        self.pulseper360deg = rospy.get_param("~pulseper360deg")
+        self.pulse_a = rospy.get_param("~pulse_a")
+        self.pulse_b = rospy.get_param("~pulse_b")
 
         self.MOTOR_MAXSTEP = rospy.get_param("~MOTOR_MAXSTEP")
         self.MOTOR_EL_MAXSPEED = rospy.get_param("~MOTOR_EL_MAXSPEED")
@@ -106,8 +108,7 @@ class antenna_el_feedback(object):
         self.t_past = self.t_now
 
         #deg->palth
-        deg2palth = 360/self.palthper360deg #[deg/palth]
-        speed = speed*self.gear_ratio/deg2palth
+        speed = speed*self.gear_ratio/360*(self.pulseper360deg*(self.pulse_b/self.pulse_a))
 
         #limit of acceleraion
         if abs(speed - self.speed_d) < MOTOR_MAXSTEP:
