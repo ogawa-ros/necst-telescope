@@ -47,6 +47,8 @@ param["hot_interval"] = 1
 
 param["direction"] = "H"
 
+param["target"] = "test"
+
 
 ###################START OBSERVATION##########################
 
@@ -95,8 +97,9 @@ class otf_observation(object):
         return False
 
     def start(self,param):
+        name = "otf_test"
         date = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-        file_name = self.name + '/' + date + '.necstdb'
+        file_name = name + '/' + date + '.necstdb'
         print(file_name)
 
         hot_time = param["hot_time"]
