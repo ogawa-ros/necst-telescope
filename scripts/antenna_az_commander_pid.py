@@ -17,7 +17,6 @@ class antenna_az_feedback(object):
     ihensa = 0.0
     i_ave_num = 10
     t_now = t_past = 0.0
-    current_speed = 0
 
     deg_enc = 0.0
 
