@@ -76,7 +76,7 @@ class otf_observation(object):
         pass
 
     def off_obs(self,off_x,off_y,off_frame,off_integ):
-        self.antenna.move_wcs(off_x_cmd,off_y_cmd,frame=off_frame)
+        self.antenna.move_wcs(off_x,off_y,frame=off_frame)
         self.antenna.tracking_check()
         self.obsmode.publish("{0:9}".format('off start'))
         time.sleep(off_integ)
