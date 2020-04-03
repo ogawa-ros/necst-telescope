@@ -25,24 +25,24 @@ name = "otf"
 param = {}
 
 
-param["on_x"] = 0
-param["on_y"] = 0
+param["on_x"] = (9 + 45/60 + 14/3600)*15
+param["on_y"] = 13 + 30/60 + 40/3600
 param["on_frame"] = "fk5"
 
-param["num_x"] = 10
-param["num_y"] = 10
+param["num_x"] = 5
+param["num_y"] = 5
 param["delta_x"] = 1/60
 param["delta_y"] = 1/60
 param["delta_t"] = 0.3
 
-param["ramp"] = 3
+param["ramp"] = 1
 
-param["off_x"] = 1
-param["off_y"] = 1
+param["off_x"] = (9 + 50/60 + 14/3600)*15
+param["off_y"] = 13 + 35/60 + 40/3600
 param["off_frame"] = "fk5"
-param["off_integ"] = 3
+param["off_integ"] = 1
 
-param["hot_time"] = 3
+param["hot_time"] = 1
 param["hot_interval"] = 1
 
 param["direction"] = "H"
@@ -126,10 +126,12 @@ class otf_observation(object):
         self.logger.start(file_name)
         self.hot_obs(hot_time)
         self.timer_regist(hot_interval)
+        print("first hot")
 
         for scan_num in range(total_scan):
             #################HOT##############
             if self.timer_check():
+                print("hot")
                 self.antenna.move_wcs(off_x,off_y,frame=off_frame)
                 self.hot_obs(hot_time)
                 self.timer_regist(hot_interval)
@@ -137,6 +139,8 @@ class otf_observation(object):
                 pass
 
             #################OFF##############
+            print("off")
+
             self.off_obs(off_x,off_y,off_frame,off_integ)
 
             #################ON##############
@@ -152,6 +156,7 @@ class otf_observation(object):
                 pass
 
             self.obsmode.publish("{0:9}".format('on start'))
+            print("scan "+str(sca_num))
             self.antenna.move_raster_wcs(sx,sy,lx,ly,scan_t2,l_unit="deg",frame=frame)
             self.obsmode.publish("{0:9}".format('on finish'))
 
