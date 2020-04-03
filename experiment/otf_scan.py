@@ -102,7 +102,7 @@ class otf_observation(object):
         hot_time = param["hot_time"]
         hot_interval = param["hot_interval"]
 
-        if param["direction"] = "H":
+        if param["direction"] == "H":
             total_scan = param["num_y"]
             x = param["on_x"]
             y = param["on_y"]
@@ -117,7 +117,7 @@ class otf_observation(object):
             off_frame = param["off_frame"]
             off_integ = param["off_integ"]
 
-        elif param["direction"] = "V":
+        elif param["direction"] == "V":
             total_scan = param["num_x"]
 
         self.logger.start(file_name)
@@ -137,7 +137,7 @@ class otf_observation(object):
             self.off_obs(off_x,off_y,off_frame,off_integ)
 
             #################ON##############
-            if param["direction"] = "H":
+            if param["direction"] == "H":
                 _lx = dx * num
                 lx = _lx + dx/dt*ramp
                 ly = 0
@@ -145,7 +145,7 @@ class otf_observation(object):
                 sy = y + dy*scan_num
                 scan_t = dt*num + ramp
 
-            elif param["direction"] = "V":
+            elif param["direction"] == "V":
                 pass
 
             self.obsmode.publish("{0:9}".format('on start'))
