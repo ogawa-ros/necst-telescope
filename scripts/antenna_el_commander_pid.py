@@ -18,7 +18,7 @@ class antenna_el_feedback(object):
     i_ave_num = 10
     t_now = t_past = 0.0
     deg_enc = 0.0
-
+    current_speed = 0
 
     lock = False
 
@@ -164,7 +164,7 @@ class antenna_el_feedback(object):
             dhensa = 0
 
         if (encoder_deg - enc_before) != 0.0:
-            current_speed = (encoder_deg - enc_before) / (t_now-t_past)
+            self.current_speed = (encoder_deg - enc_before) / (t_now-t_past)
 
         if pre_deg == 0: # for first move
             target_speed = 0
@@ -184,7 +184,7 @@ class antenna_el_feedback(object):
         rate = target_speed + p_coeff*hensa + i_coeff*ihensa*(t_now-t_past) + d_coeff*dhensa/(t_now-t_past)
 
         self.topic_tar.publish(target_speed)
-        self.topic_cur.publish(current_speed)
+        self.topic_cur.publish(self.current_speed)
         self.topic_hensa.publish(hensa)
         return [rate, ihensa]
 

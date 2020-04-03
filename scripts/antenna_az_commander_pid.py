@@ -17,6 +17,7 @@ class antenna_az_feedback(object):
     ihensa = 0.0
     i_ave_num = 10
     t_now = t_past = 0.0
+    current_speed = 0
 
     deg_enc = 0.0
 
@@ -162,7 +163,7 @@ class antenna_az_feedback(object):
             dhensa = 0
 
         if (encoder_deg - enc_before) != 0.0:
-            current_speed = (encoder_deg - enc_before) / (t_now-t_past)
+            self.current_speed = (encoder_deg - enc_before) / (t_now-t_past)
 
         if pre_deg == 0: # for first move
             target_speed = 0
@@ -184,7 +185,7 @@ class antenna_az_feedback(object):
         #print(target_deg,pre_deg,t_now,t_past)
         #print(rate,target_speed,hensa)
         self.topic_tar.publish(target_speed)
-        self.topic_cur.publish(current_speed)
+        self.topic_cur.publish(self.current_speed)
         self.topic_hensa.publish(hensa)
         return [rate, ihensa]
 
