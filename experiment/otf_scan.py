@@ -165,6 +165,7 @@ class otf_observation(object):
             self.antenna.move_raster_wcs(sx,sy,lx,ly,scan_t,l_unit="deg",frame=frame)
             self.obsmode.publish("{0:9}".format('on finish'))
 
+        self.antenna.finalize()
         self.logger.stop()
 
         return
