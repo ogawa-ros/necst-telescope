@@ -1,4 +1,4 @@
-tom#!/usr/bin/env python3
+#!/usr/bin/env python3
 
 name = "antenna_az_commander_pid"
 
