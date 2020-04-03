@@ -146,7 +146,7 @@ class otf_observation(object):
             #################OFF##############
             print("off")
 
-            self.off_obs(off_x,off_y,off_frame,off_integ)
+            #self.off_obs(off_x,off_y,off_frame,off_integ)
 
             #################ON##############
             if param["direction"] == "H":
