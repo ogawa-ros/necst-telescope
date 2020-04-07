@@ -97,7 +97,8 @@ class wcs2refracted(object):
                         array = Float64MultiArray()
                         array.data = [obstime, az, alt]
                         self.pub_real_azel.publish(array)
-                        self.pub_wcs.publish([obstime,self.wcs[0]+self.wcs[2], self.wcs[1]+self.wcs[3]])
+                        array.data = [obstime, self.wcs[0]+self.wcs[2], self.wcs[1]+self.wcs[3]]
+                        self.pub_wcs.publish(array)
                         time.sleep(0.0001)
                     self.init_flag = False
 
@@ -109,7 +110,8 @@ class wcs2refracted(object):
                     array = Float64MultiArray()
                     array.data = [obstime, az, alt]
                     self.pub_real_azel.publish(array)
-                    self.pub_wcs.publish([obstime,self.wcs[0]+self.wcs[2], self.wcs[1]+self.wcs[3]])
+                    array.data = [obstime, self.wcs[0]+self.wcs[2], self.wcs[1]+self.wcs[3]]
+                    self.pub_wcs.publish(array)
                     time.sleep(0.1)
 
 
