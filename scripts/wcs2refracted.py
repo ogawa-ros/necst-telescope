@@ -47,7 +47,7 @@ class wcs2refracted(object):
         rospy.Subscriber('/necst/telescope/obswl',Float64,self.recieve_obswl)
 
         self.pub_real_azel = rospy.Publisher('/necst/telescope/coordinate/refracted_azel_cmd', Float64MultiArray, queue_size=1)
-
+        self.pub_wcs = rospy.Publisher('/necst/telescope/coordinate/wcs', Float64MultiArray, queue_size=1)
         self.init_flag  = True
 
     def recieve_wcs(self,q):
@@ -97,6 +97,7 @@ class wcs2refracted(object):
                         array = Float64MultiArray()
                         array.data = [obstime, az, alt]
                         self.pub_real_azel.publish(array)
+                        self.pub_wcs.publish([obstime,self.wcs[0]+self.wcs[2], self.wcs[1]+self.wcs[3]])
                         time.sleep(0.0001)
                     self.init_flag = False
 
@@ -108,7 +109,10 @@ class wcs2refracted(object):
                     array = Float64MultiArray()
                     array.data = [obstime, az, alt]
                     self.pub_real_azel.publish(array)
+                    self.pub_wcs.publish([obstime,self.wcs[0]+self.wcs[2], self.wcs[1]+self.wcs[3]])
                     time.sleep(0.1)
+
+
 
             else:
                 time.sleep(0.01)

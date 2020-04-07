@@ -54,7 +54,7 @@ param["off_x"] = 312.4486 #deg
 param["off_y"] = 36.5084 #deg
 
 param["off_frame"] = "fk5"
-param["off_integ"] = 5
+param["off_integ"] = 10
 
 param["hot_time"] = 5
 param["hot_interval"] = 5
