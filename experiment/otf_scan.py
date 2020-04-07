@@ -34,7 +34,8 @@ param["on_y"] = 41+10/60+1/3600
 
 #OLionKL
 #param["on_y"] = -(5 + 22/60 + 29.6/3600)
-#param["on_frame"] = "fk5"
+
+param["on_frame"] = "fk5"
 
 param["num_x"] = 50
 param["num_y"] = 50

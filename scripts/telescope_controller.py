@@ -62,6 +62,7 @@ class antenna(object):
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
         time.sleep(0.5)
 
         topic_name = '/necst/telescope/coordinate/azel_cmd'
@@ -110,6 +111,7 @@ class antenna(object):
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
         time.sleep(0.5)
 
         topic_name = '/necst/telescope/coordinate/planet_cmd'
@@ -144,6 +146,7 @@ class antenna(object):
         topic_name = '/necst/telescope/coordinate/stop_cmd'
         data_class = std_msgs.msg.Bool
         cmd = True
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         time.sleep(0.5)
 
@@ -188,6 +191,7 @@ class antenna(object):
         topic_name = '/necst/telescope/coordinate/stop_cmd'
         data_class = std_msgs.msg.Bool
         cmd = True
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         time.sleep(0.5)
 
@@ -254,6 +258,7 @@ class antenna(object):
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
         time.sleep(0.5)
 
         topic_name = '/necst/telescope/coordinate/planet_raster_cmd'
@@ -299,6 +304,7 @@ class antenna(object):
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
         time.sleep(0.5)
 
         topic_name = '/necst/telescope/coordinate/azel_raster_cmd'
@@ -341,7 +347,7 @@ class antenna(object):
     def raster_check(self):
         raster_flag = True
         print(" raster scan now....")
-        time.sleep(1)
+        time.sleep(0.1)
         try:
             while raster_flag:
                 raster_flag = self.raster.recv()
