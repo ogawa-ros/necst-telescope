@@ -29,8 +29,8 @@ param = {}
 #param["on_y"] = 13 + 30/60 + 40/3600
 
 '13h49m01s -28d22m03s'
-param["on_x"] = (13 + 49/60 + 1/3600)*15
-param["on_y"] = -(28 + 22/60 + 3/3600)
+param["on_x"] = (5 + 35/60 + 14.46/3600)*15
+param["on_y"] = -(5 + 22/60 + 29.6/3600)
 
 param["on_frame"] = "fk5"
 
@@ -42,13 +42,13 @@ param["delta_t"] = 0.3
 
 param["ramp"] = 1
 
-param["off_x"] = (13 + 45/60 + 1/3600)*15
-param["off_y"] = -(28 + 37/60 + 3/3600)
+param["off_x"] = 82.55910596
+param["off_y"] = -5.66845794
 param["off_frame"] = "fk5"
 param["off_integ"] = 1
 
-param["hot_time"] = 1
-param["hot_interval"] = 1
+param["hot_time"] = 10
+param["hot_interval"] = 10
 
 param["direction"] = "H"
 
@@ -146,7 +146,7 @@ class otf_observation(object):
             #################OFF##############
             print("off")
 
-            #self.off_obs(off_x,off_y,off_frame,off_integ)
+            self.off_obs(off_x,off_y,off_frame,off_integ)
 
             #################ON##############
             if param["direction"] == "H":
