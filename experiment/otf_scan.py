@@ -34,8 +34,8 @@ param["on_y"] = -(5 + 22/60 + 29.6/3600)
 
 param["on_frame"] = "fk5"
 
-param["num_x"] = 5
-param["num_y"] = 5
+param["num_x"] = 50
+param["num_y"] = 50
 param["delta_x"] = 1/60
 param["delta_y"] = 1/60
 param["delta_t"] = 0.3
@@ -129,9 +129,10 @@ class otf_observation(object):
             total_scan = param["num_x"]
 
         self.logger.start(file_name)
+        print("first hot")
+
         self.hot_obs(hot_time)
         self.timer_regist(hot_interval)
-        print("first hot")
 
         for scan_num in range(total_scan):
             #################HOT##############
