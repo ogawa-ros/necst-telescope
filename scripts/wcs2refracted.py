@@ -88,6 +88,8 @@ class wcs2refracted(object):
     def publish_azel(self):
         while not rospy.is_shutdown():
             if self.wcs != '':
+                x = self.wcs[0]+self.wcs[2]
+                y = self.wcs[1]+self.wcs[3]
                 if self.init_flag == True:
                     for i in range(11):
                         altaz = self.convert_azel(dt=0.1*i)
@@ -99,7 +101,7 @@ class wcs2refracted(object):
                         self.pub_real_azel.publish(array)
 
                         array2 = Float64MultiArray()
-                        array2.data = [obstime, self.wcs[0]+self.wcs[2], self.wcs[1]+self.wcs[3]]
+                        array2.data = [obstime,x,y]
                         self.pub_wcs.publish(array2)
                         time.sleep(0.0001)
                     self.init_flag = False
@@ -114,7 +116,7 @@ class wcs2refracted(object):
                     self.pub_real_azel.publish(array)
 
                     array2 = Float64MultiArray()
-                    array2.data = [obstime, self.wcs[0]+self.wcs[2], self.wcs[1]+self.wcs[3]]
+                    array2.data = [obstime,x,y]
                     self.pub_wcs.publish(array2)
                     time.sleep(0.1)
 
