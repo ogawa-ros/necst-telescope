@@ -37,8 +37,8 @@ param["on_y"] = 41+10/60+1/3600
 
 param["on_frame"] = "fk5"
 
-param["num_x"] = 50
-param["num_y"] = 50
+param["num_x"] = 5
+param["num_y"] = 5
 param["delta_x"] = 1/60
 param["delta_y"] = 1/60
 param["delta_t"] = 0.3
@@ -54,10 +54,10 @@ param["off_x"] = 312.4486 #deg
 param["off_y"] = 36.5084 #deg
 
 param["off_frame"] = "fk5"
-param["off_integ"] = 1
+param["off_integ"] = 5
 
-param["hot_time"] = 10
-param["hot_interval"] = 10
+param["hot_time"] = 5
+param["hot_interval"] = 5
 
 param["direction"] = "H"
 
@@ -174,6 +174,7 @@ class otf_observation(object):
             print("scan "+str(scan_num))
             self.antenna.move_raster_wcs(sx,sy,lx,ly,scan_t,l_unit="deg",frame=frame)
             self.obsmode.publish("{0:9}".format('on finish'))
+            time.sleep(1)
 
         self.antenna.finalize()
         self.logger.stop()
