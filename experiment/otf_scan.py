@@ -37,8 +37,8 @@ param["on_y"] = 41+10/60+1/3600
 
 param["on_frame"] = "fk5"
 
-param["num_x"] = 5
-param["num_y"] = 5
+param["num_x"] = 50
+param["num_y"] = 50
 param["delta_x"] = 1/60
 param["delta_y"] = 1/60
 param["delta_t"] = 0.3
@@ -54,7 +54,7 @@ param["off_x"] = 312.4486 #deg
 param["off_y"] = 36.5084 #deg
 
 param["off_frame"] = "fk5"
-param["off_integ"] = 10
+param["off_integ"] = 5
 
 param["hot_time"] = 5
 param["hot_interval"] = 5
