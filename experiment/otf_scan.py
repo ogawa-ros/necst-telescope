@@ -25,16 +25,16 @@ name = "otf"
 param = {}
 
 #IRC+10216
-#param["on_x"] = (9 + 45/60 + 14/3600)*15
-#param["on_y"] = 13 + 30/60 + 40/3600
+param["on_x"] = (9 + 45/60 + 14/3600)*15
+param["on_y"] = 13 + 30/60 + 40/3600
 
 #cygnus x
 #param["on_x"] = 15*(20+28/60+40.8/3600)
 #param["on_y"] = 41+10/60+1/3600
 
 #OLionKL
-param["on_x"] = 15*(5+35/60+14.16/3600) #deg
-param["on_y"] = -(5+22/60+21.5/3600)
+#param["on_x"] = 15*(5+35/60+14.16/3600) #deg
+#param["on_y"] = -(5+22/60+21.5/3600)
 
 param["on_frame"] = "fk5"
 
@@ -47,12 +47,16 @@ param["delta_t"] = 0.3
 param["ramp"] = 1
 
 #Orion KL
-param["off_x"] = 82.55910596
-param["off_y"] = -5.66845794
+#param["off_x"] = 82.55910596
+#param["off_y"] = -5.66845794
 
 #cygnus x
 #param["off_x"] = 312.4486 #deg
 #param["off_y"] = 36.5084 #deg
+
+#IRC+10216
+param["off_x"] = (9 + 50/60 + 14/3600)*15
+param["off_y"] = 13 + 35/60 + 40/3600
 
 param["off_frame"] = "fk5"
 param["off_integ"] = 5
