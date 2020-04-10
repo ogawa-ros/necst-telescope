@@ -91,7 +91,7 @@ class wcs2refracted(object):
                 x = self.wcs[0]+self.wcs[2]
                 y = self.wcs[1]+self.wcs[3]
                 if self.init_flag == True:
-                    for i in range(11):
+                    for i in range(10):
                         altaz = self.convert_azel(dt=0.1*i)
                         obstime = altaz.obstime.to_value("unix")
                         alt = altaz.alt.deg
@@ -123,7 +123,7 @@ class wcs2refracted(object):
 
 
             else:
-                time.sleep(0.01)
+                time.sleep(0.001)
             continue
 
     def start_thread(self):

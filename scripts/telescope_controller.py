@@ -62,8 +62,7 @@ class antenna(object):
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-        self.make_pub.publish(topic_name, data_class, msg = cmd)
-        time.sleep(0.5)
+        time.sleep(1)
 
         topic_name = '/necst/telescope/coordinate/azel_cmd'
         data_class = std_msgs.msg.Float64MultiArray
@@ -111,8 +110,7 @@ class antenna(object):
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-        self.make_pub.publish(topic_name, data_class, msg = cmd)
-        time.sleep(0.5)
+        time.sleep(1)
 
         topic_name = '/necst/telescope/coordinate/planet_cmd'
         data_class = std_msgs.msg.Float64MultiArray
@@ -147,8 +145,7 @@ class antenna(object):
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-        self.make_pub.publish(topic_name, data_class, msg = cmd)
-        time.sleep(0.5)
+        time.sleep(1)
 
         topic_name = '/necst/telescope/coordinate/wcs_frame_cmd'
         data_class = std_msgs.msg.String
@@ -192,8 +189,7 @@ class antenna(object):
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-        self.make_pub.publish(topic_name, data_class, msg = cmd)
-        time.sleep(0.5)
+        time.sleep(1)
 
         topic_name = '/necst/telescope/coordinate/wcs_frame_cmd'
         data_class = std_msgs.msg.String
@@ -258,8 +254,7 @@ class antenna(object):
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-        self.make_pub.publish(topic_name, data_class, msg = cmd)
-        time.sleep(0.5)
+        time.sleep(1)
 
         topic_name = '/necst/telescope/coordinate/planet_raster_cmd'
         data_class = std_msgs.msg.Float64MultiArray
@@ -271,8 +266,6 @@ class antenna(object):
 
         self.raster_check()
 
-        #self.move_planet(planet,lx/2,ly/2)
-        #self.tracking_check()
 
         pass
 
@@ -304,8 +297,7 @@ class antenna(object):
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-        self.make_pub.publish(topic_name, data_class, msg = cmd)
-        time.sleep(0.5)
+        time.sleep(1)
 
         topic_name = '/necst/telescope/coordinate/azel_raster_cmd'
         data_class = std_msgs.msg.Float64MultiArray
@@ -317,14 +309,8 @@ class antenna(object):
 
         self.raster_check()
 
-        #self.move_azel(x+lx,y+ly)
-        #self.tracking_check()
-
         pass
 
-    def otf_wcs(self):
-        move_raster_wcs(x,y,lx,ly,scan_t,start_offset_px=0,start_offset_py=0,l_unit="deg",frame="fk5")
-        pass
 
     def select_optobs(self,cmd):
         topic_name = '/necst/telescope/coordinate/optobs'
@@ -355,8 +341,6 @@ class antenna(object):
         except KeyboardInterrupt:
             print('interrupted!')
 
-
-
     def get_az_cmd(self):
         az_cmd = self.az_cmd.recv()
         return az_cmd
@@ -372,6 +356,7 @@ class antenna(object):
     def get_el(self):
         el = self.el.recv()
         return el
+
     """
     def initilize(self):
         data_class = std_msgs.msg.Bool
@@ -387,7 +372,7 @@ class antenna(object):
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-        time.sleep(0.5)
+        time.sleep(1)
 
         topic_name = '/pyinterface/pci7415/rsw0/y/speed_cmd'
         data_class = std_msgs.msg.Float64
