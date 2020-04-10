@@ -104,7 +104,6 @@ class wcs2refracted(object):
                         data = [obstime,x,y]
                         self.wcs_li.append(data)
 
-                        time.sleep(0.0001)
                     self.init_flag = False
 
                 else:
@@ -118,9 +117,10 @@ class wcs2refracted(object):
 
                     data = [obstime,x,y]
                     self.wcs_li.append(data)
+                    time.sleep(0.1)
 
             else:
-                time.sleep(0.001)
+                time.sleep(0.0001)
             continue
 
     def wcs_pub(self):
