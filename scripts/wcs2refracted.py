@@ -29,6 +29,7 @@ class wcs2refracted(object):
     wcs_frame = 'fk5'
     nobeyama = EarthLocation(lat = latitude*u.deg, lon = longitude*u.deg, height = height*u.m)
     wcs =''
+    wcs_li = []
 
     press =  1000
     temp =  0
@@ -100,9 +101,9 @@ class wcs2refracted(object):
                         array.data = [obstime, az, alt]
                         self.pub_real_azel.publish(array)
 
-                        array2 = Float64MultiArray()
-                        array2.data = [obstime,x,y]
-                        self.pub_wcs.publish(array2)
+                        data = [obstime,x,y]
+                        self.wcs_li.append(data)
+
                         time.sleep(0.0001)
                     self.init_flag = False
 
@@ -115,21 +116,42 @@ class wcs2refracted(object):
                     array.data = [obstime, az, alt]
                     self.pub_real_azel.publish(array)
 
-                    array2 = Float64MultiArray()
-                    array2.data = [obstime,x,y]
-                    self.pub_wcs.publish(array2)
-                    time.sleep(0.1)
-
-
+                    data = [obstime,x,y]
+                    self.wcs_li.append(data)
 
             else:
                 time.sleep(0.001)
+            continue
+
+    def wcs_pub(self):
+        while not rospy.is_shutdown():
+            #print(len(self.offset_li))
+            try:
+                wcs = self.wcs_li.pop(0)
+            except:
+                time.sleep(0.00001)
+                continue
+
+            while True:
+                if wcs[0] < time.time():
+                    q = Float64MultiArray()
+                    q.data = [wcs[0],wcs[1],wcs[2]] #[time,x,y]
+                    self.pub_wcs.publish(q)
+                    break
+                else:
+                    time.sleep(0.0001)
+                    continue
+
             continue
 
     def start_thread(self):
         th = threading.Thread(target=self.publish_azel)
         th.setDaemon(True)
         th.start()
+
+        th2 = threading.Thread(target=self.wcs_pub)
+        th2.setDaemon(True)
+        th2.start()
 
 if __name__ == "__main__":
     rospy.init_node(name)
