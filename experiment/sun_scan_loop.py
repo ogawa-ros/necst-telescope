@@ -68,24 +68,28 @@ for i in range(num):
     time.sleep(5)
     load.move_sky()
     time.sleep(5)
-    antenna.tracking_check()
 
     antenna.move_planet(planet,-lx/2,0)
     antenna.tracking_check()
+    time.sleep(1)
 
     print("{0:9}".format("az_start"))
     status.publish("{0:9}".format("az_start"))
     antenna.move_raster_planet(planet,lx=lx,ly=0 ,scan_t=scan_t,l_unit="deg")
     status.publish("{0:9}".format("az_end"))
+    print("{0:9}".format("az_end"))
     time.sleep(1)
 
     antenna.move_planet(planet,0,-ly/2)
     antenna.tracking_check()
+    time.sleep(1)
 
     print("{0:9}".format("el_start"))
     status.publish("{0:9}".format("el_start"))
     antenna.move_raster_planet(planet,lx=0 ,ly=ly,scan_t=scan_t,l_unit="deg")
     status.publish("{0:9}".format("el_end"))
+    print("{0:9}".format("el_end"))
+    time.sleep(1)
 
 logger.stop()
 
