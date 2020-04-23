@@ -77,6 +77,7 @@ for i in range(num):
     status.publish("{0:9}".format("az_start"))
     antenna.move_raster_planet(planet,lx=lx,ly=0 ,scan_t=scan_t,l_unit="deg")
     status.publish("{0:9}".format("az_end"))
+    print("{0:9}".format("az_end"))
     time.sleep(1)
 
     antenna.move_planet(planet,0,-ly/2)
@@ -86,7 +87,8 @@ for i in range(num):
     status.publish("{0:9}".format("el_start"))
     antenna.move_raster_planet(planet,lx=0 ,ly=ly,scan_t=scan_t,l_unit="deg")
     status.publish("{0:9}".format("el_end"))
-
+    print("{0:9}".format("el_end"))
+    time.sleep(1)
 
 logger.stop()
 
