@@ -68,7 +68,6 @@ for i in range(num):
     time.sleep(5)
     load.move_sky()
     time.sleep(5)
-    antenna.tracking_check()
 
     antenna.move_planet(planet,-lx/2,0)
     antenna.tracking_check()
