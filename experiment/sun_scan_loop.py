@@ -58,7 +58,7 @@ direct.publish(scan_direction)
 antenna.move_planet(planet,-lx/2,0)
 antenna.tracking_check()
 
-status.publish("{0:9".format("off_start"))
+status.publish("{0:9}".format("off_start"))
 time.sleep(5)
 status.publish("{0:9}".format("off_end"))
 
