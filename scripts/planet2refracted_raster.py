@@ -3,6 +3,7 @@
 name = "planet2refracted_raster"
 
 import time
+import math
 import rospy
 import numpy
 import threading
@@ -106,8 +107,7 @@ class planet2refracted_raster(object):
             offset_y = start_y + dy*i
 
             obstime = altaz[i].obstime.to_value("unix")
-            print(altaz[i].alt)
-            az  = altaz[i].az.deg  + offset_x/numpy.cos(altaz[i].alt)
+            az  = altaz[i].az.deg  + offset_x/numpy.cos(math.radians(altaz[i].alt.deg))
             alt = altaz[i].alt.deg + offset_y
 
             array = Float64MultiArray()
