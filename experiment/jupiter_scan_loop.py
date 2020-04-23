@@ -71,6 +71,7 @@ for i in range(num):
 
     antenna.move_planet(planet,-lx/2,0)
     antenna.tracking_check()
+    time.sleep(1)
 
     print("{0:9}".format("az_start"))
     status.publish("{0:9}".format("az_start"))
@@ -81,6 +82,7 @@ for i in range(num):
 
     antenna.move_planet(planet,0,-ly/2)
     antenna.tracking_check()
+    time.sleep(1)
 
     print("{0:9}".format("el_start"))
     status.publish("{0:9}".format("el_start"))
