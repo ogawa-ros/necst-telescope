@@ -88,11 +88,12 @@ class wcs2refracted_raster(object):
 
         self.pub_raster_check.publish(True)
 
+        t0 = Time.now()
         for i in range(num+1):
             offset_x = dx*i
             offset_y = dy*i
             dt = 0.1*i
-            altaz = self.convert_azel(x,y,offset_x,offset_y,dt)
+            altaz = self.convert_azel(x,y,offset_x,offset_y,t0,dt)
             obstime = altaz.obstime.to_value("unix")
 
             array = Float64MultiArray()
@@ -111,14 +112,14 @@ class wcs2refracted_raster(object):
         self.pub_raster_check.publish(False)
         pass
 
-    def convert_azel(self,x,y,offset_x,offset_y,dt):
+    def convert_azel(self,x,y,offset_x,offset_y,t0,dt):
         on_coord = SkyCoord(x+offset_x, y+offset_y,frame=self.wcs_frame, unit=(u.deg, u.deg))
         on_coord.location = self.nobeyama
         on_coord.pressure = self.press*u.hPa
         on_coord.temperature = self.temp*u.deg_C
         on_coord.relative_humidity = self.humid
         on_coord.obswl = (astropy.constants.c/(self.obswl*u.GHz)).to('micron')
-        altaz_list = on_coord.transform_to(AltAz(obstime=Time.now()+TimeDelta(dt, format='sec')))
+        altaz_list = on_coord.transform_to(AltAz(obstime=t0+TimeDelta(dt, format='sec')))
         return altaz_list
 
     def offfset_pub(self):
