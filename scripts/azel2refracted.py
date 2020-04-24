@@ -43,7 +43,6 @@ class azel2refracted(object):
                         array = Float64MultiArray()
                         array.data = [obstime, az, alt]
                         self.pub_real_azel.publish(array)
-                        time.sleep(0.0001)
                     self.init_flag  = False
 
                 else:
@@ -56,7 +55,7 @@ class azel2refracted(object):
                     time.sleep(0.1)
 
             else:
-                time.sleep(0.01)
+                time.sleep(0.0001)
             continue
 
     def start_thread(self):

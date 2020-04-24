@@ -373,7 +373,7 @@ class antenna(object):
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-        time.sleep(1)
+        time.sleep(2)
 
         topic_name = '/pyinterface/pci7415/rsw0/y/speed_cmd'
         data_class = std_msgs.msg.Float64
