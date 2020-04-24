@@ -21,7 +21,7 @@ planet = "jupiter"
 scan_direction = 1 #1or-1
 _lx = 1 #deg
 _ly = 1 #deg
-scan_t = 60 
+scan_t = 60
 
 num = 5
 
@@ -58,9 +58,9 @@ direct.publish(scan_direction)
 antenna.move_planet(planet,-lx/2,0)
 antenna.tracking_check()
 
-status.publish("{0:4}".format("offs"))
+status.publish("{0:9}".format("off_start"))
 time.sleep(5)
-status.publish("{0:4}".format("offe"))
+status.publish("{0:9}".format("off_end"))
 
 for i in range(num):
 
@@ -71,20 +71,25 @@ for i in range(num):
 
     antenna.move_planet(planet,-lx/2,0)
     antenna.tracking_check()
+    time.sleep(1)
 
-    print("{0:2}{1:2}".format("az",i+1))
-    status.publish("{0:2}{1:2}".format("az",i+1))
+    print("{0:9}".format("az_start"))
+    status.publish("{0:9}".format("az_start"))
     antenna.move_raster_planet(planet,lx=lx,ly=0 ,scan_t=scan_t,l_unit="deg")
-    time.sleep(5)
-
+    status.publish("{0:9}".format("az_end"))
+    print("{0:9}".format("az_end"))
+    time.sleep(1)
 
     antenna.move_planet(planet,0,-ly/2)
     antenna.tracking_check()
+    time.sleep(1)
 
-    print("{0:2}{1:2}".format("el",i+1))
-    status.publish("{0:2}{1:2}".format("el",i+1))
+    print("{0:9}".format("el_start"))
+    status.publish("{0:9}".format("el_start"))
     antenna.move_raster_planet(planet,lx=0 ,ly=ly,scan_t=scan_t,l_unit="deg")
-    time.sleep(5)
+    status.publish("{0:9}".format("el_end"))
+    print("{0:9}".format("el_end"))
+    time.sleep(1)
 
 logger.stop()
 
