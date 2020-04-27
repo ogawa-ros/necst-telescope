@@ -5,6 +5,7 @@ name = "wcs2refracted_raster_azel"
 import time
 import rospy
 import threading
+import numpy
 from std_msgs.msg import Float64
 from std_msgs.msg import Float64MultiArray
 from std_msgs.msg import Bool
