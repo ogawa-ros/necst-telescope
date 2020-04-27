@@ -103,6 +103,7 @@ class wcs2refracted_raster_azel(object):
             array = Float64MultiArray()
             array.data = [obstime, az, alt]
             self.pub_real_azel.publish(array)
+            time.sleep(0.001)
 
         print(0)
         while not self.tracking_check :
