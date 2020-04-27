@@ -85,14 +85,14 @@ for i in range(num):
 
     print("{0:9}".format("az_start"))
     status.publish("{0:9}".format("az_start"))
-    antenna.move_raster_wcs_azel(on_x,on_y,lx=lx,ly=0 ,scan_t=scan_t, frame=on_frame, l_unit="deg")
+    antenna.move_raster_wcs_azel(on_x,on_y,lx=lx,ly=0 ,scan_t=scan_t, frame=on_frame)
     status.publish("{0:9}".format("az_end"))
     print("{0:9}".format("az_end"))
     time.sleep(1)
 
     print("{0:9}".format("el_start"))
     status.publish("{0:9}".format("el_start"))
-    antenna.move_raster_wcs_azel(on_x,on_y,lx=0 ,ly=ly,scan_t=scan_t, frame=on_frame, l_unit="deg")
+    antenna.move_raster_wcs_azel(on_x,on_y,lx=0 ,ly=ly,scan_t=scan_t, frame=on_frame)
     status.publish("{0:9}".format("el_end"))
     print("{0:9}".format("el_end"))
     time.sleep(1)
