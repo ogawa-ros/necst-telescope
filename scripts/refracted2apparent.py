@@ -71,8 +71,6 @@ class refracted2apparent(object):
                     self.calculate_kisa(q)
                     break
 
-                elif azel[0] < time.time()
-                    break
                 else:
                     time.sleep(0.001)
                     continue
