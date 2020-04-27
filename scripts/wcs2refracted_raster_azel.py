@@ -92,10 +92,6 @@ class wcs2refracted_raster_azel(object):
         num = int(length/dl)
 
         #scan開始点に移動
-        self.pub_stop_cmd.publish(True)
-
-        time.sleep(0.3)
-        """
         for i in range(10):
             t = 0.1 * i
             altaz = self.convert_azel(x,y,dt=t)
@@ -106,7 +102,7 @@ class wcs2refracted_raster_azel(object):
             array.data = [obstime, az, alt]
             self.pub_real_azel.publish(array)
             time.sleep(0.001)
-        """
+            print("first")
 
         print(0)
         while not self.tracking_check :
