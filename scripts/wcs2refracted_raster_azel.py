@@ -95,8 +95,9 @@ class wcs2refracted_raster_azel(object):
 
         #scan開始点に移動
         for i in range(10):
-            t = 0.1 * i
-            altaz = self.convert_azel(x,y,dt=t)
+            dt = 0.1 * i
+            t0 = Time.now()
+            altaz = self.convert_azel(x,y,t0=t0,dt=dt)
             obstime = altaz.obstime.to_value("unix")
             az  = altaz.az.deg  + start_x/numpy.cos(math.radians(altaz.alt.deg))
             alt = altaz.alt.deg + start_y
@@ -108,7 +109,8 @@ class wcs2refracted_raster_azel(object):
 
         print(0)
         while not self.tracking_check :
-            altaz = self.convert_azel(x,y,dt=1)
+            t0 = Time.now()
+            altaz = self.convert_azel(x,y,t0=t0,dt=1)
             obstime = altaz.obstime.to_value("unix")
             az  = altaz.az.deg  + start_x/numpy.cos(math.radians(altaz.alt.deg))
             alt = altaz.alt.deg + start_y
@@ -124,14 +126,16 @@ class wcs2refracted_raster_azel(object):
         time.sleep(1)
 
         #scan開始
+        t0 = Time.now()
         for i in range(num+1):
             print(i)
             offset_x = start_x + dx*i
             offset_y = start_y + dy*i
+            dt = 0.1*i
 
-            altaz = self.convert_azel(x,y)
+            altaz = self.convert_azel(x,y,t0=t0,dt=dt)
 
-            obstime = altaz.obstime.to_value("unix") + 0.1*i
+            obstime = altaz.obstime.to_value("unix")
             az  = altaz.az.deg  + offset_x/numpy.cos(math.radians(altaz.alt.deg))
             alt = altaz.alt.deg + offset_y
 
@@ -150,14 +154,14 @@ class wcs2refracted_raster_azel(object):
         self.pub_raster_check.publish(False)
         pass
 
-    def convert_azel(self,x,y,dt=0):
+    def convert_azel(self,x,y,t0,dt=0):
         on_coord = SkyCoord(x, y,frame=self.wcs_frame, unit=(u.deg, u.deg))
         on_coord.location = self.nobeyama
         on_coord.pressure = self.press*u.hPa
         on_coord.temperature = self.temp*u.deg_C
         on_coord.relative_humidity = self.humid
         on_coord.obswl = (astropy.constants.c/(self.obswl*u.GHz)).to('micron')
-        altaz_list = on_coord.transform_to(AltAz(obstime=Time.now()+TimeDelta(dt,format="sec")))
+        altaz_list = on_coord.transform_to(AltAz(obstime=t0+TimeDelta(dt,format="sec")))
         return altaz_list
 
     def offset_pub(self):
