@@ -73,6 +73,7 @@ class refracted2apparent(object):
                     break
                 else:
                     print("ba--ka")
+                    print(azel[0])
                     time.sleep(0.001)
                     continue
             #time.sleep(0.1)
