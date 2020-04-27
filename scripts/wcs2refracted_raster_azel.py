@@ -91,6 +91,8 @@ class wcs2refracted_raster_azel(object):
         start_y = -ly/2
         num = int(length/dl)
 
+        self.pub_raster_check.publish(True)
+
         #scan開始点に移動
         for i in range(10):
             t = 0.1 * i
@@ -121,8 +123,6 @@ class wcs2refracted_raster_azel(object):
         self.pub_stop_cmd.publish(True)
         time.sleep(1)
 
-        self.pub_raster_check.publish(True)
-
         #scan開始
         for i in range(num+1):
             print(i)
@@ -144,7 +144,7 @@ class wcs2refracted_raster_azel(object):
             if i == num:
                 last_obstime = obstime
 
-        while obstime > time.time():
+        while last_obstime > time.time():
             time.sleep(0.1)
             continue
         self.pub_raster_check.publish(False)
