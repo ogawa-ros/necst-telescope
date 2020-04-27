@@ -28,8 +28,8 @@ off_x = 146.562 #deg
 off_y = 13.5125 #deg
 off_frame = "fk4" #B1950
 
-off_integ = 10
-hot_integ = 10
+off_integ = 1
+hot_integ = 1
 
 _lx = 2 #deg
 _ly = 2 #deg
