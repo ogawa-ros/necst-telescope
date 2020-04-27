@@ -72,6 +72,7 @@ class refracted2apparent(object):
                     self.calculate_kisa(q)
                     break
                 else:
+                    print("ba--ka")
                     time.sleep(0.001)
                     continue
             #time.sleep(0.1)
