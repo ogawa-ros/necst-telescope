@@ -73,7 +73,6 @@ time.sleep(off_integ)
 status.publish("{0:9}".format("off_end"))
 
 for i in range(num):
-
     load.move_hot()
     load.check_hot()
     status.publish("{0:9}".format("hot_start"))

@@ -76,6 +76,7 @@ class wcs2refracted_raster_azel(object):
         self.tracking_check = q.data
 
     def publish(self,q):
+        print("aaaaa")
         x = q.data[0]
         y = q.data[1]
         lx = q.data[2]
