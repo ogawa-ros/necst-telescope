@@ -45,7 +45,8 @@ class refracted2apparent(object):
     def recieve_azel(self, array):
         if array.data[0] > time.time():
             self.azel.append(array.data)
-            self.azel.sort()
+            self.azel.sort(array.data)
+            print()
         else:
             pass
 

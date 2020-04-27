@@ -104,6 +104,7 @@ class wcs2refracted_raster_azel(object):
 
         print(0)
         while not self.tracking_check :
+            print(self.tracking_check)
             altaz = self.convert_azel(x,y,dt=1)
             obstime = altaz.obstime.to_value("unix")
             az  = altaz.az.deg  + start_x/numpy.cos(math.radians(altaz.alt.deg))
