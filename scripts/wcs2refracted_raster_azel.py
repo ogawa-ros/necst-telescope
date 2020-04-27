@@ -156,7 +156,7 @@ class wcs2refracted_raster_azel(object):
         on_coord.temperature = self.temp*u.deg_C
         on_coord.relative_humidity = self.humid
         on_coord.obswl = (astropy.constants.c/(self.obswl*u.GHz)).to('micron')
-        altaz_list = on_coord.transform_to(AltAz(obstime=Time.now()+dt))
+        altaz_list = on_coord.transform_to(AltAz(obstime=Time.now()+TimeDelta(dt,format="sec")))
         return altaz_list
 
     def offset_pub(self):
