@@ -46,7 +46,6 @@ class refracted2apparent(object):
         if array.data[0] > time.time():
             self.azel.append(array.data)
             self.azel.sort()
-            print(array.data)
         else:
             pass
 
@@ -58,6 +57,7 @@ class refracted2apparent(object):
 
     def time_handler(self):
         while not rospy.is_shutdown():
+            print(self.azel)
             try:
                 azel = self.azel.pop(0)
                 self.pub_cmd_num.publish(len(self.azel))
