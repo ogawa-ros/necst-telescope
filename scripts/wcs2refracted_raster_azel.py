@@ -132,7 +132,7 @@ class wcs2refracted_raster_azel(object):
             altaz = self.convert_azel(x,y)
 
             obstime = altaz.obstime.to_value("unix")
-            az  = altaz.az.deg  + offset_x/numpy.cos(math.radians(altaz[i].alt.deg))
+            az  = altaz.az.deg  + offset_x/numpy.cos(math.radians(altaz.alt.deg))
             alt = altaz.alt.deg + offset_y
 
             array = Float64MultiArray()
