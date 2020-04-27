@@ -241,6 +241,7 @@ class antenna(object):
         time.sleep(3)
 
         self.raster_check()
+
         pass
 
 
