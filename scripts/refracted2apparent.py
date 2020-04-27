@@ -57,7 +57,6 @@ class refracted2apparent(object):
 
     def time_handler(self):
         while not rospy.is_shutdown():
-            print(self.azel)
             try:
                 azel = self.azel.pop(0)
                 self.pub_cmd_num.publish(len(self.azel))
@@ -71,9 +70,10 @@ class refracted2apparent(object):
                     q = [azel[1],azel[2]] #[az,el]
                     self.calculate_kisa(q)
                     break
+
+                elif azel[0] < time.time()
+                    break
                 else:
-                    print("ba--ka")
-                    print(azel[0])
                     time.sleep(0.001)
                     continue
             #time.sleep(0.1)
