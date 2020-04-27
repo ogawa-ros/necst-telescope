@@ -13,4 +13,6 @@
   </node>
   <node pkg="necst-telescope" name="refracted2apparent" type="refracted2apparent.py" required="true" output="screen">
   </node>
+  <node pkg="necst-telescope" name="wcs2refracted_raster_azel" type="wcs2refracted_raster_azel.py" required="true" output="screen">
+  </node>
 </launch>
