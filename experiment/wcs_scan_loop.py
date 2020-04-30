@@ -35,7 +35,7 @@ _lx = 0.2 #deg
 _ly = 0.2 #deg
 scan_t = 30
 
-num = 3
+num = 10
 
 name = "wcs_scan_loop"
 rospy.init_node(name)
