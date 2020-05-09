@@ -72,7 +72,7 @@ param["direction"] = "H"
 param["target"] = "Orion KL"
 
 
-param["dcos"]
+param["dcos"] = 1
 
 
 ###################START OBSERVATION##########################
