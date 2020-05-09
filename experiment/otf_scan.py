@@ -169,6 +169,8 @@ class otf_observation(object):
             off_y = param["off_y"]
             off_frame = param["off_frame"]
             off_integ = param["off_integ"]
+            on_offset_x = param["on_offset_x"]
+            on_offset_y = param["on_offset_y"]
 
         elif param["direction"] == "V":
             total_scan = param["num_x"]
