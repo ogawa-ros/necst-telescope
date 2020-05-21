@@ -58,14 +58,14 @@ param["off_y"] = -5.66845794
 #param["off_y"] = 36.5084 #deg
 
 #IRC+10216
-param["off_x"] = (9 + 50/60 + 14/3600)*15
-param["off_y"] = 13 + 35/60 + 40/3600
+#param["off_x"] = (9 + 50/60 + 14/3600)*15
+#param["off_y"] = 13 + 35/60 + 40/3600
 
 param["off_frame"] = "fk5"
-param["off_integ"] = 5
+param["off_integ"] = 5 #sec
 
-param["hot_time"] = 5
-param["hot_interval"] = 5
+param["hot_time"] = 5 #sec
+param["hot_interval"] = 5 #min
 
 param["direction"] = "H"
 
@@ -104,6 +104,7 @@ class otf_observation(object):
         self.obsstatus.publish("{0:9}".format('hot end'))
         self.load.move_sky()
         self.load.check_hot()
+        time.sleep(0.01)
         pass
 
     def off_obs(self,off_x,off_y,off_frame,off_integ):
@@ -112,6 +113,7 @@ class otf_observation(object):
         self.obsstatus.publish("{0:9}".format('off start'))
         time.sleep(off_integ)
         self.obsstatus.publish("{0:9}".format('off end'))
+        time.sleep(0.01)
         pass
 
     def timer_regist(self,t):
@@ -140,8 +142,11 @@ class otf_observation(object):
         hot.data = [param["hot_time"],param["hot_interval"]]
 
         self.otfparam_on.publish(on)
+        time.sleep(0.01)
         self.otfparam_scan.publish(scan)
+        time.sleep(0.01)
         self.otfparam_off.publish(off)
+        time.sleep(0.01)
         self.otfparam_hot.publish(hot)
 
     def start(self,param):
@@ -179,6 +184,7 @@ class otf_observation(object):
 
         for scan_num in range(total_scan):
             self.obsstatus.publish("{0:9}".format('otf line '+str(scan_num)))
+            time.sleep(0.1)
             #################HOT##############
             if self.timer_check():
                 print("hot")
@@ -212,6 +218,7 @@ class otf_observation(object):
             print("scan "+str(scan_num))
             self.antenna.move_raster_wcs(sx,sy,lx,ly,scan_t,l_unit="deg",frame=frame)
             self.obsstatus.publish("{0:9}".format('on finish'))
+            time.sleep(0.01)
 
         self.antenna.finalize()
         self.logger.stop()
