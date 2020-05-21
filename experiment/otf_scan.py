@@ -168,7 +168,8 @@ class otf_observation(object):
             dy = param["delta_y"]
             frame = param["on_frame"]
             ramp = param["ramp"]
-            num = param["num_x"]
+            num_x = param["num_x"]
+            num_y = param["num_y"]
             dt = param["delta_t"]
             off_x = param["off_x"]
             off_y = param["off_y"]
@@ -202,14 +203,15 @@ class otf_observation(object):
 
             #################ON##############
             if param["direction"] == "H":
-                _lx = dx * (num+1)
+                _lx = dx * (num_x+1)
+                _lx = dy * (num_y)
                 lx = _lx + dx/dt*ramp
                 ly = 0
                 ctr_x = x + on_offset_x
                 ctr_y = y + on_offset_y
                 sx = ctr_x - _lx/2 - dx/dt*ramp
-                sy = ctr_y + dy*scan_num
-                scan_t = dt*(num+1) + ramp
+                sy = ctr_y - _ly/2 + dy*scan_num
+                scan_t = dt*(num_x+1) + ramp
 
             elif param["direction"] == "V":
                 pass
