@@ -41,13 +41,13 @@ param["on_frame"] = "fk5"
 param["on_offset_x"] = 0 #deg
 param["on_offset_y"] = 0 #deg
 
-param["num_x"] = 60
-param["num_y"] = 60
+param["num_x"] = 30
+param["num_y"] = 30
 param["delta_x"] = 1/60
 param["delta_y"] = 1/60
 param["delta_t"] = 0.3
 
-param["ramp"] = 3
+param["ramp"] = 2
 
 #Orion KL
 param["off_x"] = 82.55910596
