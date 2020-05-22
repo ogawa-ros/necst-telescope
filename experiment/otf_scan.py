@@ -155,8 +155,6 @@ class otf_observation(object):
         file_name = name + '/' + date + '.necstdb'
         print(file_name)
 
-        self.pub_scan_param(param)
-
         hot_time = param["hot_time"]
         hot_interval = param["hot_interval"]
 
@@ -182,6 +180,8 @@ class otf_observation(object):
             total_scan = param["num_x"]
 
         self.logger.start(file_name)
+
+        self.pub_scan_param(param)
 
         for scan_num in range(total_scan):
             self.obsstatus.publish("{0:9}".format('otf line '+str(scan_num)))
