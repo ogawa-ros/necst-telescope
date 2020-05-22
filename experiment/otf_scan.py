@@ -204,7 +204,7 @@ class otf_observation(object):
             #################ON##############
             if param["direction"] == "H":
                 _lx = dx * (num_x+1)
-                _lx = dy * (num_y)
+                _ly = dy * (num_y)
                 lx = _lx + dx/dt*ramp
                 ly = 0
                 ctr_x = x + on_offset_x
