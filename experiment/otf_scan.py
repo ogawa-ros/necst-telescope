@@ -41,8 +41,8 @@ param["on_frame"] = "fk5"
 param["on_offset_x"] = 0 #deg
 param["on_offset_y"] = 0 #deg
 
-param["num_x"] = 30
-param["num_y"] = 30
+param["num_x"] = 60
+param["num_y"] = 60
 param["delta_x"] = 1/60
 param["delta_y"] = 1/60
 param["delta_t"] = 0.3
@@ -94,7 +94,7 @@ class otf_observation(object):
         self.otfparam_scan = rospy.Publisher('/otf/param/scan', Float64MultiArray, queue_size=1)
         self.otfparam_off = rospy.Publisher('/otf/param/off', Float64MultiArray, queue_size=1)
         self.otfparam_hot = rospy.Publisher('/otf/param/hot', Float64MultiArray, queue_size=1)
-
+        self.otfparam_direc = rospy.Publisher('/otf/param/direction', String, queue_size=1)
 
     def hot_obs(self,hot_time):
         self.load.move_hot()
@@ -135,12 +135,17 @@ class otf_observation(object):
         off = Float64MultiArray()
         scan = Float64MultiArray()
         hot = Float64MultiArray()
+        target = String()
+        direc = String()
 
-        on.data = [param["on_x"],param["on_y"],param["on_x"],param["on_offset_x"],param["on_offset_y"] ]
+        on.data = [param["on_x"],param["on_y"],param["on_offset_x"],param["on_offset_y"] ]
         scan.data = [param["num_x"],param["num_y"],param["delta_x"],param["delta_y"],param["delta_t"],param["ramp"]]
         off.data = [param["off_x"],param["off_y"],param["off_integ"]]
         hot.data = [param["hot_time"],param["hot_interval"]]
+        target.data = param["target"]
+        direc.data = param["direction"]
 
+        time.sleep(0.01)
         self.otfparam_on.publish(on)
         time.sleep(0.01)
         self.otfparam_scan.publish(scan)
@@ -148,6 +153,11 @@ class otf_observation(object):
         self.otfparam_off.publish(off)
         time.sleep(0.01)
         self.otfparam_hot.publish(hot)
+        time.sleep(0.01)
+        self.target.publish(target)
+        time.sleep(0.01)
+        self.direc.publish(direc)
+        time.sleep(0.01)
 
     def start(self,param):
         name = "otf_test"
@@ -178,6 +188,21 @@ class otf_observation(object):
 
         elif param["direction"] == "V":
             total_scan = param["num_x"]
+            x = param["on_x"]
+            y = param["on_y"]
+            dx = param["delta_x"]
+            dy = param["delta_y"]
+            frame = param["on_frame"]
+            ramp = param["ramp"]
+            num_x = param["num_x"]
+            num_y = param["num_y"]
+            dt = param["delta_t"]
+            off_x = param["off_x"]
+            off_y = param["off_y"]
+            off_frame = param["off_frame"]
+            off_integ = param["off_integ"]
+            on_offset_x = param["on_offset_x"]
+            on_offset_y = param["on_offset_y"]
 
         self.logger.start(file_name)
 
@@ -214,6 +239,15 @@ class otf_observation(object):
                 scan_t = dt*(num_x+1) + ramp
 
             elif param["direction"] == "V":
+                _lx = dx * (num_x)
+                _ly = dy * (num_y+1)
+                lx = 0
+                ly = _ly + dy/dt*ramp
+                ctr_x = x + on_offset_x
+                ctr_y = y + on_offset_y
+                sx = ctr_x - _lx/2 - dx*scan_num
+                sy = ctr_y - _ly/2 + dy/dt*ramp
+                scan_t = dt*(num_y+1) + ramp
                 pass
 
             self.obsstatus.publish("{0:9}".format('on start'))
