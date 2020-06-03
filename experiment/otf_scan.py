@@ -156,7 +156,7 @@ class otf_observation(object):
         time.sleep(0.01)
         self.target.publish(target)
         time.sleep(0.01)
-        self.direc.publish(direc)
+        self.otfparam_direc.publish(direc)
         time.sleep(0.01)
 
     def start(self,param):
