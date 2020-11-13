@@ -159,6 +159,47 @@ class antenna(object):
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
+    def move_wcs_azel(self,x,y,offset_x=0,offset_y=0,frame="fk5",offset_unit="deg"):
+        """
+        msg
+        - type : list
+        - unit : x [deg]
+               : y [deg]
+               : offset_x [deg]
+               : offset_y [deg]
+        msg
+        - type : string
+        - cmd : fk5, galactic, icrs
+        """
+
+        if offset_unit == "arcsec" :
+            offset_x = offset_x/3600
+            offset_y = offset_y/3600
+        if offset_unit == "arcmin" :
+            offset_x = offset_x/60
+            offset_y = offset_y/60
+        if offset_unit == "deg" :
+            pass
+
+        topic_name = '/necst/telescope/coordinate/stop_cmd'
+        data_class = std_msgs.msg.Bool
+        cmd = True
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+        time.sleep(0.5)
+
+        topic_name = '/necst/telescope/coordinate/wcs_frame_cmd'
+        data_class = std_msgs.msg.String
+        cmd = frame
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+
+        topic_name = '/necst/telescope/coordinate/wcs_azel_cmd'
+        data_class = std_msgs.msg.Float64MultiArray
+        cmd = std_msgs.msg.Float64MultiArray()
+        cmd.data = [x,y,offset_x,offset_y]
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+        pass
+
+
     def move_raster_wcs(self,x,y,lx,ly,scan_t,start_offset_px=0,start_offset_py=0,l_unit="deg",frame="fk5"):
         """
         msg
