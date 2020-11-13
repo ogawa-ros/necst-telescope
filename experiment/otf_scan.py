@@ -25,54 +25,54 @@ name = "otf"
 param = {}
 
 #IRC+10216
-param["on_x"] = (9 + 45/60 + 14/3600)*15 #deg
-param["on_y"] = 13 + 30/60 + 40/3600 #deg
+#param["on_x"] = (9 + 45/60 + 14/3600)*15 #deg
+#param["on_y"] = 13 + 30/60 + 40/3600 #deg
 
 #cygnus x
 #param["on_x"] = 15*(20+28/60+40.8/3600)
 #param["on_y"] = 41+10/60+1/3600
 
 #OLionKL
-#param["on_x"] = 15*(5+35/60+14.16/3600) #deg
-#param["on_y"] = -(5+22/60+21.5/3600)
+param["on_x"] = 15*(5+35/60+14.16/3600) #deg
+param["on_y"] = -(5+22/60+21.5/3600)
 
 param["on_frame"] = "fk5"
 
 param["on_offset_x"] = 0 #deg
 param["on_offset_y"] = 0 #deg
 
-param["num_x"] = 50
-param["num_y"] = 50
+param["num_x"] = 60
+param["num_y"] = 60
 param["delta_x"] = 1/60
 param["delta_y"] = 1/60
 param["delta_t"] = 0.3
 
-param["ramp"] = 1
+param["ramp"] = 2
 
 #Orion KL
-#param["off_x"] = 82.55910596
-#param["off_y"] = -5.66845794
+param["off_x"] = 82.55910596
+param["off_y"] = -5.66845794
 
 #cygnus x
 #param["off_x"] = 312.4486 #deg
 #param["off_y"] = 36.5084 #deg
 
 #IRC+10216
-param["off_x"] = (9 + 50/60 + 14/3600)*15
-param["off_y"] = 13 + 35/60 + 40/3600
+#param["off_x"] = (9 + 50/60 + 14/3600)*15
+#param["off_y"] = 13 + 35/60 + 40/3600
 
 param["off_frame"] = "fk5"
-param["off_integ"] = 5
+param["off_integ"] = 5 #sec
 
-param["hot_time"] = 5
-param["hot_interval"] = 5
+param["hot_time"] = 5 #sec
+param["hot_interval"] = 5 #min
 
 param["direction"] = "H"
 
-param["target"] = "test"
+param["target"] = "Orion KL"
 
 
-param["dcos"]
+param["dcos"] = 1
 
 
 ###################START OBSERVATION##########################
@@ -94,7 +94,7 @@ class otf_observation(object):
         self.otfparam_scan = rospy.Publisher('/otf/param/scan', Float64MultiArray, queue_size=1)
         self.otfparam_off = rospy.Publisher('/otf/param/off', Float64MultiArray, queue_size=1)
         self.otfparam_hot = rospy.Publisher('/otf/param/hot', Float64MultiArray, queue_size=1)
-
+        self.otfparam_direc = rospy.Publisher('/otf/param/direction', String, queue_size=1)
 
     def hot_obs(self,hot_time):
         self.load.move_hot()
@@ -104,6 +104,7 @@ class otf_observation(object):
         self.obsstatus.publish("{0:9}".format('hot end'))
         self.load.move_sky()
         self.load.check_hot()
+        time.sleep(0.01)
         pass
 
     def off_obs(self,off_x,off_y,off_frame,off_integ):
@@ -112,6 +113,7 @@ class otf_observation(object):
         self.obsstatus.publish("{0:9}".format('off start'))
         time.sleep(off_integ)
         self.obsstatus.publish("{0:9}".format('off end'))
+        time.sleep(0.01)
         pass
 
     def timer_regist(self,t):
@@ -133,24 +135,35 @@ class otf_observation(object):
         off = Float64MultiArray()
         scan = Float64MultiArray()
         hot = Float64MultiArray()
+        target = String()
+        direc = String()
 
-        on.data = [param["on_x"],param["on_y"],param["on_x"],param["on_offset_x"],param["on_offset_y"] ]
+        on.data = [param["on_x"],param["on_y"],param["on_offset_x"],param["on_offset_y"] ]
         scan.data = [param["num_x"],param["num_y"],param["delta_x"],param["delta_y"],param["delta_t"],param["ramp"]]
         off.data = [param["off_x"],param["off_y"],param["off_integ"]]
         hot.data = [param["hot_time"],param["hot_interval"]]
+        target.data = param["target"]
+        direc.data = param["direction"]
 
+        time.sleep(0.01)
         self.otfparam_on.publish(on)
+        time.sleep(0.01)
         self.otfparam_scan.publish(scan)
+        time.sleep(0.01)
         self.otfparam_off.publish(off)
+        time.sleep(0.01)
         self.otfparam_hot.publish(hot)
+        time.sleep(0.01)
+        self.target.publish(target)
+        time.sleep(0.01)
+        self.otfparam_direc.publish(direc)
+        time.sleep(0.01)
 
     def start(self,param):
         name = "otf_test"
         date = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
         file_name = name + '/' + date + '.necstdb'
         print(file_name)
-
-        self.pub_scan_param(param)
 
         hot_time = param["hot_time"]
         hot_interval = param["hot_interval"]
@@ -163,20 +176,41 @@ class otf_observation(object):
             dy = param["delta_y"]
             frame = param["on_frame"]
             ramp = param["ramp"]
-            num = param["num_x"]
+            num_x = param["num_x"]
+            num_y = param["num_y"]
             dt = param["delta_t"]
             off_x = param["off_x"]
             off_y = param["off_y"]
             off_frame = param["off_frame"]
             off_integ = param["off_integ"]
+            on_offset_x = param["on_offset_x"]
+            on_offset_y = param["on_offset_y"]
 
         elif param["direction"] == "V":
             total_scan = param["num_x"]
+            x = param["on_x"]
+            y = param["on_y"]
+            dx = param["delta_x"]
+            dy = param["delta_y"]
+            frame = param["on_frame"]
+            ramp = param["ramp"]
+            num_x = param["num_x"]
+            num_y = param["num_y"]
+            dt = param["delta_t"]
+            off_x = param["off_x"]
+            off_y = param["off_y"]
+            off_frame = param["off_frame"]
+            off_integ = param["off_integ"]
+            on_offset_x = param["on_offset_x"]
+            on_offset_y = param["on_offset_y"]
 
         self.logger.start(file_name)
 
+        self.pub_scan_param(param)
+
         for scan_num in range(total_scan):
             self.obsstatus.publish("{0:9}".format('otf line '+str(scan_num)))
+            time.sleep(0.1)
             #################HOT##############
             if self.timer_check():
                 print("hot")
@@ -194,22 +228,33 @@ class otf_observation(object):
 
             #################ON##############
             if param["direction"] == "H":
-                _lx = dx * (num+1)
+                _lx = dx * (num_x+1)
+                _ly = dy * (num_y)
                 lx = _lx + dx/dt*ramp
                 ly = 0
                 ctr_x = x + on_offset_x
                 ctr_y = y + on_offset_y
                 sx = ctr_x - _lx/2 - dx/dt*ramp
-                sy = ctr_y + dy*scan_num
-                scan_t = dt*(num+1) + ramp
+                sy = ctr_y - _ly/2 + dy*scan_num
+                scan_t = dt*(num_x+1) + ramp
 
             elif param["direction"] == "V":
+                _lx = dx * (num_x)
+                _ly = dy * (num_y+1)
+                lx = 0
+                ly = _ly + dy/dt*ramp
+                ctr_x = x + on_offset_x
+                ctr_y = y + on_offset_y
+                sx = ctr_x - _lx/2 - dx*scan_num
+                sy = ctr_y - _ly/2 + dy/dt*ramp
+                scan_t = dt*(num_y+1) + ramp
                 pass
 
             self.obsstatus.publish("{0:9}".format('on start'))
             print("scan "+str(scan_num))
             self.antenna.move_raster_wcs(sx,sy,lx,ly,scan_t,l_unit="deg",frame=frame)
             self.obsstatus.publish("{0:9}".format('on finish'))
+            time.sleep(0.01)
 
         self.antenna.finalize()
         self.logger.stop()

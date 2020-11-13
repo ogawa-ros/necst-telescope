@@ -1,4 +1,4 @@
-(0.5)#!/usr/bin/env python3
+#!/usr/bin/env python3
 
 import sys
 import time
@@ -119,7 +119,7 @@ class antenna(object):
         self.make_pub.publish(topic_name, data_class, msg = cmd)
         pass
 
-    def move_wcs(self,x,y,offset_x=0,offset_y=0,frame="fk5",offset_unit="deg"):
+    def move_wcs(self,x,y,offset_x=0,offset_y=0,frame="fk5",offset_unit="deg",offset_frame="fk5"):
         """
         msg
         - type : list
@@ -246,9 +246,45 @@ class antenna(object):
         time.sleep(5)
 
         self.raster_check()
+        pass
 
+    def move_raster_wcs_azel(self,x,y,lx,ly,scan_t,frame="fk5"):
+        """
+        msg
+        - type : list
+        - unit : x [deg]
+               : y [deg]
+               : lx [deg] AZ
+               : ly [deg] EL
+               : scan_t [s]
+        msg
+        - type : string
+        - cmd : fk5, galactic, icrs
+        """
+
+        topic_name = '/necst/telescope/coordinate/stop_cmd'
+        data_class = std_msgs.msg.Bool
+        cmd = True
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+        time.sleep(0.5)
+
+        topic_name = '/necst/telescope/coordinate/wcs_frame_cmd'
+        data_class = std_msgs.msg.String
+        cmd = frame
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+
+        topic_name = '/necst/telescope/coordinate/wcs_raster_azel_cmd'
+        data_class = std_msgs.msg.Float64MultiArray
+        cmd = std_msgs.msg.Float64MultiArray()
+        cmd.data = [x,y,lx,ly,scan_t]
+        self.make_pub.publish(topic_name, data_class, msg = cmd)
+
+        time.sleep(3)
+
+        self.raster_check()
 
         pass
+
 
     def move_raster_planet(self,planet,lx,ly,scan_t,l_unit="deg"):
         """
@@ -357,7 +393,6 @@ class antenna(object):
         topic_name = '/necst/telescope/coordinate/optobs'
         data_class = std_msgs.msg.Bool
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-        time.sleep(0.5)
 
     def tracking_check(self):
         tracking_flag = False
@@ -414,7 +449,7 @@ class antenna(object):
         data_class = std_msgs.msg.Bool
         cmd = True
         self.make_pub.publish(topic_name, data_class, msg = cmd)
-        time.sleep(1)
+        time.sleep(2)
 
         topic_name = '/pyinterface/pci7415/rsw0/y/speed_cmd'
         data_class = std_msgs.msg.Float64

@@ -62,7 +62,7 @@ class refracted2apparent(object):
                 self.pub_cmd_num.publish(len(self.azel))
             except:
                 self.pub_cmd_num.publish(len(self.azel))
-                time.sleep(0.0001)
+                time.sleep(0.001)
                 continue
 
             while True:
@@ -70,8 +70,9 @@ class refracted2apparent(object):
                     q = [azel[1],azel[2]] #[az,el]
                     self.calculate_kisa(q)
                     break
+
                 else:
-                    time.sleep(0.0001)
+                    time.sleep(0.001)
                     continue
             #time.sleep(0.1)
             continue

@@ -36,14 +36,13 @@ class azel2refracted(object):
         while not rospy.is_shutdown():
             if self.azel_cmd != '':
                 if self.init_flag == True:
-                    for i in range(10):
-                        obstime = time.time()+ 0.1*i
+                    for i in range(5):
+                        obstime = time.time()+ 0.2*i
                         az = self.azel_cmd[0] + self.azel_cmd[2]
                         alt  = self.azel_cmd[1] + self.azel_cmd[3]
                         array = Float64MultiArray()
                         array.data = [obstime, az, alt]
                         self.pub_real_azel.publish(array)
-                        time.sleep(0.0001)
                     self.init_flag  = False
 
                 else:
@@ -53,10 +52,10 @@ class azel2refracted(object):
                     array = Float64MultiArray()
                     array.data = [obstime, az, alt]
                     self.pub_real_azel.publish(array)
-                    time.sleep(0.1)
+                    time.sleep(0.2)
 
             else:
-                time.sleep(0.01)
+                time.sleep(0.0001)
             continue
 
     def start_thread(self):
