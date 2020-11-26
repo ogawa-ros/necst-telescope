@@ -25,41 +25,46 @@ name = "otf"
 param = {}
 
 #IRC+10216
-#param["on_x"] = (9 + 45/60 + 14/3600)*15 #deg
-#param["on_y"] = 13 + 30/60 + 40/3600 #deg
+param["on_x"] = (9 + 45/60 + 14/3600)*15 #deg
+param["on_y"] = 13 + 30/60 + 40/3600 #deg
 
+param["on_frame"] = "fk4"
 #cygnus x
 #param["on_x"] = 15*(20+28/60+40.8/3600)
 #param["on_y"] = 41+10/60+1/3600
 
 #OLionKL
-param["on_x"] = 15*(5+35/60+14.16/3600) #deg
-param["on_y"] = -(5+22/60+21.5/3600)
+#param["on_x"] = +209.11 #deg
+#param["on_y"] = -19.15
 
-param["on_frame"] = "fk5"
+#param["on_frame"] = "galactic"
+
+#param["on_x"] = 15*(5+35/60+14.16/3600) #deg
+#param["on_y"] = -(5+22/60+21.5/3600)
+#param["on_frame"] = "fk5"
 
 param["on_offset_x"] = 0 #deg
 param["on_offset_y"] = 0 #deg
 
-param["num_x"] = 60
-param["num_y"] = 60
+param["num_x"] = 20
+param["num_y"] = 20
 param["delta_x"] = 1/60
 param["delta_y"] = 1/60
-param["delta_t"] = 0.3
+param["delta_t"] = 1
 
 param["ramp"] = 2
 
 #Orion KL
-param["off_x"] = 82.55910596
-param["off_y"] = -5.66845794
+#param["off_x"] = 82.55910596
+#param["off_y"] = -5.66845794
 
 #cygnus x
 #param["off_x"] = 312.4486 #deg
 #param["off_y"] = 36.5084 #deg
 
 #IRC+10216
-#param["off_x"] = (9 + 50/60 + 14/3600)*15
-#param["off_y"] = 13 + 35/60 + 40/3600
+param["off_x"] = (9 + 50/60 + 14/3600)*15
+param["off_y"] = 13 + 35/60 + 40/3600
 
 param["off_frame"] = "fk5"
 param["off_integ"] = 5 #sec
@@ -69,9 +74,10 @@ param["hot_interval"] = 5 #min
 
 param["direction"] = "H"
 
-param["target"] = "Orion KL"
 
+#param["target"] = "Orion KL"
 
+param["target"] = "IRC+10216"
 param["dcos"] = 1
 
 
@@ -254,7 +260,7 @@ class otf_observation(object):
             print("scan "+str(scan_num))
             self.antenna.move_raster_wcs(sx,sy,lx,ly,scan_t,l_unit="deg",frame=frame)
             self.obsstatus.publish("{0:9}".format('on finish'))
-            time.sleep(0.01)
+            time.sleep(0.1)
 
         self.antenna.finalize()
         self.logger.stop()

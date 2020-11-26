@@ -19,9 +19,9 @@ import std_msgs
 
 planet = "moon"
 scan_direction = 1 #1or-1
-_lx = 2 #deg
-_ly = 2 #deg
-scan_t = 100
+_lx = 3 #deg
+_ly = 3 #deg
+scan_t = 120
 
 num = 3
 

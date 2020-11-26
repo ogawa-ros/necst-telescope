@@ -21,9 +21,9 @@ planet = "sun"
 scan_direction = 1 #1or-1
 _lx = 2 #deg
 _ly = 2 #deg
-scan_t = 60
+scan_t = 120
 
-num = 3
+num =1 
 
 name = "sun_scan_loop"
 rospy.init_node(name)
