@@ -11,7 +11,7 @@ from std_msgs.msg import Float64MultiArray
 import time
 
 name = "refracted2apparent"
-kisa_path = "/home/exito/ros/src/necst-1p85m2019/lib/kisa.dat"
+
 
 class refracted2apparent(object):
     azel = []
@@ -32,6 +32,8 @@ class refracted2apparent(object):
     optobs = False
 
     def __init__(self):
+
+        self.kisa_path = rospy.get_param("~kisa_path")
         self.read_kisa()
         self.pub_az = rospy.Publisher("/necst/telescope/coordinate/apparent_az_cmd",Float64, queue_size=1)
         self.pub_el = rospy.Publisher("/necst/telescope/coordinate/apparent_el_cmd", Float64, queue_size=1)
@@ -41,6 +43,7 @@ class refracted2apparent(object):
         rospy.Subscriber('/necst/telescope/coordinate/stop_cmd' ,Bool, self.recieve_stop_cmd)
 
         rospy.Subscriber('/necst/telescope/coordinate/optobs', Bool, self.recieve_optobs)
+
 
     def recieve_azel(self, array):
         if array.data[0] > time.time():
@@ -78,7 +81,7 @@ class refracted2apparent(object):
             continue
 
     def read_kisa(self):
-        fkisa = open(kisa_path,"r")
+        fkisa = open(self.kisa_path,"r")
         kisa = fkisa.readlines()
         self.a1 = float(kisa[0])
         self.a2 = float(kisa[1])
