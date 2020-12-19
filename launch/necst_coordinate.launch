@@ -12,10 +12,10 @@
   <node pkg="necst-telescope" name="wcs2refracted_raster" type="wcs2refracted_raster.py" required="true" output="screen">
   </node>
   <node pkg="necst-telescope" name="refracted2apparent" type="refracted2apparent.py" required="true" output="screen">
+      <param name="~kisa_path" value="/home/exito/ros/src/necst-1p85m2019/param/20201219_140000_kisa.dat" />
   </node>
   <node pkg="necst-telescope" name="wcs2refracted_raster_azel" type="wcs2refracted_raster_azel.py" required="true" output="screen">
   </node>
-  <node pkg="necst-telescope" name="wcs2refracted_azel" type="wcs2refracted_azel.py" required="true" output="screen">
-  </node>
+  <node pkg="necst-telescope" name="wcs2refracted_azel" type="wcs2refracted_azel.py" required="true" output="screen">  </node>
 
 </launch>
