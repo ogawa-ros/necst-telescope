@@ -1,195 +1,181 @@
 #!/usr/bin/env python3
 
-name = "antenna_az_commander_pid"
+from typing import Tuple
 
-import math
-import time
 import rospy
-import std_msgs.msg
+from std_msgs.msg import Float64
+
+if __name__ == "__main__":  # ROS1 may use this. That's why we should run `chmod +x`.
+    from antenna_pid import PIDController
+else:  # For redundancy considering package name conflict. ROS2 will use this.
+    from .antenna_pid import PIDController
+
+node_name = "antenna_az_commander_pid"
+
+# Indices for 2-lists (mutable version of so-called 2-tuple).
+Last = -2
+Now = -1
 
 
-class antenna_az_feedback(object):
+class antenna_az_feedback:
+    """For 1.85-m telescope."""
 
-    speed_d = 0.0
-    pre_deg = 0.0
-    pre_hensa = 0.0
-    enc_before = 0.0
-    ihensa = 0.0
+    speed_d = 0
+    pre_deg = 0
+    pre_hensa = 0
+    enc_before = 0
+    ihensa = 0
     i_ave_num = 10
-    t_now = t_past = 0.0
+    t_now = t_past = 0
     current_speed = 0
-
-    deg_enc = 0.0
-
+    deg_enc = 0
     lock = False
 
+    SPEED2RATE: float
+
     def __init__(self):
-
-        self.p_coeff = rospy.get_param("~p_coeff")
-        self.i_coeff = rospy.get_param("~i_coeff")
-        self.d_coeff = rospy.get_param("~d_coeff")
-
-        self.hensa_stock = [0]*self.i_ave_num
-
         self.gear_ratio = rospy.get_param("~gear_ratio")
         self.pulseper360deg = rospy.get_param("~pulseper360deg")
         self.pulse_a = rospy.get_param("~pulse_a")
         self.pulse_b = rospy.get_param("~pulse_b")
+        self.SPEED2RATE = (
+            (self.gear_ratio / 360)
+            * self.pulseper360deg
+            * (self.pulse_b / self.pulse_a)
+        )  # Speed [deg/s] to servomotor rate.
 
-        self.MOTOR_MAXSTEP = rospy.get_param("~MOTOR_MAXSTEP")
+        self.p_coeff = rospy.get_param("~p_coeff")
+        self.i_coeff = rospy.get_param("~i_coeff")
+        self.d_coeff = rospy.get_param("~d_coeff")
+        # Following 2 are (derivative of) rate, not speed.
+        self.MOTOR_MAX_STEP = rospy.get_param("~MOTOR_MAXSTEP")
         self.MOTOR_AZ_MAXSPEED = rospy.get_param("~MOTOR_AZ_MAXSPEED")
+        self.controller = PIDController.with_configuration(
+            pid_param=[self.p_coeff, self.i_coeff, self.d_coeff],
+            max_speed=self.MOTOR_AZ_MAXSPEED / self.SPEED2RATE,
+            max_acceleration=2,
+            error_integ_count=self.i_ave_num,
+        )
 
-        self.topic_to = rospy.Publisher(
-                name = "/1p85m/az_speed",
-                data_class = std_msgs.msg.Float64,
-                queue_size = 1,
-            )
+        self.hensa_stock = self.controller.error  # Alias, not synchronized.
 
-        self.topic_cur = rospy.Publisher(
-                name = "/1p85m/az_current_speed",
-                data_class = std_msgs.msg.Float64,
-                queue_size = 1,
-            )
+        self.init_ros()
+        # Aliases.
+        self.topic_to = self.Publisher["calculated_rate"]
+        self.topic_cur = self.Publisher["current_speed"]
+        self.topic_tar = self.Publisher["target_speed"]
+        self.topic_hensa = self.Publisher["error"]
 
+    def init_ros(self):
+        _publisher_conf = {
+            "calculated_rate": ["/1p85m/az_speed", Float64, 1],
+            "current_speed": ["/1p85m/az_current_speed", Float64, 1],
+            "target_speed": ["/1p85m/az_target_speed", Float64, 1],
+            "error": ["/1p85m/az_pid_hensa", Float64, 1],
+        }
+        _subscriber_conf = {
+            "commanded_coord": ["/1p85m/az_cmd2", Float64, self.antenna_az_feedback, 1],
+            "encoder_coord": ["/1p85m/az", Float64, self.antenna_az_encoder, 1],
+        }
+        self.Publisher = {
+            key: rospy.Publisher(name, msg_type, queue_size=n)
+            for key, (name, msg_type, n) in _publisher_conf.items()
+        }
+        self.Subscriber = {
+            key: rospy.Subscriber(name, msg_type, callback, queue_size=n)
+            for key, (name, msg_type, callback, n) in _subscriber_conf.items()
+        }
 
-        self.topic_tar = rospy.Publisher(
-                name = "/1p85m/az_target_speed",
-                data_class = std_msgs.msg.Float64,
-                queue_size = 1,
-            )
+    def antenna_az_feedback(self, command: Float64):
+        cmd_coord = self.controller.suitable_angle(
+            self.enc_coord, command.data, [0, 360], margin=0, unit="deg"
+        )
+        speed = self.controller.get_speed(
+            cmd_coord, self.enc_coord, unit="deg", stop=self.lock
+        )
+        self.current_speed = self.controller.cmd_speed[Now]  # Alias.
+        rate = speed * self.SPEED2RATE
+        self.speed_d = rate  # Alias.
+        self.Publisher["calculated_rate"].publish(rate)
+        target_speed = (
+            self.controller.cmd_coord[Now] - self.controller.cmd_coord[Last]
+        ) / self.controller.dt
+        self.Publisher["target_speed"].publish(target_speed)
+        self.Publisher["current_speed"].publish(self.current_speed)
+        self.Publisher["error"].publish(self.controller.error[Now])
 
-        self.topic_hensa = rospy.Publisher(
-                name = "/1p85m/az_pid_hensa",
-                data_class = std_msgs.msg.Float64,
-                queue_size = 1,
-            )
+        # Aliases.
+        self.t_past = self.controller.time[Last]
+        self.t_now = self.controller.time[Now]
+        self.pre_hensa = self.controller.error[Last]
+        self.pre_deg = self.controller.cmd_coord[Last]
+        self.enc_before = self.controller.enc_coord[Last]
+        self.ihensa = self.controller.error_integral
 
-        topic_from1 = rospy.Subscriber(
-                name = "/1p85m/az_cmd2",
-                data_class = std_msgs.msg.Float64,
-                callback = self.antenna_az_feedback,
-                queue_size = 1,
-            )
+    def antenna_az_encoder(self, status: Float64):
+        self.enc_coord = status.data
+        self.deg_enc = self.enc_coord  # Alias.
 
-        topic_from2 = rospy.Subscriber(
-                name = "/1p85m/az",
-                data_class = std_msgs.msg.Float64,
-                callback = self.antenna_az_encoder,
-                queue_size = 1,
-            )
+    def antenna_az_pid(self, status: Float64):
+        """No topic triggers this callback function."""
+        self.p_coeff = self.controller.K_p = status.data[0]
+        self.i_coeff = self.controller.K_i = status.data[1]
+        self.d_coeff = self.controller.K_d = status.data[2]
 
-        pass
+    def calc_pid(
+        self,
+        target_deg: float,
+        encoder_deg: float,
+        pre_deg: float,
+        pre_hensa: float,
+        ihensa: float,
+        enc_before: float,
+        t_now: float,
+        t_past: float,
+        p_coeff: float,
+        i_coeff: float,
+        d_coeff: float,
+    ) -> Tuple[float, float]:
+        """PID calculation.
 
-    def antenna_az_feedback(self, command):
-        MOTOR_MAXSTEP = self.MOTOR_MAXSTEP
-        MOTOR_AZ_MAXSPEED = self.MOTOR_AZ_MAXSPEED
-        # deg/sec
+        ..deprecated:: v3.1.0
+            This function will be removed in v4.0.0, because of implementation structure
+            issue. Please use `AntennaDevice.calc_pid`.
 
-        deg_cmd = command.data
-
-        if self.t_past == 0.0:
-            self.t_past = time.time()
-        else:
-            pass
-        self.t_now = time.time()
-
-        ret = self.calc_pid(deg_cmd, self.deg_enc,
-                self.pre_deg, self.pre_hensa, self.ihensa, self.enc_before,
-                self.t_now, self.t_past,
-                self.p_coeff, self.i_coeff, self.d_coeff)
-        speed = ret[0]
-
-        #update
-        self.pre_hensa = deg_cmd - self.deg_enc
-        self.pre_deg = deg_cmd
-        self.enc_before = self.deg_enc
-        self.ihensa = ret[1]
-        self.t_past = self.t_now
-
-        #deg->palth
-        speed = speed*self.gear_ratio/360*(self.pulseper360deg*(self.pulse_b/self.pulse_a))
-
-        #limit of acceleraion
-        if abs(speed - self.speed_d) < MOTOR_MAXSTEP:
-            self.speed_d = speed
-        else:
-            if (speed - self.speed_d) < 0:
-                a = -1
-            else:
-                a = 1
-            self.speed_d += a*MOTOR_MAXSTEP
-
-        #limit of max speed
-        if self.speed_d > MOTOR_AZ_MAXSPEED:
-            self.speed_d = MOTOR_AZ_MAXSPEED
-        if self.speed_d < -MOTOR_AZ_MAXSPEED:
-            self.speed_d = -MOTOR_AZ_MAXSPEED
-
-        command_speed = self.speed_d
-
-        if self.lock == True:
-            self.speed_d = 0.0
-            self.topic_to.publish(0.0)
-            return
-        else:
-            self.topic_to.publish(command_speed)
-        return
-
-    def antenna_az_encoder(self, status):
-        self.deg_enc = status.data
-        return
-
-    def antenna_az_pid(self, status):
-        self.p_coeff = status.data[0]
-        self.i_coeff = status.data[1]
-        self.d_coeff = status.data[2]
-        return
-
-    def calc_pid(self,target_deg, encoder_deg, pre_deg, pre_hensa, ihensa, enc_before, t_now, t_past, p_coeff, i_coeff, d_coeff):
         """
-        DESCRIPTION
-        ===========
-        This function determine az&el speed for antenna
-        """
+        calculator = PIDController.with_configuration(
+            pid_param=[p_coeff, i_coeff, d_coeff]
+        )
 
-        #calculate ichi_hensa
-        hensa = target_deg - encoder_deg
+        # Set `Last` parameters.
+        calculator._update(calculator.time, t_past)
+        calculator._update(calculator.cmd_coord, pre_deg)
+        calculator._update(calculator.enc_coord, enc_before)
+        calculator._update(calculator.error, pre_hensa)
 
-        self.hensa_stock.append(hensa)
-        self.hensa_stock = self.hensa_stock[1:]
+        # Set `Now` parameters.
+        calculator._update(calculator.time, t_now)
+        calculator._update(calculator.cmd_coord, target_deg)
+        calculator._update(calculator.enc_coord, encoder_deg)
+        calculator._update(calculator.error, target_deg - encoder_deg)
+        calculator._update(calculator.error_integ, ihensa)
 
-        dhensa = hensa - pre_hensa
-        if math.fabs(dhensa) > 1:
-            dhensa = 0
+        speed = calculator.calc_pid()
 
-        if (encoder_deg - enc_before) != 0.0:
-            self.current_speed = (encoder_deg - enc_before) / (t_now-t_past)
+        self.hensa_stock = calculator.error
+        self.current_speed = calculator.cmd_speed[Now]
 
-        if pre_deg == 0: # for first move
-            target_speed = 0
-        else:
-            target_speed = (target_deg - pre_deg)/(t_now - t_past)
+        target_speed = (
+            self.controller.cmd_coord[Now] - self.controller.cmd_coord[Last]
+        ) / self.controller.dt
+        self.Publisher["target_speed"].publish(target_speed)
+        self.Publisher["current_speed"].publish(self.current_speed)
+        self.Publisher["error"].publish(self.controller.error[Now])
 
-        #ihensa += (hensa + pre_hensa)/2
-        #if math.fabs(hensa) > 50: #50??
-        #    ihensa = 0.0
-        try:
-            ihensa = sum(self.hensa_stock)/len(self.hensa_stock)
-        except:
-            ihensa = 0
+        return (speed, calculator.error_integ)
 
-        #PID
-        rate = target_speed + p_coeff*hensa + i_coeff*ihensa*(t_now-t_past) + d_coeff*dhensa/(t_now-t_past)
-
-        #print(current_speed)
-        #print(target_deg,pre_deg,t_now,t_past)
-        #print(rate,target_speed,hensa)
-        self.topic_tar.publish(target_speed)
-        self.topic_cur.publish(self.current_speed)
-        self.topic_hensa.publish(hensa)
-        return [rate, ihensa]
 
 if __name__ == "__main__":
-    rospy.init_node(name)
-    feedback = antenna_az_feedback()
+    rospy.init_node(node_name)
+    antenna_az_feedback()
     rospy.spin()
