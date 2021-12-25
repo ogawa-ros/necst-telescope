@@ -53,7 +53,7 @@ class antenna_el_feedback:
         self.controller = PIDController.with_configuration(
             pid_param=[self.p_coeff, self.i_coeff, self.d_coeff],
             max_speed=self.MOTOR_EL_MAXSPEED / self.SPEED2RATE,
-            max_acceleration=2,
+            max_acceleration=1.6,
             error_integ_count=self.i_ave_num,
         )
 
