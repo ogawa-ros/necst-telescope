@@ -3,7 +3,7 @@
 ..Design Policy::
 
    This script will be executed in high frequency with no vectorization, and there are
-   many arrays updated frequently. These mean that the use of Numpy may not be the best
+   many arrays to be updated. These mean that the use of Numpy may not be the best
    choice to speed up the calculation. Measure the execution time first, then implement.
 
 """
@@ -13,10 +13,8 @@ from typing import Tuple
 
 import numpy as np
 
-if __name__.endswith(".antenna_pid"):
-    from . import utils
-else:
-    import utils
+import utils
+
 
 # Indices for 2-lists (mutable version of so-called 2-tuple).
 Last = -2
@@ -119,7 +117,7 @@ class PIDController:
         stop: bool = False,
         unit: str = "deg",
     ) -> float:
-        """Calculates valid drive speed.
+        """Calculate valid drive speed.
 
         Parameters
         ----------
@@ -136,7 +134,7 @@ class PIDController:
         Returns
         -------
         speed
-            Speed which will be commanded to motor, in original unit.
+            Suitable drive speed, in original unit.
 
         """
         # Convert to deg.
@@ -149,7 +147,7 @@ class PIDController:
         if np.isnan(self.time[Now]) or (abs(delta_cmd_coord) > threshold):
             self.set_initial_parameters(cmd_coord, enc_coord)
             # Set default values on initial run or on detection of sudden jump of error,
-            # which may indicate a change of commanded coordinate.
+            # which may indicate a change of command coordinate.
             # This will give too small `self.dt` later, but that won't propose any
             # problem, since `current_speed` goes to 0, and too large target_speed will
             # be suppressed by speed and acceleration limit.
@@ -170,8 +168,7 @@ class PIDController:
         if abs(self.error[Now]) > (20 / 3600):  # 20arcsec
             # When error is small, smooth control delays the convergence of drive.
             # When error is large, smooth control can avoid overshooting.
-            max_diff = utils.clip(self.MAX_ACCELERATION * self.dt, -0.2, 0.2)
-            # 0.2 clipping is to avoid large acceleration caused by large dt.
+            max_diff = self.MAX_ACCELERATION * self.dt
             speed = utils.clip(
                 speed, current_speed - max_diff, current_speed + max_diff
             )  # Limit acceleration.
@@ -185,13 +182,17 @@ class PIDController:
         return self.cmd_speed[Now] * utils.angle_conversion_factor("deg", unit)
 
     def calc_pid(self) -> float:
-        # Speed of the move of commanded coordinate. This includes sidereal motion, scan
-        # speed, and other non-static component of commanded value.
         target_acceleration = (
             self.target_speed[Now] - self.target_speed[Last]
         ) / self.dt
+        # Acceleration of the motion of command coordinate. This includes sidereal
+        # motion, scan speed, and other non-static component of command value.
+
         threshold = 2  # 2deg/s^2
         if abs(target_acceleration) > threshold:
+            print(
+                f"Large target acceleration {target_acceleration:.2f}deg/s^2 detected!"
+            )  # TODO: Fix the threshold.
             self.target_speed[Now] = 0
 
         return (
@@ -219,11 +220,11 @@ class PIDController:
         Notes
         -----
         Azimuthal control of telescope should avoid
-        1. 360deg motion during observation. This mean you should observe around
-        -100deg, not 260deg, to command telescope of [-270, 270]deg limit.
-        2. Over-180deg motion. Both 170deg and -190deg are safe in avoiding the 360deg
-        motion, but if the telescope is currently directed at 10deg, you should select
-        170deg to save time.
+        1. 360deg motion during observation. This means you should observe around
+        -100deg, not 260deg, using a telescope which has [-270, 270]deg limit.
+        2. over-180deg motion. Assuming [-270, 270]deg limit, both 170deg and -190deg
+        are safe in avoiding the 360deg motion, but if the telescope is currently
+        pointed at 10deg, you should select 170deg to save time.
 
         """
         assert limits[0] < limits[1], "Limits should be given in ascending order."
